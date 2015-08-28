@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" ng-app="ma-app">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="description" content="MapAssist"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>MapAssist</title>
+    <link rel="icon" ng-href="img/crotec.png"/>
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="openlayers/dist/ol.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css"/>
+    <!-- JS Libraries -->
+    <script src="openlayers/dist/ol.js" type="text/javascript"></script> 
+    <script src="angular/angular.js"></script>
+    <script src="angular-animate/angular-animate.js"></script>
+    <script src="angular-aria/angular-aria.js"></script>
+    <script src="angular-material/angular-material.js"></script>
+    <script src="angular-resource/angular-resource.js"></script>
+    <script src="angular-route/angular-route.js"></script>
+    <script src="api-check/dist/api-check.js"></script>
+    <!-- App Dependencies -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers/controllers.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/resources.js"></script>
+    <script src="js/services.js"></script>   
+  </head>
+
+  <body layout="row" ng-controller="MainCtrl">
+        <!--Side Panel Bar-->    
+        <md-toolbar layout="column" class="toolbar-lg-tp">
+            <md-button class="md-icon-button md-raised side-panel-control" title="Menu">menu</md-button>
+            <md-button class="md-icon-button md-raised side-panel-control" title="Menu">menu</md-button>
+            <md-button class="md-icon-button md-raised side-panel-control" title="Menu">menu</md-button>
+            <div layout="column" flex layout-align="end center">
+                <md-button aria-label="login" class="md-icon-button back-to-side-panel" ng-click= "LoginDialog($event)">
+                    <md-icon aria-label="login_icon" md-svg-icon="img/account_circle.svg" class="s52"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <!--Functional Toolbar--> 
+        <div layout = "column" layout-fill>
+            <md-toolbar layout="row" class="toolbar-lg-st"></md-toolbar> 
+
+            <md-toolbar  class="toolbar-lg-lw" layout="row" layout-align="center center">
+               
+            </md-toolbar>
+            <!-- Map Content -->
+            <div>
+            </div>
+
+            <md-content ng-view flex style="overflow:hidden"></md-content>
+        </div>
+  </body>
+</html>
