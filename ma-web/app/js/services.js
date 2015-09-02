@@ -25,7 +25,8 @@ factory('layerService', function() {
        center: [0, 0],
        zoom: 6,
        minZoom: 3,
-       maxZoom: 20
+       maxZoom: 20,
+     //  projection: 4326
      });
      var map = new ol.Map({
        target: 'crotec-map',
@@ -37,8 +38,6 @@ factory('layerService', function() {
     service.init = function() {
       return map;
     };
-
-
 return service;
 }).
 factory('geometryService', function() {
@@ -49,9 +48,9 @@ factory('geometryService', function() {
       {id:'2', name:'LineString',img: 'point-1.png'},
       {id:'3', name:'Polygon',img: '3.png'},
       {id:'4', name:'Circle',img: '2.png'},
-      {id:'5', name:'Square',img: 'point-1.png'},
-      {id:'6', name:'Box',img: 'point-1.png'}, 
-      {id:'7', name:'None',img: 'point-1.png'},    
+      // {id:'5', name:'Square',img: 'point-1.png'},
+      // {id:'6', name:'Box',img: 'point-1.png'}, 
+      // {id:'7', name:'None',img: 'point-1.png'},    
     ];
 
     service.getGeometryCategories = function() {

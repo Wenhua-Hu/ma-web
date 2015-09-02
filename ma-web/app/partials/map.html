@@ -6,3 +6,21 @@
 </md-button>
 
 </md-toolbar>
+
+<!-- new -->
+<div ng-controller="BackgroundCtrl" class="background-attr">
+	<md-fab-speed-dial md-open="isOpen" md-direction="{{selectedDirection}}" >
+		<md-fab-trigger>
+			<md-button aria-label="menu" class="md-fab md-warn">
+				<md-icon md-svg-src="img/Blank_US_Map.svg"></md-icon>
+			</md-button>
+		</md-fab-trigger>
+
+		<md-fab-actions>
+			<md-button  class="md-fab md-raised md-mini">
+				<md-icon md-svg-src="img/settings.svg"></md-icon>
+			</md-button>
+		</md-fab-actions>
+	</md-fab-speed-dial>
+</div>
+<!-- end -->

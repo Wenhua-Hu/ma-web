@@ -21,9 +21,16 @@ controller('ImgCtrl', function($scope) {
 	$scope.ComName = 'img/crotec.svg';
 	$scope.nameimg = '../img/banner.jpg';
 }).
+controller('BackgroundCtrl', function($scope) {
+	$scope.topDirections = ['left'];
+    $scope.bottomDirections = ['down'];
+    $scope.isOpen = false;
+    $scope.selectedMode = 'md-fling';
+	$scope.selectedDirection = 'up';
+	
+}).
 controller('MapCtrl', function($scope,$window, layerService,geometryService) {
 	$scope.geomCategories = geometryService.getGeometryCategories();
-
 
 var features = new ol.Collection();
 var featureOverlay = new ol.layer.Vector({

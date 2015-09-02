@@ -246,5 +246,14 @@ position: relative;
 #crotec-map a.ol-zoomslider-handle:hover {
   background-color: rgba(102, 204, 255,0.7);
 }
+.background-attr {
+  position: absolute; 
+
+  bottom: 0px; 
+  right: 0px;
+  z-index:10;
+
+
+}
 
 

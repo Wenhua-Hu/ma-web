@@ -1,0 +1,20 @@
+{
+  "name": "ma-service",
+  "version": "1.0.0",
+  "description": "backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wenhua Hu",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.4.5",
+    "bootstrap": "^3.3.5",
+    "express": "^4.13.3",
+    "jade": "^1.11.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  }
+}
