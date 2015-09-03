@@ -30,32 +30,30 @@ controller('BackgroundCtrl', function($scope) {
 }).
 controller('MapCtrl', function($scope, $window, layerService, geometryService, vectorService) {
 
-	var draw, geometryFunction, maxPoints;
-
 	$scope.geomCategories = geometryService.getGeometryCategories();
-	$scope.vector = vectorService.addVector();
-	$scope.mapSource = vectorService.addSource();
 
+	var vector = vectorService.addVector();
+	var mapSource = vectorService.addSource();
 	var mapViewer = layerService.init();
-	mapViewer.addLayer($scope.vector);
+
+	mapViewer.addLayer(vector);
+
+	var draw, geometryFunction;
 
 	$scope.addInteraction = function(geomId) {
 
-		//	$scope.removeInteraction();
+		$scope.removeInteraction();
 		draw = new ol.interaction.Draw({
-			source: $scope.mapSource,
+			source: mapSource,
 			type: geomId,
 			geometryFunction: geometryFunction,
-			maxPoints: maxPoints
 		});
 		mapViewer.addInteraction(draw);
 	}
 
-	// $scope.removeInteraction = function() {
-	// 	if (draw != null) {
-	// 		mapViewer.removeInteraction(draw);
-	// 	}
-	// }
-	//});
-
+	$scope.removeInteraction = function() {
+		if (draw != null) {
+			mapViewer.removeInteraction(draw);
+		}
+	};
 });
