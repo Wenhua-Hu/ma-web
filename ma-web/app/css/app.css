@@ -216,7 +216,7 @@ position: relative;
   max-width: 420px;
 }
 
-#crotec-map .ol-zoomslider {
+#map .ol-zoomslider {
   
 
   top: auto;
@@ -231,11 +231,11 @@ position: relative;
   border-radius: 30px;
 }
 
-#crotec-map .ol-zoomslider:hover {
+#map .ol-zoomslider:hover {
   background-color: rgba(61, 61, 61,0.5);
 }
 
-#crotec-map .ol-zoomslider-thumb {
+#map .ol-zoomslider-thumb {
   height: 18px;
   width: 18px;
   margin: 0;
@@ -243,17 +243,15 @@ position: relative;
   background-color: rgba(0, 102, 255,0.6);
   border-radius: 10px;
 }
-#crotec-map a.ol-zoomslider-handle:hover {
+#map a.ol-zoomslider-handle:hover {
   background-color: rgba(102, 204, 255,0.7);
 }
-.background-attr {
+/*.background-attr {
   position: absolute; 
 
   bottom: 0px; 
   right: 0px;
   z-index:10;
-
-
 }
-
+*/
 

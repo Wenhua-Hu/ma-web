@@ -28,7 +28,8 @@
     "angular-route": "^1.4.4",
     "api-check": "^7.5.0",
     "jade": "*",
-    "openlayers": "^3.8.2"
+    "openlayers": "^3.8.2",
+    "proj4": "^2.3.10"
   },
   "scripts": {
     "install": "bower install",
