@@ -41,6 +41,13 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 	var draw, geometryFunction;
 
 	$scope.addInteraction = function(geomId) {
+    if (geomId === 'Square') {
+      geomId= 'Circle';
+      geometryFunction = ol.interaction.Draw.createRegularPolygon(4);
+    }
+
+
+
 
 		$scope.removeInteraction();
 		draw = new ol.interaction.Draw({
