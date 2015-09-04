@@ -33,12 +33,13 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 	$scope.geomCategories = geometryService.getGeometryCategories();
 
 	var vector = vectorService.addVector();
+	var features = vector.getSource().getFeaturesCollection();
 	var mapSource = vectorService.addSource();
 	var mapViewer = layerService.init();
 
 	mapViewer.addLayer(vector);
 
-	var draw;
+	var draw, modify;
 
 	$scope.addInteraction = function(geomId) {
 		var geometryFunction, maxPoints;
@@ -57,11 +58,11 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 					geometry = new ol.geom.Polygon(null);
 				}
 				var start = coordinates[0];
-				console.log(start);
+				//console.log(start);
 				var end = coordinates[1];
 
 
-				var a=geometry.setCoordinates([
+				var a = geometry.setCoordinates([
 					[start, [start[0], end[1]], end, [end[0], start[1]], start]
 				]);
 				//console.log(geometry);
@@ -70,11 +71,25 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 		}
 
 		draw = new ol.interaction.Draw({
+			features: features,
 			source: mapSource,
 			type: geomId,
 			geometryFunction: geometryFunction
 		});
+
+		modify = new ol.interaction.Modify({
+			features: features,
+		});
+
+		var snap = new ol.interaction.Snap({
+			source: vector.getSource()
+		});
+		
 		mapViewer.addInteraction(draw);
+		mapViewer.addInteraction(snap);
+		//this part will be stricted by controller, 
+		//it will be changed following the next development(move outsides)
+		mapViewer.addInteraction(modify);
 	};
 
 	$scope.removeInteraction = function() {
@@ -83,4 +98,3 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 		}
 	};
 });
-// add modify and snap

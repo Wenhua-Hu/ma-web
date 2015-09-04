@@ -141,7 +141,9 @@ factory('geometryService', function() {
 factory('vectorService', function() {
 
   var service = {};
+  var features = new ol.Collection();
   var source = new ol.source.Vector({
+    features: features,
     wrapX: false,
   });
 
@@ -165,6 +167,9 @@ factory('vectorService', function() {
   });
 
   return {
+     addFeature: function() {
+      return features;
+    },
     addVector: function() {
       return vector;
     },
