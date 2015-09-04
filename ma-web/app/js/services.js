@@ -67,7 +67,9 @@ factory('layerService', function() {
         },
         tileGrid: new ol.tilegrid.TileGrid({
           origin: [-285401.92, 22598.08],
-          resolutions: [3440.64, 1720.32, 860.16, 430.08, 215.04, 107.52, 53.76, 26.88, 13.44, 6.72, 3.36, 1.68, 0.84, 0.42, 0.21],
+          resolutions: [3440.64, 1720.32, 860.16, 430.08, 215.04, 107.52, 53.76,
+            26.88, 13.44, 6.72, 3.36, 1.68, 0.84, 0.42, 0.21
+          ],
           tileSize: 256
         }),
         projection: projection['EPSG:28992'],
@@ -90,38 +92,41 @@ factory('geometryService', function() {
     var service = {};
 
     var geometryCategories = [{
-      id: '1',
-      name: 'Point',
-      img: 'point.jpg'
-    }, {
-      id: '2',
-      name: 'LineString',
-      img: 'lineString.jpg'
-    }, {
-      id: '3',
-      name: 'Polygon',
-      img: 'pologon.jpg'
-    }, {
-      id: '4',
-      name: 'Circle',
-      img: 'circle.jpg'
-    }, {
-      id: '5',
-      name: 'Square',
-      img: 'square.jpg'
-    }, {
-      id: '6',
-      name: 'Box',
-      img: 'box.jpg'
-    }, {
-      id: '7',
-      name: 'None',
-      img: 'text.jpg'
-    }, {
-      id: '7',
-      name: 'None',
-      img: 'location.jpg'
-    }, ];
+        id: '1',
+        name: 'Point',
+        img: 'point.jpg'
+      }, {
+        id: '2',
+        name: 'LineString',
+        img: 'lineString.jpg'
+      }, {
+        id: '3',
+        name: 'Polygon',
+        img: 'pologon.jpg'
+      }, {
+        id: '4',
+        name: 'Circle',
+        img: 'circle.jpg'
+      },
+      {
+        id: '5',
+        name: 'Square',
+        img: 'square.jpg'
+      },
+      {
+        id: '6',
+        name: 'Box',
+        img: 'box.jpg'
+      }, {
+        id: '7',
+        name: 'None',
+        img: 'text.jpg'
+      }, {
+        id: '7',
+        name: 'None',
+        img: 'location.jpg'
+      },
+    ];
 
     service.getGeometryCategories = function() {
       return geometryCategories;

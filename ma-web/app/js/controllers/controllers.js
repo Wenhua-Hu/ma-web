@@ -38,29 +38,49 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 
 	mapViewer.addLayer(vector);
 
-	var draw, geometryFunction;
+	var draw;
 
 	$scope.addInteraction = function(geomId) {
-    if (geomId === 'Square') {
-      geomId= 'Circle';
-      geometryFunction = ol.interaction.Draw.createRegularPolygon(4);
-    }
-
-
-
-
+		var geometryFunction, maxPoints;
 		$scope.removeInteraction();
+
+		if (geomId === 'Square') {
+			geomId = 'Circle';
+			geometryFunction = ol.interaction.Draw.createRegularPolygon(6);
+		} else if (geomId === 'Box') {
+			geomId = 'Circle';
+			//maxPoints = 5;
+
+			geometryFunction = function(coordinates, geometry) {
+
+				if (!geometry) {
+					geometry = new ol.geom.Polygon(null);
+				}
+				var start = coordinates[0];
+				console.log(start);
+				var end = coordinates[1];
+
+
+				var a=geometry.setCoordinates([
+					[start, [start[0], end[1]], end, [end[0], start[1]], start]
+				]);
+				//console.log(geometry);
+				return geometry;
+			};
+		}
+
 		draw = new ol.interaction.Draw({
 			source: mapSource,
 			type: geomId,
-			geometryFunction: geometryFunction,
+			geometryFunction: geometryFunction
 		});
 		mapViewer.addInteraction(draw);
-	}
+	};
 
 	$scope.removeInteraction = function() {
-		if (draw != null) {
+		if (draw !== null) {
 			mapViewer.removeInteraction(draw);
 		}
 	};
 });
+// add modify and snap
