@@ -30,6 +30,7 @@ controller('BackgroundCtrl', function($scope) {
 }).
 controller('MapCtrl', function($scope, $window, layerService, geometryService, vectorService) {
 
+
 	$scope.geomCategories = geometryService.getGeometryCategories();
 
 	var vector = vectorService.addVector();
@@ -37,11 +38,18 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 	var mapSource = vectorService.addSource();
 	var mapViewer = layerService.init();
 
+
+
+
 	mapViewer.addLayer(vector);
+	//vector.setMap(mapViewer);
 
 	var draw, modify;
 
 	$scope.addInteraction = function(geomId) {
+
+
+
 		var geometryFunction, maxPoints;
 		$scope.removeInteraction();
 
@@ -77,19 +85,25 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 			geometryFunction: geometryFunction
 		});
 
-		modify = new ol.interaction.Modify({
-			features: features,
-		});
+		// modify = new ol.interaction.Modify({
+		// 	features: features,
+		// 	// deleteCondition: function(event) {
+		// 	// 	return ol.events.condition.shiftKeyOnly(event) &&
+		// 	// 		ol.events.condition.singleClick(event);
+		// 	// }
+		// });
 
 		var snap = new ol.interaction.Snap({
 			source: vector.getSource()
 		});
-		
+
 		mapViewer.addInteraction(draw);
 		mapViewer.addInteraction(snap);
 		//this part will be stricted by controller, 
 		//it will be changed following the next development(move outsides)
-		mapViewer.addInteraction(modify);
+		//mapViewer.addInteraction(modify);
+		//modify.setActive(false);
+		
 	};
 
 	$scope.removeInteraction = function() {
@@ -97,4 +111,48 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 			mapViewer.removeInteraction(draw);
 		}
 	};
+
+	// var select = new ol.interaction.Select();
+	// var modify = new ol.interaction.Modify();
+	// modify.set('features',select.getFeatures());
+	// mapViewer.addInteraction(modify);
+
+ //    var selectedFeatures = this.select.getFeatures();
+ //    select.on('change:active', function() {
+ //    	selectedFeatures.forEach(selectedFeatures.remove, selectedFeatures);
+ //    };);
+// var Modify = {
+//   init: function() {
+//     this.select = new ol.interaction.Select();
+//     map.addInteraction(this.select);
+
+//     this.modify = new ol.interaction.Modify({
+//       features: this.select.getFeatures()
+//     });
+//     map.addInteraction(this.modify);
+
+//     this.setEvents();
+//   },
+//   setEvents: function() {
+//     var selectedFeatures = this.select.getFeatures();
+
+//     this.select.on('change:active', function() {
+//       selectedFeatures.forEach(selectedFeatures.remove, selectedFeatures);
+//     });
+//   },
+//   setActive: function(active) {
+//     this.select.setActive(active);
+//     this.modify.setActive(active);
+//   }
+// };
+
+
+
+
+
+	// $scope.test = function($event) {
+	// 	if ($event.ctrlKey == 1) {
+	// 		//alert("The CTRL key was pressed!");
+	// 	} 
+	// }
 });

@@ -76,8 +76,37 @@ factory('layerService', function() {
         extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
       })
     });
+
+
+
+
+//     var vectorSource = new ol.source.Vector({});
+//     var l2=   new ol.layer.Vector({
+//           source: vectorSource
+//       });
+
+
+
+// var thing = new ol.geom.Polygon( [[
+//     ol.proj.transform([-16,-22], 'EPSG:28992', 'EPSG:28992'),
+//     ol.proj.transform([-44,-55], 'EPSG:28992', 'EPSG:28992'),
+//     ol.proj.transform([-88,75], 'EPSG:28992', 'EPSG:28992')
+// ]]);
+// var featurething = new ol.Feature({
+//     name: "Thing",
+//     geometry: thing
+// });
+// vectorSource.addFeature( featurething );
+
+
+
+
+
+
+
     map.addLayer(pdok);
     map.addLayer(bag);
+    //map.addLayer(l2);
 
     service.init = function() {
       return map;
