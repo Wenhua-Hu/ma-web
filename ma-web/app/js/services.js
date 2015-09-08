@@ -28,7 +28,7 @@ factory('layerService', function() {
         projection: projection['EPSG:28992'],
         center: [155000, 463000],
         zoom: 13,
-        minZoom: 3,
+        minZoom: 0,
         maxZoom: 15,
       })
     });
@@ -70,43 +70,36 @@ factory('layerService', function() {
           resolutions: [3440.64, 1720.32, 860.16, 430.08, 215.04, 107.52, 53.76,
             26.88, 13.44, 6.72, 3.36, 1.68, 0.84, 0.42, 0.21
           ],
-          tileSize: 256
+          tileSize: 512
         }),
         projection: projection['EPSG:28992'],
         extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
       })
     });
 
+    var point = new ol.geom.Point(
+      ol.proj.transform([5.37, 52.15], 'EPSG:4326', 'EPSG:28992')
+    );
+    var circle = new ol.geom.Circle(
+      ol.proj.transform([5.37, 52.15], 'EPSG:4326', 'EPSG:28992'),
+      500
+    );
+    var pointFeature = new ol.Feature(point);
+    var circleFeature = new ol.Feature(circle);
 
+    var vectorSource = new ol.source.Vector({
+      projection: 'EPSG:28992'
+    });
+    vectorSource.addFeatures([pointFeature, circleFeature]);
 
-
-//     var vectorSource = new ol.source.Vector({});
-//     var l2=   new ol.layer.Vector({
-//           source: vectorSource
-//       });
-
-
-
-// var thing = new ol.geom.Polygon( [[
-//     ol.proj.transform([-16,-22], 'EPSG:28992', 'EPSG:28992'),
-//     ol.proj.transform([-44,-55], 'EPSG:28992', 'EPSG:28992'),
-//     ol.proj.transform([-88,75], 'EPSG:28992', 'EPSG:28992')
-// ]]);
-// var featurething = new ol.Feature({
-//     name: "Thing",
-//     geometry: thing
-// });
-// vectorSource.addFeature( featurething );
-
-
-
-
-
-
+    var vectorLayer = new ol.layer.Vector({
+      name: 'test',
+      source: vectorSource
+    });
 
     map.addLayer(pdok);
     map.addLayer(bag);
-    //map.addLayer(l2);
+    map.addLayer(vectorLayer);
 
     service.init = function() {
       return map;
@@ -121,41 +114,38 @@ factory('geometryService', function() {
     var service = {};
 
     var geometryCategories = [{
-        id: '1',
-        name: 'Point',
-        img: 'point.jpg'
-      }, {
-        id: '2',
-        name: 'LineString',
-        img: 'lineString.jpg'
-      }, {
-        id: '3',
-        name: 'Polygon',
-        img: 'pologon.jpg'
-      }, {
-        id: '4',
-        name: 'Circle',
-        img: 'circle.jpg'
-      },
-      {
-        id: '5',
-        name: 'Square',
-        img: 'square.jpg'
-      },
-      {
-        id: '6',
-        name: 'Box',
-        img: 'box.jpg'
-      }, {
-        id: '7',
-        name: 'None',
-        img: 'text.jpg'
-      }, {
-        id: '7',
-        name: 'None',
-        img: 'location.jpg'
-      },
-    ];
+      id: '1',
+      name: 'Point',
+      img: 'point.jpg'
+    }, {
+      id: '2',
+      name: 'LineString',
+      img: 'lineString.jpg'
+    }, {
+      id: '3',
+      name: 'Polygon',
+      img: 'pologon.jpg'
+    }, {
+      id: '4',
+      name: 'Circle',
+      img: 'circle.jpg'
+    }, {
+      id: '5',
+      name: 'Square',
+      img: 'square.jpg'
+    }, {
+      id: '6',
+      name: 'Box',
+      img: 'box.jpg'
+    }, {
+      id: '7',
+      name: 'None',
+      img: 'text.jpg'
+    }, {
+      id: '7',
+      name: 'modify',
+      img: 'location.jpg'
+    }, ];
 
     service.getGeometryCategories = function() {
       return geometryCategories;
@@ -196,7 +186,7 @@ factory('vectorService', function() {
   });
 
   return {
-     addFeature: function() {
+    addFeature: function() {
       return features;
     },
     addVector: function() {

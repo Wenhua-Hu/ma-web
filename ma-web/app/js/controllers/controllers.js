@@ -30,7 +30,6 @@ controller('BackgroundCtrl', function($scope) {
 }).
 controller('MapCtrl', function($scope, $window, layerService, geometryService, vectorService) {
 
-
 	$scope.geomCategories = geometryService.getGeometryCategories();
 
 	var vector = vectorService.addVector();
@@ -38,121 +37,84 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 	var mapSource = vectorService.addSource();
 	var mapViewer = layerService.init();
 
-
-
-
 	mapViewer.addLayer(vector);
-	//vector.setMap(mapViewer);
+	var geometryFunction, maxPoints;
+	var drawInit, modifyInit;
 
-	var draw, modify;
+	var draw = {
+		init: function(geomId) {
+			this.geometry = new ol.interaction.Draw({
+				features: features,
+				source: mapSource,
+				type: geomId,
+				geometryFunction: geometryFunction
+			});
+			removeInteraction();
+			mapViewer.addInteraction(this.geometry);
+			return this.geometry;
+		},
+		setActive: function(active) {
+			//modifyInit.setActive(!active);
+			drawInit.setActive(active);
+			snap.init();
+		}
+	};
+
+	var select = {
+		init: function() {
+			this.selection = new ol.interaction.Select();
+			mapViewer.addInteraction(this.selection);
+
+			return this.selection;
+		}
+	};
+
+	var modify = {
+		init: function(features) {
+			this.modification = new ol.interaction.Modify({
+				features: features
+			});
+			mapViewer.addInteraction(this.modification);
+			return this.modification;
+		},
+		setActive: function(active) {
+			drawInit.setActive(!active);
+			modifyInit.setActive(active);
+			snap.init();
+		}
+	};
+
+	var snap = {
+		init: function() {
+			this.snaping = new ol.interaction.Snap({
+				source: vector.getSource()
+			});
+			mapViewer.addInteraction(this.snaping);
+			return this.snaping;
+		}
+	};
+
+	var removeInteraction = function() {
+		if (draw !== null) {
+			mapViewer.removeInteraction(drawInit);
+		}
+	};
 
 	$scope.addInteraction = function(geomId) {
+		if (geomId === "modify") {
+			var selectOption = select.init();
+			var features = selectOption.getFeatures();
+			modifyInit = modify.init(features);
+			modify.setActive(true);
 
+		} else if (geomId === "move") {
 
+		} else {
+			drawInit = draw.init(geomId);
+			draw.setActive(true);
 
-		var geometryFunction, maxPoints;
-		$scope.removeInteraction();
-
-		if (geomId === 'Square') {
-			geomId = 'Circle';
-			geometryFunction = ol.interaction.Draw.createRegularPolygon(6);
-		} else if (geomId === 'Box') {
-			geomId = 'Circle';
-			//maxPoints = 5;
-
-			geometryFunction = function(coordinates, geometry) {
-
-				if (!geometry) {
-					geometry = new ol.geom.Polygon(null);
-				}
-				var start = coordinates[0];
-				//console.log(start);
-				var end = coordinates[1];
-
-
-				var a = geometry.setCoordinates([
-					[start, [start[0], end[1]], end, [end[0], start[1]], start]
-				]);
-				//console.log(geometry);
-				return geometry;
-			};
 		}
+		//snap.init();
 
-		draw = new ol.interaction.Draw({
-			features: features,
-			source: mapSource,
-			type: geomId,
-			geometryFunction: geometryFunction
-		});
-
-		// modify = new ol.interaction.Modify({
-		// 	features: features,
-		// 	// deleteCondition: function(event) {
-		// 	// 	return ol.events.condition.shiftKeyOnly(event) &&
-		// 	// 		ol.events.condition.singleClick(event);
-		// 	// }
-		// });
-
-		var snap = new ol.interaction.Snap({
-			source: vector.getSource()
-		});
-
-		mapViewer.addInteraction(draw);
-		mapViewer.addInteraction(snap);
-		//this part will be stricted by controller, 
-		//it will be changed following the next development(move outsides)
-		//mapViewer.addInteraction(modify);
-		//modify.setActive(false);
-		
 	};
-
-	$scope.removeInteraction = function() {
-		if (draw !== null) {
-			mapViewer.removeInteraction(draw);
-		}
-	};
-
-	// var select = new ol.interaction.Select();
-	// var modify = new ol.interaction.Modify();
-	// modify.set('features',select.getFeatures());
-	// mapViewer.addInteraction(modify);
-
- //    var selectedFeatures = this.select.getFeatures();
- //    select.on('change:active', function() {
- //    	selectedFeatures.forEach(selectedFeatures.remove, selectedFeatures);
- //    };);
-// var Modify = {
-//   init: function() {
-//     this.select = new ol.interaction.Select();
-//     map.addInteraction(this.select);
-
-//     this.modify = new ol.interaction.Modify({
-//       features: this.select.getFeatures()
-//     });
-//     map.addInteraction(this.modify);
-
-//     this.setEvents();
-//   },
-//   setEvents: function() {
-//     var selectedFeatures = this.select.getFeatures();
-
-//     this.select.on('change:active', function() {
-//       selectedFeatures.forEach(selectedFeatures.remove, selectedFeatures);
-//     });
-//   },
-//   setActive: function(active) {
-//     this.select.setActive(active);
-//     this.modify.setActive(active);
-//   }
-// };
-
-
-
-
-
-	// $scope.test = function($event) {
-	// 	if ($event.ctrlKey == 1) {
-	// 		//alert("The CTRL key was pressed!");
-	// 	} 
-	// }
 });
