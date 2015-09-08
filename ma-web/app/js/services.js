@@ -16,13 +16,23 @@ factory('layerService', function() {
     projection['EPSG:28992'] = ol.proj.get('EPSG:28992');
     projection['EPSG:28992'].setExtent([0, 300000, 300000, 650000]);
 
+
+
     var map = new ol.Map({
       target: 'map',
       logo: false,
       controls: [
         new ol.control.Rotate(),
         new ol.control.Attribution(),
-        new ol.control.ZoomSlider()
+        new ol.control.ZoomSlider(),
+        new ol.control.ScaleLine(),
+        new ol.control.MousePosition({
+          undefinedHTML: '',
+          projection: 'EPSG:28992',
+          coordinateFormat: function(coordinate) {
+            return ol.coordinate.format(coordinate, '{x}, {y}', 4);
+          }
+        })
       ],
       view: new ol.View({
         projection: projection['EPSG:28992'],
@@ -77,6 +87,28 @@ factory('layerService', function() {
       })
     });
 
+
+
+    var style = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: 'rgba(255, 100, 50, 0.3)'
+      }),
+      stroke: new ol.style.Stroke({
+        width: 2,
+        color: 'rgba(255, 100, 50, 0.8)'
+      }),
+      image: new ol.style.Circle({
+        fill: new ol.style.Fill({
+          color: 'rgba(55, 200, 150, 0.5)'
+        }),
+        stroke: new ol.style.Stroke({
+          width: 1,
+          color: 'rgba(55, 200, 150, 0.8)'
+        }),
+        radius: 7
+      }),
+    });
+
     var point = new ol.geom.Point(
       ol.proj.transform([5.37, 52.15], 'EPSG:4326', 'EPSG:28992')
     );
@@ -94,7 +126,8 @@ factory('layerService', function() {
 
     var vectorLayer = new ol.layer.Vector({
       name: 'test',
-      source: vectorSource
+      source: vectorSource,
+      style: style
     });
 
     map.addLayer(pdok);
