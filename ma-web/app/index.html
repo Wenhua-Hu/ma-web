@@ -25,6 +25,7 @@
     <script src="api-check/dist/api-check.js"></script>
     <!-- App Dependencies -->
     <script src="js/app.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/controllers/controllers.js"></script>
     <script src="js/directives.js"></script>
     <script src="js/filters.js"></script>
@@ -50,7 +51,7 @@
             <md-toolbar layout="row" class="toolbar-lg-st"></md-toolbar> 
 
             <md-toolbar  class="toolbar-lg-lw" layout="row" layout-align="center center">
-               
+               <div ng-controller="testController">{{showResult}}</div>
 
             </md-toolbar>
             <!-- Map Content -->

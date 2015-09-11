@@ -120,7 +120,7 @@ factory('layerService', function() {
     var circleFeature = new ol.Feature(circle);
 
     var vectorSource = new ol.source.Vector({
-      projection: 'EPSG:28992'
+      projection: 'EPSG:28992',
     });
     vectorSource.addFeatures([pointFeature, circleFeature]);
 
@@ -146,38 +146,43 @@ factory('layerService', function() {
 factory('geometryService', function() {
     var service = {};
 
-    var geometryCategories = [{
+    var geometryCategories = [
+    {
       id: '1',
+      name: 'Hand',
+      img: 'hand.jpg'
+    }, {
+      id: '2',
       name: 'Point',
       img: 'point.jpg'
     }, {
-      id: '2',
+      id: '3',
       name: 'LineString',
       img: 'lineString.jpg'
     }, {
-      id: '3',
+      id: '4',
       name: 'Polygon',
       img: 'pologon.jpg'
     }, {
-      id: '4',
+      id: '5',
       name: 'Circle',
       img: 'circle.jpg'
     }, {
-      id: '5',
+      id: '6',
       name: 'Square',
       img: 'square.jpg'
     }, {
-      id: '6',
+      id: '7',
       name: 'Box',
       img: 'box.jpg'
     }, {
-      id: '7',
+      id: '8',
       name: 'None',
       img: 'text.jpg'
     }, {
-      id: '7',
+      id: '9',
       name: 'modify',
-      img: 'location.jpg'
+      img: 'modify.jpg'
     }, ];
 
     service.getGeometryCategories = function() {
@@ -227,6 +232,13 @@ factory('vectorService', function() {
     },
     addSource: function() {
       return source;
+    }
+  };
+}).
+factory('TestService', function($http, apiUrl) {
+  return {
+    getResult: function() {
+      return $http.get(apiUrl.root);
     }
   };
 });

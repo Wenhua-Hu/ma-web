@@ -59,14 +59,23 @@ md-toolbar.tool-common-size, .md-button.tool-common-button-size {
 
 
 
+
 }
 .md-button.tool-common-button-gap {
   margin-top:0px;
   margin-left:0px;
   margin-right:0px;
   margin-bottom:0px;
+
+
 }
 .md-button.tool-common-button-height-1 {
+
+
+
+
+
+
     height:35px;
     float: left;
     border:  #b4b4b4 solid ;

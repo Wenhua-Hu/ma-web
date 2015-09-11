@@ -117,4 +117,9 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 		//snap.init();
 
 	};
+}).
+controller('testController', function($scope, $rootScope, TestService) {
+	TestService.getResult().then(function(success) {
+		$scope.showResult = success.data;
+	});
 });

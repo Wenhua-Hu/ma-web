@@ -12,6 +12,7 @@ var appModule = angular.module('ma-app', [
   'ngMaterial',
   'ngResource',
   'ngRoute',
+  'ma-app.api',
   'ma-app.controllers',
   'ma-app.directives',
   'ma-app.filters',
