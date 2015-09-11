@@ -1,0 +1,8 @@
+# Node
+node_modules
+
+# Bower
+bower_components
+
+# Logfile
+npm-debug.log

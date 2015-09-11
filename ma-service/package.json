@@ -1,20 +1,39 @@
 {
   "name": "ma-service",
-  "version": "1.0.0",
-  "description": "backend",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Wenhua Hu",
+  "version": "0.0.1",
+  "description": "this is back end scripts of map drawing tool",
+  "main": "server.js",
+  "directories": {},
+  "author": "Wenhua",
   "license": "ISC",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-connect": "^0.11.2",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jscs": "^2.1.0",
+    "grunt-nodemon": "^0.4.0"
+  },
   "dependencies": {
     "angular": "^1.4.5",
+    "any-db": "^1.0.3",
+    "api-check": "^7.5.0",
+    "body-parser": "^1.13.3",
     "bootstrap": "^3.3.5",
+    "colors": "^1.1.2",
+    "connect-pgclient": "^0.3.0",
     "express": "^4.13.3",
-    "jade": "^1.11.0"
+    "jade": "^1.11.0",
+    "knex-postgis": "^0.1.8",
+    "pg": "^4.4.1",
+    "pg-query": "^0.11.0",
+    "postgeo": "^0.1.2",
+    "postgis-vt-util": "^1.0.0",
+    "postgrest-request": "0.0.1",
+    "sjcl": "^1.0.3",
+    "sqlbox": "^0.3.2"
   },
-  "devDependencies": {
-    "grunt": "^0.4.5"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
