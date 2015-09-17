@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     connect: {
       app: {
         options: {
-          port: 8888,
+          port: 8880,
           hostname: '*',
           base: ['app', 'bower_components', 'node_modules'],
           livereload: true

@@ -1,10 +1,18 @@
 'use strict';
-/*global ol, source */
+/*global ol, source,window,alert */
 
 var controllerModule = angular.module('ma-app.controllers', [
 	'ngMaterial'
 ]).
 controller('MainCtrl', function($scope, $mdSidenav, $mdDialog) {
+
+  $scope.toggleSidenav = function(menuId) {
+    $mdSidenav(menuId).toggle();
+  };
+
+
+
+	
 	$scope.LoginDialog = function($event) {
 
 		$mdDialog.show({
@@ -15,6 +23,8 @@ controller('MainCtrl', function($scope, $mdSidenav, $mdDialog) {
 
 		function LoginCtrl($scope) {}
 	};
+
+
 }).
 controller('ImgCtrl', function($scope) {
 	$scope.ComName = 'img/crotec.svg';
@@ -28,7 +38,7 @@ controller('BackgroundCtrl', function($scope) {
 	$scope.selectedDirection = 'up';
 
 }).
-controller('MapCtrl', function($scope, $window, layerService, geometryService, vectorService) {
+controller('MapCtrl', function($window, $http, $scope, layerService, geometryService, vectorService) {
 
 	$scope.geomCategories = geometryService.getGeometryCategories();
 
@@ -101,19 +111,49 @@ controller('MapCtrl', function($scope, $window, layerService, geometryService, v
 	};
 
 	$scope.addInteraction = function(geomId) {
-		if (geomId === "modify") {
-			var selectOption = select.init();
-			var features = selectOption.getFeatures();
-			modifyInit = modify.init(features);
-			modify.setActive(true);
+		// var parser = new ol.format.WMSCapabilities();
 
-		} else if (geomId === "move") {
 
+		//       $http.get('js/controllers/wms-getcapabilities.xml').then(function(response) {
+		// 	  var result = parser.read(response.data);
+
+		// 	 alert(JSON.stringify(result, null, 2));
+		// });
+		if (geomId !== null) {
+			if (geomId === "modify") {
+				var selectOption = select.init();
+				var features = selectOption.getFeatures();
+				modifyInit = modify.init(features);
+				modify.setActive(true);
+
+			} else if (geomId === "move") {
+
+			} else {
+				drawInit = draw.init(geomId);
+				draw.setActive(true);
+
+			}
 		} else {
-			drawInit = draw.init(geomId);
-			draw.setActive(true);
+
+			// mapViewer.on('singleclick', function(evt) {
+			
+			// 	var viewResolution = mapViewer.getView().getResolution();
+			// 	var url = wmsSource.getGetFeatureInfoUrl(
+			// 		evt.coordinate, viewResolution, 'EPSG:3857', {
+			// 			'INFO_FORMAT': 'text/html'
+			// 		});
+			// 	if (url) {
+			// 		alert()
+			// 		document.getElementById('info').innerHTML =
+			// 			'<iframe seamless src="' + url + '"></iframe>';
+			// 	}
+			// });
+
+//http://demo.boundlessgeo.com/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=ne%3Ane&LAYERS=ne%3Ane&INFO_FORMAT=text%2Fhtml&I=15&J=230&WIDTH=256&HEIGHT=256&CRS=EPSG%3A3857&STYLES=&BBOX=0%2C0%2C20037508.342789244%2C20037508.342789244
 
 		}
+
+
 		//snap.init();
 
 	};

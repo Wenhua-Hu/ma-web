@@ -10,8 +10,8 @@
  md-toolbar.toolbar-lg-tp {
   background-color: #212121;
   background: #212121 url("../img/banner.jpg") repeat;
-  width: 86px;
-  margin-right: 5px;
+  width: auto;
+  margin-right: 2px;
   box-shadow: 5px 5px 5px grey;
 }
  md-toolbar.toolbar-lg-st {
@@ -22,7 +22,7 @@
   min-height:20px;
   height: 65px;
   box-shadow: 5px 5px 5px grey;
-  margin-bottom: 4px;
+  margin-bottom: 0px;
 /*  border-radius: 5px;
 */}
  md-toolbar.toolbar-lg-lw {
@@ -53,14 +53,15 @@ md-toolbar.tool-common-size, .md-button.tool-common-button-size {
   min-width:0px;
   max-width:300px;
   max-height:600px;
-  width:35px;
-  box-shadow: 4px 4px 4px grey;
+  width:30px;
+  box-shadow: 0px 0px 6px grey;
   border-radius: 0px;
 
 
 
 
 }
+/*html, body {height:100%;}*/ 
 .md-button.tool-common-button-gap {
   margin-top:0px;
   margin-left:0px;
@@ -76,7 +77,7 @@ md-toolbar.tool-common-size, .md-button.tool-common-button-size {
 
 
 
-    height:35px;
+    height:30px;
     float: left;
     border:  #b4b4b4 solid ;
     border-width: 1px 1px 1px 0px;
@@ -109,12 +110,12 @@ position: relative;
 
 
 .md-button.side-panel-control {
-  height: 62px;
-  width: 64px;
+  height: 55px;
+  width: 57px;
   border-radius:20%;
   margin-left:auto;
   margin-right:auto; 
-  margin-top: 12px;
+  margin-top: 10px;
   text-align:center;
   position:relative;
   border:1px solid #d0d0d0;
@@ -139,8 +140,8 @@ position: relative;
 
 .md-button.back-to-side-panel 
 {  
-    height: 58px;
-    width: 58px;
+    height: 57px;
+    width: 57px;
 }
 
 

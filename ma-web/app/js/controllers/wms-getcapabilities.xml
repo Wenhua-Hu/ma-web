@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://schemas.opengis.net/wms/1.1.1/capabilities_1_1_1.dtd">
+<WMT_MS_Capabilities version="1.1.1">
+<Service>
+  <Name>OGC:WMS</Name>
+  <Title>Web Map Service - GeoWebCache</Title>
+  <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://geodata.nationaalgeoregister.nl/tiles/service/wms?SERVICE=WMS&amp;"/>
+</Service>
+<Capability>
+  <Request>
+    <GetCapabilities>
+      <Format>application/vnd.ogc.wms_xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://geodata.nationaalgeoregister.nl/tiles/service/wms?SERVICE=WMS&amp;"/>
+          </Get>
+        </HTTP>
+      </DCPType>
+    </GetCapabilities>
+    <GetMap>
+      <Format>image/png</Format>
+      <Format>image/png8</Format>
+      <DCPType>
+        <HTTP>
+          <Get>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://geodata.nationaalgeoregister.nl/tiles/service/wms?SERVICE=WMS&amp;"/>
+          </Get>
+        </HTTP>
+      </DCPType>
+    </GetMap>
+    <GetFeatureInfo>
+      <Format>text/plain</Format>
+      <Format>application/vnd.ogc.gml</Format>
+      <Format>text/html</Format>
+      <DCPType>
+        <HTTP>
+        <Get>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://geodata.nationaalgeoregister.nl/tiles/service/wms?SERVICE=WMS&amp;"/>
+        </Get>
+        </HTTP>
+      </DCPType>
+    </GetFeatureInfo>
+    <DescribeLayer>
+      <Format>application/vnd.ogc.wms_xml</Format>
+      <DCPType>
+        <HTTP>
+        <Get>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://geodata.nationaalgeoregister.nl/tiles/service/wms?SERVICE=WMS&amp;"/>
+        </Get>
+        </HTTP>
+      </DCPType>
+    </DescribeLayer>
+    <GetLegendGraphic>
+      <Format>image/png</Format>
+      <Format>image/jpeg</Format>
+      <Format>image/gif</Format>
+      <DCPType>
+        <HTTP>
+        <Get>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://geodata.nationaalgeoregister.nl/tiles/service/wms?SERVICE=WMS&amp;"/>
+        </Get>
+        </HTTP>
+      </DCPType>
+    </GetLegendGraphic>
+  </Request>
+  <Exception>
+    <Format>application/vnd.ogc.se_xml</Format>
+  </Exception>
+  <Layer>
+    <Title>GeoWebCache WMS</Title>
+    <Abstract>Note that not all GeoWebCache instances provide a full WMS service.</Abstract>
+    <LatLonBoundingBox minx="-180.0" miny="-90.0" maxx="180.0" maxy="90.0"/>
+    <Layer>
+      <Name>brtachtergrondkaart</Name>
+      <Title>brtachtergrondkaart</Title>
+      <SRS>EPSG:25831</SRS>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:25831" minx="-2404683.40738879" miny="3997657.58466454" maxx="4046516.592611209" maxy="8298457.5846645385"/>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>brtachtergrondkaarttijdelijk</Name>
+      <Title>brtachtergrondkaarttijdelijk</Title>
+      <SRS>EPSG:25831</SRS>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:25831" minx="-2404683.40738879" miny="3997657.58466454" maxx="4046516.592611209" maxy="8298457.5846645385"/>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>brtachtergrondkaartgrijstijdelijk</Name>
+      <Title>brtachtergrondkaartgrijstijdelijk</Title>
+      <SRS>EPSG:25831</SRS>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:25831" minx="-2404683.40738879" miny="3997657.58466454" maxx="4046516.592611209" maxy="8298457.5846645385"/>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>brtachtergrondkaartpastel</Name>
+      <Title>brtachtergrondkaartpastel</Title>
+      <SRS>EPSG:25831</SRS>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:25831" minx="-2404683.40738879" miny="3997657.58466454" maxx="4046516.592611209" maxy="8298457.5846645385"/>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>top10nl</Name>
+      <Title>top10nl</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>top10nlv2</Name>
+      <Title>top10nlv2</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>kadastralekaartv2</Name>
+      <Title>kadastralekaartv2</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    
+    <Layer>
+      <Name>natura2000</Name>
+      <Title>natura2000</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>aan</Name>
+      <Title>aan</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>top50vector</Name>
+      <Title>top50vector</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>bagviewer</Name>
+      <Title>bagviewer</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>bag</Name>
+      <Title>bag</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>top25raster</Name>
+      <Title>top25raster</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>top50raster</Name>
+      <Title>top50raster</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>top250raster</Name>
+      <Title>top250raster</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>nok2011</Name>
+      <Title>nok2011</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    
+    <Layer>
+      <Name>brpgewaspercelen</Name>
+      <Title>brpgewaspercelen</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>bgtstandaard</Name>
+      <Title>bgtstandaard</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>bgtlijngericht</Name>
+      <Title>bgtlijngericht</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>bgtachtergrond</Name>
+      <Title>bgtachtergrond</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>bgtomtrekgericht</Name>
+      <Title>bgtomtrekgericht</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn1_100m</Name>
+      <Title>ahn1_100m</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn1_25m</Name>
+      <Title>ahn1_25m</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn1_5m</Name>
+      <Title>ahn1_5m</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn2_5m</Name>
+      <Title>ahn2_5m</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn2_05m_non</Name>
+      <Title>ahn2_05m_non</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn2_05m_int</Name>
+      <Title>ahn2_05m_int</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn2_05m_ruw</Name>
+      <Title>ahn2_05m_ruw</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn3_5m_dsm</Name>
+      <Title>ahn3_5m_dsm</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn3_5m_dtm</Name>
+      <Title>ahn3_5m_dtm</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn3_05m_dsm</Name>
+      <Title>ahn3_05m_dsm</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    <Layer>
+      <Name>ahn3_05m_dtm</Name>
+      <Title>ahn3_05m_dtm</Title>
+      <SRS>EPSG:28992</SRS>
+      <BoundingBox SRS="EPSG:28992" minx="-285401.92" miny="22598.08" maxx="595401.9199999999" maxy="903401.9199999999"/>
+    </Layer>
+    
+  </Layer>
+</Capability>
+</WMT_MS_Capabilities>

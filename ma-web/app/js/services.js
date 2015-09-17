@@ -24,7 +24,7 @@ factory('layerService', function() {
       controls: [
         new ol.control.Rotate(),
         new ol.control.Attribution(),
-        new ol.control.ZoomSlider(),
+       // new ol.control.ZoomSlider(),
         new ol.control.ScaleLine(),
         new ol.control.MousePosition({
           undefinedHTML: '',
