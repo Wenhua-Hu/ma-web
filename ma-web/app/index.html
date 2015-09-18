@@ -3,19 +3,19 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="description" content="MapAssist"/>
-     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MapAssist</title>
     <link rel="icon" ng-href="img/crotec.png"/>
     <!-- CSS Styles -->
     <link rel="stylesheet" href="angular-material/angular-material.css"/>
     <link rel="stylesheet" href="openlayers/dist/ol.css" type="text/css" />
     <link rel="stylesheet" href="css/app.css"/>
-    <!-- JS Libraries -->
-
+    <!--External JS Libraries -->
     <script src="openlayers/dist/ol.js" type="text/javascript"></script>
     <script src="proj4/dist/proj4.js" type="text/javascript"></script>
     <script src="external/proj4-defs.js" type="text/javascript"></script>
-
+    <!-- ANGULAR JS Libraries -->
+    <script src="jquery/dist/jquery.js"></script>
     <script src="angular/angular.js"></script>
     <script src="angular-animate/angular-animate.js"></script>
     <script src="angular-aria/angular-aria.js"></script>
@@ -34,46 +34,44 @@
 </head>
 
 <body layout="row" ng-controller="MainCtrl">
-    <!--Side Panel Bar-->
-    <md-toolbar layout="column" class="toolbar-lg-tp">
-        <md-button class="md-icon-button md-raised side-panel-control" title="Menu">menu</md-button>
-        <md-button class="md-icon-button md-raised side-panel-control" title="Menu">menu</md-button>
-        <md-button class="md-icon-button md-raised side-panel-control" title="Menu">menu</md-button>
-        <div layout="column" flex layout-align="end center">
-            <md-button aria-label="login" class="md-icon-button back-to-side-panel" ng-click= "LoginDialog($event)">
-                <md-icon aria-label="login_icon" md-svg-icon="img/account_circle.svg" class="s52"></md-icon>
+    <!--Left Side Panel Bar-->
+    <md-toolbar layout="column" class="toolbar-left-nav-bar">
+        <!-- APP MENU SEETING -->
+        <md-button class="md-icon-button md-raised toolbar-left-nav-bar-button" title="Menu">menu</md-button>
+        <md-button class="md-icon-button md-raised toolbar-left-nav-bar-button" title="Menu">menu</md-button>
+        <md-button class="md-icon-button md-raised toolbar-left-nav-bar-button" title="Menu">menu</md-button>
+        <!-- LOGIN -->
+        <div layout="column" layout-align="end center" flex>
+            <md-button aria-label="login" class="md-icon-button toolbar-left-nav-bar-button-account" ng-click= "LoginDialog($event)">
+                <md-icon aria-label="login_icon" md-svg-icon="img/account_circle.svg" class="s60"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
 
-    <!--Functional Toolbar-->
-    <div layout = "column" layout-fill style="overflow: hidden;">
-        <!-- 1 -->
-        <md-toolbar  class="toolbar-lg-st" layout="row" layout-align="end center">
+    <!--Right Main Section-->
+    <div layout = "column" layout-fill class="overflow">
+        <!-- Header and Toolbar -->
+        <md-toolbar  class="toolbar-right-top-header" layout="row" layout-align="end center">
+            <!-- Test to connect Node.js -->
+            <div ng-controller="testController" style="color: white;" flex="55">{{showResult}}</div>
 
-
-    <div ng-controller="testController">{{showResult}}</div>
-
-            <md-button ng-click="toggleSidenav('right')"  class="md-icon-button">
-                <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
+            <!-- MAP MENU -->
+            <!-- support chrome -->
+            <!-- mapWidthStyle={'width':'2065px'}; -->
+            <md-button ng-click="toggleMapSidenav('right');
+          mapWidthStyle={'width':'1850px'};
+          "hide-sm hide-md hide-lg class="md-icon-button">
+                <md-icon aria-label="Menu" md-svg-icon="img/ic_menu_48px.svg" class="s38" id="menu"></md-icon>
             </md-button>
+
         </md-toolbar>
-        <!-- 2 -->
-
-<!--         <md-toolbar  class="toolbar-lg-lw" layout="row" layout-align="center center">
-        
-
-        </md-toolbar> -->
-
-        <!-- Map Content -->
-
-        <md-content layout="row"  >
-            <md-content ng-view flex style="overflow: hidden;" ></md-content>
-
-            <md-sidenav  class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')"></md-sidenav>
-
+        <!-- Main Part -->
+        <md-content layout="row" >
+            <!-- Map Viewer -->
+            <md-content ng-view flex class="overflow"></md-content>
+            <!-- Right Navigation bar -->
+            <md-sidenav style=" " ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')"></md-sidenav>
         </md-content>
     </div>
-
 </body>
 </html>

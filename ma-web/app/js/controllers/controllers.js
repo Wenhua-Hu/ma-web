@@ -4,15 +4,42 @@
 var controllerModule = angular.module('ma-app.controllers', [
 	'ngMaterial'
 ]).
-controller('MainCtrl', function($scope, $mdSidenav, $mdDialog) {
+controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
+	$scope.isShow = false;
 
-  $scope.toggleSidenav = function(menuId) {
-    $mdSidenav(menuId).toggle();
-  };
+	$scope.toggleMapSidenav = function(menuId) {
+		$scope.isShow = !$scope.isShow;
+		if (($mdSidenav(menuId).isLockedOpen()) && ($scope.isShow)) {
+			// color 
+			$("#menu").css("color", "#81d4fa");
+		} else {
+			$("#menu").css("color", "white");
+		}
+
+		//watch($scope.isShow, listener, objectEquality)
+		// if ($mdSidenav(menuId).isOpen()) {
+		// 	$mdSidenav(menuId).toggle();
+		// }
+
+		// 	$mdSidenav(menuId)
+		// .open()
+		// .then(function(){
+		//   $log.debug($mdSidenav(menuId).isLockedOpen());
+		//   //console
+		// });
+
+		//  if ($mdSidenav(menuId).isLockedOpen()) {
+		// 	//alert($mdSidenav(menuId).isLockedOpen());
+		// $mdSidenav(menuId).toggle();
+		// }
+		// if (!$mdSidenav(menuId).isLockedOpen()) {
+		// 	alert($mdSidenav(menuId).isLockedOpen());
+		// $mdSidenav(menuId).toggle();
+		// }
+	};
 
 
 
-	
 	$scope.LoginDialog = function($event) {
 
 		$mdDialog.show({
@@ -136,7 +163,7 @@ controller('MapCtrl', function($window, $http, $scope, layerService, geometrySer
 		} else {
 
 			// mapViewer.on('singleclick', function(evt) {
-			
+
 			// 	var viewResolution = mapViewer.getView().getResolution();
 			// 	var url = wmsSource.getGetFeatureInfoUrl(
 			// 		evt.coordinate, viewResolution, 'EPSG:3857', {
@@ -149,7 +176,7 @@ controller('MapCtrl', function($window, $http, $scope, layerService, geometrySer
 			// 	}
 			// });
 
-//http://demo.boundlessgeo.com/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=ne%3Ane&LAYERS=ne%3Ane&INFO_FORMAT=text%2Fhtml&I=15&J=230&WIDTH=256&HEIGHT=256&CRS=EPSG%3A3857&STYLES=&BBOX=0%2C0%2C20037508.342789244%2C20037508.342789244
+			//http://demo.boundlessgeo.com/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=ne%3Ane&LAYERS=ne%3Ane&INFO_FORMAT=text%2Fhtml&I=15&J=230&WIDTH=256&HEIGHT=256&CRS=EPSG%3A3857&STYLES=&BBOX=0%2C0%2C20037508.342789244%2C20037508.342789244
 
 		}
 
