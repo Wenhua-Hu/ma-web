@@ -58,15 +58,13 @@
             <!-- MAP MENU -->
             <!-- support chrome -->
             <!-- mapWidthStyle={'width':'2065px'}; -->
-            <md-button ng-click="toggleMapSidenav('right');
-          mapWidthStyle={'width':'1850px'};
-          "hide-sm hide-md hide-lg class="md-icon-button">
-                <md-icon aria-label="Menu" md-svg-icon="img/ic_menu_48px.svg" class="s38" id="menu"></md-icon>
+            <md-button ng-click="toggleMapSidenav('right'); "hide-sm hide-md hide-lg class="md-icon-button" menucolor>
+                <md-icon aria-label="Menu" md-svg-icon="img/ic_menu_48px.svg" class="s38"  ng-class="{'menu-color': boolChangeColor}" ></md-icon>
             </md-button>
 
         </md-toolbar>
         <!-- Main Part -->
-        <md-content layout="row" >
+        <md-content layout="row">
             <!-- Map Viewer -->
             <md-content ng-view flex class="overflow"></md-content>
             <!-- Right Navigation bar -->

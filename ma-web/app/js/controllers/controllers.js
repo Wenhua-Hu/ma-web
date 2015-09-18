@@ -9,12 +9,12 @@ controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
 
 	$scope.toggleMapSidenav = function(menuId) {
 		$scope.isShow = !$scope.isShow;
-		if (($mdSidenav(menuId).isLockedOpen()) && ($scope.isShow)) {
-			// color 
-			$("#menu").css("color", "#81d4fa");
-		} else {
-			$("#menu").css("color", "white");
-		}
+		// if (($mdSidenav(menuId).isLockedOpen()) && ($scope.isShow)) {
+		// 	// color 
+		// 	$("#menu").css("color", "#81d4fa");
+		// } else {
+		// 	$("#menu").css("color", "white");
+		// }
 
 		//watch($scope.isShow, listener, objectEquality)
 		// if ($mdSidenav(menuId).isOpen()) {
