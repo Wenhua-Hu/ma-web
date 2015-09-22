@@ -12,11 +12,15 @@ var appModule = angular.module('ma-app', [
   'ngMaterial',
   'ngResource',
   'ngRoute',
+  'ngDialog',
+  'ui.bootstrap',
   'ma-app.api',
   'ma-app.controllers',
   'ma-app.directives',
   'ma-app.filters',
-  'ma-app.services'
+  'ma-app.services',
+  'ma-app.settings'
+
 ]);
 appModule.config(function($routeProvider) {
   $routeProvider.

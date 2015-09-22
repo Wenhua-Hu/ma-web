@@ -2,7 +2,9 @@
 /*global ol, source,window,alert */
 
 var controllerModule = angular.module('ma-app.controllers', [
-	'ngMaterial'
+	'ngMaterial',
+	'ui.bootstrap',
+	'ngDialog'
 ]).
 controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
 	$scope.isShow = false;

@@ -1,5 +1,5 @@
 'use strict';
-/*global ol, source */
+/*global ol, source window */
 /**
  * @name ma-app.services
  * @description
@@ -8,10 +8,9 @@
 angular.module('ma-app.services', [
   'ma-app.resources'
 ]).
-factory('layerService', function() {
+factory('layerService', function($http, $rootScope, $window) {
 
     var service = {};
-
     var projection = {};
     projection['EPSG:28992'] = ol.proj.get('EPSG:28992');
     projection['EPSG:28992'].setExtent([0, 300000, 300000, 650000]);
@@ -24,7 +23,7 @@ factory('layerService', function() {
       controls: [
         new ol.control.Rotate(),
         new ol.control.Attribution(),
-       // new ol.control.ZoomSlider(),
+        // new ol.control.ZoomSlider(),
         new ol.control.ScaleLine(),
         new ol.control.MousePosition({
           undefinedHTML: '',
@@ -73,7 +72,7 @@ factory('layerService', function() {
         url: 'http://213.206.232.120:8080/geoserver/BAG/wms',
         params: {
           LAYERS: 'BAG:pandactueelbestaand',
-          VERSION: '1.1.1'
+          VERSION: '1.3.0'
         },
         tileGrid: new ol.tilegrid.TileGrid({
           origin: [-285401.92, 22598.08],
@@ -86,6 +85,26 @@ factory('layerService', function() {
         extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
       })
     });
+
+
+  var sourceV = new ol.source.Vector({
+    loader: function(extent) {
+      var url = 'http://localhost:8081/geoserver/crotecMap/wfs';
+      $http.get(url, {
+        params: {
+          service: "WFS",
+          version: "1.1.0",
+          request: "GetFeature",
+          typeName: "crotecMap:pand",
+          outputFormat: "application/json",
+          maxFeatures: "30"
+        }
+      }).success(function(success) {
+        var gridOptions = success.data;
+        console.log(success);
+      });
+    },
+  });
 
 
 
@@ -130,9 +149,18 @@ factory('layerService', function() {
       style: style
     });
 
+
+
+  var vectorL = new ol.layer.Vector({
+    name: 'test1',
+    source: sourceV,
+    style: style
+  });
+
     map.addLayer(pdok);
     map.addLayer(bag);
     map.addLayer(vectorLayer);
+    map.addLayer(vectorL);
 
     service.init = function() {
       return map;
@@ -146,8 +174,7 @@ factory('layerService', function() {
 factory('geometryService', function() {
     var service = {};
 
-    var geometryCategories = [
-    {
+    var geometryCategories = [{
       id: '1',
       name: 'Hand',
       img: 'hand.jpg'
@@ -241,4 +268,22 @@ factory('TestService', function($http, apiUrl) {
       return $http.get(apiUrl.root);
     }
   };
+}).
+factory('wfsService', function($http) {
+var url= 'http://localhost:8081/geoserver/crotecMap/wfs';
+  $http.get(url, {
+    params: {
+      service: "WFS",
+      version: "1.1.0",
+      request: "GetFeature",
+      typeName: "crotecMap:pand",
+      outputFormat: "application/json",
+      maxFeatures: "50"
+    }
+  }).success(function(success) {
+    var gridOptions = success.data;
+    console.log(success);
+  });
+  return null;
+
 });
