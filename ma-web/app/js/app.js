@@ -19,7 +19,8 @@ var appModule = angular.module('ma-app', [
   'ma-app.directives',
   'ma-app.filters',
   'ma-app.services',
-  'ma-app.settings'
+  'ma-app.settings',
+  'ma-app.wfs'
 
 ]);
 appModule.config(function($routeProvider) {

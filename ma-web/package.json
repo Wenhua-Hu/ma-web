@@ -32,7 +32,7 @@
     "jade": "*",
     "jquery": "^2.1.4",
     "ng-dialog": "^0.5.1",
-    "openlayers": "^3.8.2",
+    "openlayers": "^3.9.0",
     "proj4": "^2.3.10"
   },
   "scripts": {

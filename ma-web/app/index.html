@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" ng-app="ma-app">
 <head>
+
     <meta charset="utf-8"/>
     <meta name="description" content="MapAssist"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -22,13 +23,14 @@
     -->
     <link rel="stylesheet" href="css/app.css"/>
     <!--External JS Libraries -->
-    <script src="openlayers/dist/ol.js" type="text/javascript"></script>
-    <script src="proj4/dist/proj4.js" type="text/javascript"></script>
-    <script src="external/proj4-defs.js" type="text/javascript"></script>
+    
 
     <!-- ANGULAR JS Libraries -->
     <script src="jquery/dist/jquery.js"></script>
     <script src="angular/angular.js"></script>
+    <script src="openlayers/dist/ol.js" type="text/javascript"></script>
+    <script src="proj4/dist/proj4.js" type="text/javascript"></script>
+    <script src="external/proj4-defs.js" type="text/javascript"></script>
     <script src="angular-animate/angular-animate.js"></script>
     <script src="angular-aria/angular-aria.js"></script>
     <script src="angular-material/angular-material.js"></script>
@@ -44,13 +46,16 @@
     <script src="js/app.js"></script>
     <script src="js/api.js"></script>
     <script src="js/controllers/controllers.js"></script>
+    <script src="js/controllers/wfs.js"></script>
     <script src="js/controllers/settings.js"></script>
     <script src="js/directives.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/resources.js"></script>
     <script src="js/services.js"></script>
 
+
 </head>
+
 
 <body layout="row" ng-controller="MainCtrl">
     <!--Left Side Panel Bar-->
@@ -69,7 +74,7 @@
     <!-- test end -->
     <!-- LOGIN -->
     <div layout="column" layout-align="end center" flex>
-        <md-button aria-label="login" class="md-icon-button toolbar-left-nav-bar-button-account hvr-float-shadow" ng-click= "LoginDialog($event)">
+        <md-button aria-label="login" class="md-icon-button  hvr-float-shadow" ng-click= "LoginDialog($event)">
             <md-icon aria-label="login_icon" md-svg-icon="img/account_circle.svg" class="s60"></md-icon>
         </md-button>
     </div>
@@ -85,7 +90,8 @@
         <!-- MAP MENU -->
         <!-- support chrome -->
         <!-- mapWidthStyle={'width':'2065px'}; -->
-        <md-button ng-click="toggleMapSidenav('right'); mapWidthStyle={'width':'2065px'};"hide-sm hide-md hide-lg class="md-icon-button hvr-grow" menucolor>
+        <!-- mapWidthStyle={'width':'1850px'}; -->
+        <md-button ng-click="toggleMapSidenav('right');"hide-sm hide-md hide-lg class="md-icon-button hvr-grow" menucolor>
             <md-icon aria-label="Menu" md-svg-icon="img/ic_menu_48px.svg" class="s38"  ng-class="{'menu-color': boolChangeColor}" ></md-icon>
         </md-button>
 

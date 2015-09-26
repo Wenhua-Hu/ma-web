@@ -1,14 +1,14 @@
 /*CSS STYLE*/
 /*for firefox*/
-/*.map {width:1850px; height:900px;}*/
+.map {width:1860px; height:900px;}
 /*for chrome*/
-.map {width:2065px; height:1000px;}
+/*.map {width:1850px; height:900px;}*/
 
 .overflow {overflow: hidden;}
 
 .s60 {
-  height:60px;
-  width:60px;
+  height:45px;
+  width:45px;
 }
 .s38 {
   height:38px;
@@ -74,11 +74,11 @@ ng-md-icon.login {
   margin-right: 2px;
   box-shadow: 5px 5px 5px grey;
 }
-
+/*giveup*/
 .md-button.toolbar-left-nav-bar-button {
   overflow:hidden;
-  height: 55px;
-  width: 57px;
+  height: 50px;
+  width: 52px;
   border-radius:20%;
   margin-left:auto;
   margin-right:auto; 
@@ -100,8 +100,8 @@ ng-md-icon.login {
 }
 
 .md-button.toolbar-left-nav-bar-button-account {  
-  height: 57px;
-  width: 57px;
+  height: 45px;
+  width: 45px;
 }
 
  md-toolbar.toolbar-right-top-header {

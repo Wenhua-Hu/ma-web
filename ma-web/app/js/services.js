@@ -1,5 +1,5 @@
 'use strict';
-/*global ol, source window */
+/*global ol, source, window */
 /**
  * @name ma-app.services
  * @description
@@ -23,7 +23,6 @@ factory('layerService', function($http, $rootScope, $window) {
       controls: [
         new ol.control.Rotate(),
         new ol.control.Attribution(),
-        // new ol.control.ZoomSlider(),
         new ol.control.ScaleLine(),
         new ol.control.MousePosition({
           undefinedHTML: '',
@@ -69,10 +68,12 @@ factory('layerService', function($http, $rootScope, $window) {
     var bag = new ol.layer.Tile({
       name: 'BAG',
       source: new ol.source.TileWMS({
-        url: 'http://213.206.232.120:8080/geoserver/BAG/wms',
+        url: 'http://213.206.232.105/geoserver/BAG/wms',
+        // url: 'http://localhost:8081/geoserver/crotecMap/wms',http://213.206.232.120:8080/geoserver/BAG/wms
         params: {
-          LAYERS: 'BAG:pandactueelbestaand',
-          VERSION: '1.3.0'
+          LAYERS: 'BAG:pand',
+          // LAYERS: 'crotecMap:pand',
+          VERSION: '1.1.0'
         },
         tileGrid: new ol.tilegrid.TileGrid({
           origin: [-285401.92, 22598.08],
@@ -87,33 +88,13 @@ factory('layerService', function($http, $rootScope, $window) {
     });
 
 
-  var sourceV = new ol.source.Vector({
-    loader: function(extent) {
-      var url = 'http://localhost:8081/geoserver/crotecMap/wfs';
-      $http.get(url, {
-        params: {
-          service: "WFS",
-          version: "1.1.0",
-          request: "GetFeature",
-          typeName: "crotecMap:pand",
-          outputFormat: "application/json",
-          maxFeatures: "30"
-        }
-      }).success(function(success) {
-        var gridOptions = success.data;
-        console.log(success);
-      });
-    },
-  });
-
-
 
     var style = new ol.style.Style({
       fill: new ol.style.Fill({
         color: 'rgba(255, 100, 50, 0.3)'
       }),
       stroke: new ol.style.Stroke({
-        width: 2,
+        width: 9,
         color: 'rgba(255, 100, 50, 0.8)'
       }),
       image: new ol.style.Circle({
@@ -121,7 +102,7 @@ factory('layerService', function($http, $rootScope, $window) {
           color: 'rgba(55, 200, 150, 0.5)'
         }),
         stroke: new ol.style.Stroke({
-          width: 1,
+          width: 9,
           color: 'rgba(55, 200, 150, 0.8)'
         }),
         radius: 7
@@ -148,22 +129,131 @@ factory('layerService', function($http, $rootScope, $window) {
       source: vectorSource,
       style: style
     });
+    //image vector
+    //
+
+    
+
+    //wfs
+    
+   // var geojsonFormat = new ol.format.GeoJSON();
+    // var wfsSourceOne = new ol.source.Vector({
+    //   loader: function(extent,resolution, projection) {
+    //     var url = 'http://213.206.232.105/geoserver/BAG/wfs?service=WFS&' +
+    //     'version=1.1.0&request=GetFeature&typename=BAG:pand&' +
+    //     'outputFormat=text/javascript&format_options=callback:loadFeatures' +
+    //     '&srsname=EPSG:28992&bbox=' + extent.join(',') + ',EPSG:28992';
+    //     $http({url: url, method:'JSONP',data:{jsonp:false}});
+    //   //  var url = 'http://213.206.232.105/geoserver/BAG/wfs';
+    //     // $http.jsonp(url, {
+    //     //   params: {
+    //     //     service: "WFS",
+    //     //     version: "1.1.0",
+    //     //     request: "GetFeature",
+    //     //     typeName: "BAG:pand",
+    //     //     outputFormat: "text/javascript",
+    //     //   }
+    //     // }).success(function(response) {
+    //     //   wfsSourceOne.addFeatures(geojsonFormat.readFeatures(response));
+    //     //   // add feature to layers
+
+    //     //   // console.log(success.features);
+    //     //   //Features = success;
+    //     //   //    wfsSourceOne.getSource().addFeature(feature);
+
+
+    //     // });
+    //   },
+    //   strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+    //     maxZoom: 13
+    //   }))
+    // });
+
+var wfsSourceOne = new ol.source.Vector({
+  format: new ol.format.GeoJSON(),
+  url: function(extent, resolution, projection) {
+    return 'http://213.206.232.105/geoserver/BAG/wfs?service=WFS&' +
+        'version=1.1.0&request=GetFeature&typename=BAG:pand&' +
+        'outputFormat=application/json&srsname=EPSG:28992&bbox=' + extent.join(',') + ',EPSG:28992';
+  },
+  strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+    maxZoom: 13
+  }))
+});
+var loadFeatures = function(response) {
+  console.log("test0");
+  //wfsSourceOne.addFeatures(geojsonFormat.readFeatures(response));
+};
 
 
 
-  var vectorL = new ol.layer.Vector({
-    name: 'test1',
-    source: sourceV,
-    style: style
-  });
+    var wfsLayerOne = new ol.layer.Vector({
+      name: 'wfsLayerOne',
+      source: wfsSourceOne,
+      style: new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'rgba(0, 0, 255, 1.0)',
+          width: 2
+        })
+      })
+    });
+
+    //var geojsonFormat = new ol.format.GeoJSON();
+    //   var wfsVector =   new ol.layer.Image({
+    //   source: new ol.source.ImageVector({
+    //     source: wfsSourceOne,
+    //     style: new ol.style.Style({
+    //       fill: new ol.style.Fill({
+    //         color: 'rgba(255, 255, 0, 0.6)'
+    //       }),
+    //       stroke: new ol.style.Stroke({
+    //         color: '#319FD3',
+    //         width: 1
+    //       })
+    //     })
+    //   })
+    // });
+
 
     map.addLayer(pdok);
     map.addLayer(bag);
-    map.addLayer(vectorLayer);
-    map.addLayer(vectorL);
+    // map.addLayer(wfsVector);
+    map.addLayer(wfsLayerOne);
+
+
+
+    map.on('pointermove', function(evt) {
+      console.log(map.getLayers().item(2).getSource().getFeatures());
+
+      //console.log(Features);
+      /*var url = map.getLayers().item(1).getSource().getGetFeatureInfoUrl(
+        evt.coordinate, map.getView().getResolution(), map.getView().getProjection(),
+        {'INFO_FORMAT': 'application/json'});
+*/
+      //console.log(map.getLayers().item(0));
+      //hh
+
+      //   map.getLayers().item(0).getSource().forEachFeature(function(feature) {
+      //   console.log(feature);
+      // });
+
+
+      //   var test = map.getLayers().item(0);
+
+      //   var pixel = map.getEventPixel(evt.originalEvent);
+      //   var feature = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+      //     console.log("123");
+      //     console.log(feature);
+      //     return feature;
+      //   });
+    });
+
 
     service.init = function() {
       return map;
+    };
+    service.wfs = function() {
+      return wfsLayerOne;
     };
     return service;
   }).
@@ -268,22 +358,4 @@ factory('TestService', function($http, apiUrl) {
       return $http.get(apiUrl.root);
     }
   };
-}).
-factory('wfsService', function($http) {
-var url= 'http://localhost:8081/geoserver/crotecMap/wfs';
-  $http.get(url, {
-    params: {
-      service: "WFS",
-      version: "1.1.0",
-      request: "GetFeature",
-      typeName: "crotecMap:pand",
-      outputFormat: "application/json",
-      maxFeatures: "50"
-    }
-  }).success(function(success) {
-    var gridOptions = success.data;
-    console.log(success);
-  });
-  return null;
-
 });
