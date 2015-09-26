@@ -17,29 +17,6 @@ factory('layerService', function($http, $rootScope, $window) {
 
 
 
-    var map = new ol.Map({
-      target: 'map',
-      logo: false,
-      controls: [
-        new ol.control.Rotate(),
-        new ol.control.Attribution(),
-        new ol.control.ScaleLine(),
-        new ol.control.MousePosition({
-          undefinedHTML: '',
-          projection: 'EPSG:28992',
-          coordinateFormat: function(coordinate) {
-            return ol.coordinate.format(coordinate, '{x}, {y}', 4);
-          }
-        })
-      ],
-      view: new ol.View({
-        projection: projection['EPSG:28992'],
-        center: [155000, 463000],
-        zoom: 13,
-        minZoom: 0,
-        maxZoom: 15,
-      })
-    });
     /**
      * [pdok WMS layer]
      * @type {ol}
@@ -132,11 +109,11 @@ factory('layerService', function($http, $rootScope, $window) {
     //image vector
     //
 
-    
+
 
     //wfs
-    
-   // var geojsonFormat = new ol.format.GeoJSON();
+
+    var geojsonFormat = new ol.format.GeoJSON();
     // var wfsSourceOne = new ol.source.Vector({
     //   loader: function(extent,resolution, projection) {
     //     var url = 'http://213.206.232.105/geoserver/BAG/wfs?service=WFS&' +
@@ -169,21 +146,47 @@ factory('layerService', function($http, $rootScope, $window) {
     //   }))
     // });
 
+    // var wfsSourceOne = new ol.source.Vector({
+    //   format: new ol.format.GeoJSON(),
+    //   url: function(extent, resolution, projection) {
+    //     return 'http://213.206.232.105/geoserver/BAG/wfs?service=WFS&' +
+    //         'version=1.1.0&request=GetFeature&typename=BAG:pand&' +
+    //         'outputFormat=application/json&srsname=EPSG:28992&bbox=' + extent.join(',') + ',EPSG:28992';
+    //   },
+    //   strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+    //     maxZoom: 13
+    //   }))
+    // });
+    // var loadFeatures = function(response) {
+    //   console.log("test0");
+    //   wfsSourceOne.addFeatures(geojsonFormat.readFeatures(response));
+    // };
+
+
 var wfsSourceOne = new ol.source.Vector({
-  format: new ol.format.GeoJSON(),
-  url: function(extent, resolution, projection) {
-    return 'http://213.206.232.105/geoserver/BAG/wfs?service=WFS&' +
-        'version=1.1.0&request=GetFeature&typename=BAG:pand&' +
-        'outputFormat=application/json&srsname=EPSG:28992&bbox=' + extent.join(',') + ',EPSG:28992';
-  },
-  strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-    maxZoom: 13
-  }))
-});
-var loadFeatures = function(response) {
-  console.log("test0");
-  //wfsSourceOne.addFeatures(geojsonFormat.readFeatures(response));
-};
+    loader: function(extent) {
+        $http.get('http://213.206.232.105/geoserver/BAG/wfs',{
+            params: {
+                service: 'WFS',
+                version: '1.1.0',
+                request: 'GetFeature',
+                typename: 'BAG:pand',
+                srsname: 'EPSG:28992',
+                maxFeatures:'500',
+                outputFormat: 'application/json',
+                bbox: extent.join(',') + ',EPSG:28992'
+                },
+            }).success(loadFeatures);
+        },
+    strategy: ol.loadingstrategy.tile(new ol.tilegrid.createXYZ({
+            maxZoom: 13
+            })),
+    });
+    var loadFeatures = function(response) {
+     // console.log(response);
+      var geoJSON = new ol.format.GeoJSON();
+      wfsSourceOne.addFeatures(geoJSON.readFeatures(response));
+    };
 
 
 
@@ -215,15 +218,32 @@ var loadFeatures = function(response) {
     // });
 
 
-    map.addLayer(pdok);
-    map.addLayer(bag);
+    // map.addLayer(pdok);
+    // map.addLayer(bag);
     // map.addLayer(wfsVector);
-    map.addLayer(wfsLayerOne);
+    // map.addLayer(wfsLayerOne);
+    var map = new ol.Map({
+      target: 'map',
+      logo: false,
+      layers: [bag, wfsLayerOne],
+      controls: [
+        new ol.control.Rotate(),
+        new ol.control.Attribution(),
+        new ol.control.ScaleLine()
+      ],
+      view: new ol.View({
+        projection: projection['EPSG:28992'],
+        center: [155000, 463000],
+        zoom: 13,
+        minZoom: 0,
+        maxZoom: 15,
+      })
+    });
 
 
 
     map.on('pointermove', function(evt) {
-      console.log(map.getLayers().item(2).getSource().getFeatures());
+      console.log(map.getLayers().item(1).getSource().getFeatures());
 
       //console.log(Features);
       /*var url = map.getLayers().item(1).getSource().getGetFeatureInfoUrl(
