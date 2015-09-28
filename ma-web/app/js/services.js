@@ -114,106 +114,93 @@ factory('layerService', function($http, $rootScope, $window) {
     //wfs
 
     var geojsonFormat = new ol.format.GeoJSON();
-  //   var wfsSourceOne = new ol.source.Vector({
-  //     loader: function(extent,resolution, projection) {
-  //       var url1 = 'http://213.206.232.105/geoserver/BAG/wfs?service=WFS&' +
-  //       'version=1.1.0&request=GetFeature&typename=BAG:pand&' +
-  //       'outputFormat=text/javascript&format_options=callback:loadFeatures' +
-  //       '&srsname=EPSG:28992&bbox=' + extent.join(',') + ',EPSG:28992';
-  //     $http({
-  //       method: 'JSONP',
-  //       url: url1
+    //   var wfsSourceOne = new ol.source.Vector({
+    //     loader: function(extent,resolution, projection) {
+    //       var url1 = 'http://213.206.232.105/geoserver/BAG/wfs?service=WFS&' +
+    //       'version=1.1.0&request=GetFeature&typename=BAG:pand&' +
+    //       'outputFormat=text/javascript&format_options=callback:loadFeatures' +
+    //       '&srsname=EPSG:28992&bbox=' + extent.join(',') + ',EPSG:28992';
+    //     $http({
+    //       method: 'JSONP',
+    //       url: url1
 
-  //     }).then(function successCallback(response) {
-  //       console.log("good"+response);
+    //     }).then(function successCallback(response) {
+    //       console.log("good"+response);
 
-  //   // this callback will be called asynchronously
-  //   // when the response is available
-  // }, function errorCallback(response) {
-  //   console.log("bad"+response);
-  //     var geoJSON = new ol.format.GeoJSON();
-  //     wfsSourceOne.addFeatures(geoJSON.readFeatures(response));
-  //   // called asynchronously if an error occurs
-  //   // or server returns response with an error status.
-  // });
-      //  var url = 'http://213.206.232.105/geoserver/BAG/wfs';
-        // $http.jsonp(url, {
-        //   params: {
-        //     service: "WFS",
-        //     version: "1.1.0",
-        //     request: "GetFeature",
-        //     typeName: "BAG:pand",
-        //     outputFormat: "text/javascript",
-        //   }
-        // }).success(function(response) {
-        //   wfsSourceOne.addFeatures(geojsonFormat.readFeatures(response));
-        //   // add feature to layers
+    //   // this callback will be called asynchronously
+    //   // when the response is available
+    // }, function errorCallback(response) {
+    //   console.log("bad"+response);
+    //     var geoJSON = new ol.format.GeoJSON();
+    //     wfsSourceOne.addFeatures(geoJSON.readFeatures(response));
+    //   // called asynchronously if an error occurs
+    //   // or server returns response with an error status.
+    // });
+    //  var url = 'http://213.206.232.105/geoserver/BAG/wfs';
+    // $http.jsonp(url, {
+    //   params: {
+    //     service: "WFS",
+    //     version: "1.1.0",
+    //     request: "GetFeature",
+    //     typeName: "BAG:pand",
+    //     outputFormat: "text/javascript",
+    //   }
+    // }).success(function(response) {
+    //   wfsSourceOne.addFeatures(geojsonFormat.readFeatures(response));
+    //   // add feature to layers
 
-        //   // console.log(success.features);
-        //   //Features = success;
-        //   //    wfsSourceOne.getSource().addFeature(feature);
+    //   // console.log(success.features);
+    //   //Features = success;
+    //   //    wfsSourceOne.getSource().addFeature(feature);
 
 
-        // });
+    // });
     //   },
     //   strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
     //     maxZoom: 13
     //   }))
     // });
 
-var wfsSourceOne = new ol.source.Vector({
-    loader: function(extent) {
-        $http.jsonp('http://213.206.232.105/geoserver/BAG/wfs?format_options=callback:JSON_CALLBACK',{
-            params: {
-                service: 'WFS',
-                version: '1.1.0',
-                request: 'GetFeature',
-                typename: 'BAG:pand',
-                srsname: 'EPSG:28992',
-                maxFeatures:'10',
-                outputFormat: 'text/javascript',
-                bbox: extent.join(',') + ',EPSG:28992'
-                },
-            }).success(loadFeatures);
-        },
-    strategy: ol.loadingstrategy.tile(new ol.tilegrid.createXYZ({
-            maxZoom: 13
-            })),
-
+    var wfsSourceOne = new ol.source.Vector({
+      loader: function(extent) {
+        $http.jsonp('http://213.206.232.105/geoserver/BAG/wfs?format_options=callback:JSON_CALLBACK', {
+          params: {
+            service: 'WFS',
+            version: '1.1.0',
+            request: 'GetFeature',
+            typename: 'BAG:pand',
+            srsname: 'EPSG:28992',
+            maxFeatures: '5',
+            outputFormat: 'text/javascript',
+            bbox: extent.join(',') + ',EPSG:28992'
+          },
+        }).success(loadFeatures);
+      },
+       strategy: ol.loadingstrategy.bbox
     });
 
-
-// var wfsSourceOne = new ol.source.Vector({
-//     loader: function(extent) {
-//         $http.get('http://213.206.232.105/geoserver/BAG/wfs',{
-//             params: {
-//                 service: 'WFS',
-//                 version: '1.1.0',
-//                 request: 'GetFeature',
-//                 typename: 'BAG:pand',
-//                 srsname: 'EPSG:28992',
-//                 maxFeatures:'1',
-//                 outputFormat: 'application/json',
-//                 bbox: extent.join(',') + ',EPSG:28992'
-//                 },
-//             }).success(loadFeatures);
-//         },
-//     strategy: ol.loadingstrategy.tile(new ol.tilegrid.createXYZ({
-//             maxZoom: 13
-//             })),
-
-//     });
     var loadFeatures = function(response) {
       console.log("good" + response);
       var geoJSON = new ol.format.GeoJSON();
       wfsSourceOne.addFeatures(geoJSON.readFeatures(response));
     };
 
+    
 
 
-    var wfsLayerOne = new ol.layer.Vector({
+
+
+    var wfsSourceO = new ol.source.ImageVector({
+        source: wfsSourceOne
+      });
+
+ 
+
+
+
+    var wfsLayerOne = new ol.layer.Image({
       name: 'wfsLayerOne',
-      source: wfsSourceOne,
+      source: wfsSourceO,
       style: new ol.style.Style({
         stroke: new ol.style.Stroke({
           color: 'rgba(0, 0, 255, 1.0)',
