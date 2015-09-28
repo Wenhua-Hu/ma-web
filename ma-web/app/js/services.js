@@ -172,7 +172,7 @@ var wfsSourceOne = new ol.source.Vector({
                 request: 'GetFeature',
                 typename: 'BAG:pand',
                 srsname: 'EPSG:28992',
-                maxFeatures:'500',
+                maxFeatures:'1',
                 outputFormat: 'application/json',
                 bbox: extent.join(',') + ',EPSG:28992'
                 },
@@ -181,9 +181,11 @@ var wfsSourceOne = new ol.source.Vector({
     strategy: ol.loadingstrategy.tile(new ol.tilegrid.createXYZ({
             maxZoom: 13
             })),
+      // strategy: ol.loadingstrategy.bbox(new ol.tilegrid.createXYZ({
+      //       maxZoom: 13
+      //       })),
     });
     var loadFeatures = function(response) {
-     // console.log(response);
       var geoJSON = new ol.format.GeoJSON();
       wfsSourceOne.addFeatures(geoJSON.readFeatures(response));
     };
