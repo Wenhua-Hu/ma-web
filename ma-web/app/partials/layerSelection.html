@@ -1,0 +1,13 @@
+<div layout="row" style="padding-top:15px">
+	<fieldset>
+		<div ng-repeat="layer in arrayLayers">
+			<md-switch ng-model="layer.layerOfState" aria-label="layer.nameOfLayer" ng-change="onChange(layer.nameOfLayer,layer.layerOfState)" class="md-primary">Layer: {{layer.nameOfLayer}}</md-switch>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<div ng-repeat="layerFeature in arrayLayers">
+			<md-switch ng-model="layerFeature.featureOfState"  aria-label="layerFeature.nameOfLayer" ng-change="onFeatureChange(layerFeature.nameOfLayer,layerFeature.layerOfState,layerFeature.featureOfState)" class="md-primary">Feature: {{layerFeature.nameOfLayer}}</md-switch>
+		</div>
+	</fieldset>
+</div>

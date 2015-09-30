@@ -29,7 +29,7 @@ controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
 
 
 }).
-controller('ImgCtrl', function($scope) {
+controller('ImgCtrl', function($scope,layerService) {
 	$scope.ComName = 'img/crotec.svg';
 	$scope.nameimg = '../img/banner.jpg';
 }).
@@ -49,8 +49,8 @@ controller('MapCtrl', function($window, $http, $scope, layerService, geometrySer
 	var features = vector.getSource().getFeaturesCollection();
 	var mapSource = vectorService.addSource();
 	var map = layerService.init();
-    var wfs = layerService.wfs();
-//	map.addLayer(vector);
+   // var wfs = layerService.wfs();
+	map.addLayer(vector);
 	
 
 

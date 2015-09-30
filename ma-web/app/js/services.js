@@ -5,235 +5,28 @@
  * @description
  * This `ma-app.services` module contains the services of the app.
  */
+//   self.getClassname = function(string) {
+//   var obj = {
+//     '1' : even,
+//     '2' : odd
+//   };
+//   return obj[string];
+// };
 angular.module('ma-app.services', [
   'ma-app.resources'
 ]).
 factory('layerService', function($http, $rootScope, $window) {
 
-    var service = {};
-    var projection = {};
+    var service = {},
+      projection = {};
+    $rootScope.LayerByName = [];
+
     projection['EPSG:28992'] = ol.proj.get('EPSG:28992');
     projection['EPSG:28992'].setExtent([0, 300000, 300000, 650000]);
 
-
-
-    /**
-     * [pdok WMS layer]
-     * @type {ol}
-     */
-    var pdok = new ol.layer.Tile({
-      name: 'PDOK',
-      source: new ol.source.TileWMS({
-        url: 'http://geodata.nationaalgeoregister.nl/wmsc',
-        params: {
-          LAYERS: 'brtachtergrondkaart',
-          VERSION: '1.1.1'
-        },
-        tileGrid: new ol.tilegrid.TileGrid({
-          origin: [-285401.92, 22598.08],
-          resolutions: [3440.64, 1720.32, 860.16, 430.08, 215.04, 107.52, 53.76, 26.88, 13.44, 6.72, 3.36, 1.68, 0.84, 0.42, 0.21],
-          tileSize: 256
-        }),
-        projection: projection['EPSG:28992'],
-        extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
-      })
-    });
-    /**
-     * [bag WMS layer]
-     * @type {ol}
-     */
-    var bag = new ol.layer.Tile({
-      name: 'BAG',
-      source: new ol.source.TileWMS({
-        url: 'http://213.206.232.105/geoserver/BAG/wms',
-        // url: 'http://localhost:8081/geoserver/crotecMap/wms',http://213.206.232.120:8080/geoserver/BAG/wms
-        params: {
-          LAYERS: 'BAG:pand',
-          // LAYERS: 'crotecMap:pand',
-          VERSION: '1.1.0'
-        },
-        tileGrid: new ol.tilegrid.TileGrid({
-          origin: [-285401.92, 22598.08],
-          resolutions: [3440.64, 1720.32, 860.16, 430.08, 215.04, 107.52, 53.76,
-            26.88, 13.44, 6.72, 3.36, 1.68, 0.84, 0.42, 0.21
-          ],
-          tileSize: 512
-        }),
-        projection: projection['EPSG:28992'],
-        extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
-      })
-    });
-
-
-
-    var style = new ol.style.Style({
-      fill: new ol.style.Fill({
-        color: 'rgba(255, 100, 50, 0.3)'
-      }),
-      stroke: new ol.style.Stroke({
-        width: 9,
-        color: 'rgba(255, 100, 50, 0.8)'
-      }),
-      image: new ol.style.Circle({
-        fill: new ol.style.Fill({
-          color: 'rgba(55, 200, 150, 0.5)'
-        }),
-        stroke: new ol.style.Stroke({
-          width: 9,
-          color: 'rgba(55, 200, 150, 0.8)'
-        }),
-        radius: 7
-      }),
-    });
-
-    var point = new ol.geom.Point(
-      ol.proj.transform([5.37, 52.15], 'EPSG:4326', 'EPSG:28992')
-    );
-    var circle = new ol.geom.Circle(
-      ol.proj.transform([5.37, 52.15], 'EPSG:4326', 'EPSG:28992'),
-      500
-    );
-    var pointFeature = new ol.Feature(point);
-    var circleFeature = new ol.Feature(circle);
-
-    var vectorSource = new ol.source.Vector({
-      projection: 'EPSG:28992',
-    });
-    vectorSource.addFeatures([pointFeature, circleFeature]);
-
-    var vectorLayer = new ol.layer.Vector({
-      name: 'test',
-      source: vectorSource,
-      style: style
-    });
-    //image vector
-    //
-
-
-
-    //wfs
-
-    var geojsonFormat = new ol.format.GeoJSON();
-    //   var wfsSourceOne = new ol.source.Vector({
-    //     loader: function(extent,resolution, projection) {
-    //       var url1 = 'http://213.206.232.105/geoserver/BAG/wfs?service=WFS&' +
-    //       'version=1.1.0&request=GetFeature&typename=BAG:pand&' +
-    //       'outputFormat=text/javascript&format_options=callback:loadFeatures' +
-    //       '&srsname=EPSG:28992&bbox=' + extent.join(',') + ',EPSG:28992';
-    //     $http({
-    //       method: 'JSONP',
-    //       url: url1
-
-    //     }).then(function successCallback(response) {
-    //       console.log("good"+response);
-
-    //   // this callback will be called asynchronously
-    //   // when the response is available
-    // }, function errorCallback(response) {
-    //   console.log("bad"+response);
-    //     var geoJSON = new ol.format.GeoJSON();
-    //     wfsSourceOne.addFeatures(geoJSON.readFeatures(response));
-    //   // called asynchronously if an error occurs
-    //   // or server returns response with an error status.
-    // });
-    //  var url = 'http://213.206.232.105/geoserver/BAG/wfs';
-    // $http.jsonp(url, {
-    //   params: {
-    //     service: "WFS",
-    //     version: "1.1.0",
-    //     request: "GetFeature",
-    //     typeName: "BAG:pand",
-    //     outputFormat: "text/javascript",
-    //   }
-    // }).success(function(response) {
-    //   wfsSourceOne.addFeatures(geojsonFormat.readFeatures(response));
-    //   // add feature to layers
-
-    //   // console.log(success.features);
-    //   //Features = success;
-    //   //    wfsSourceOne.getSource().addFeature(feature);
-
-
-    // });
-    //   },
-    //   strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-    //     maxZoom: 13
-    //   }))
-    // });
-
-    var wfsSourceOne = new ol.source.Vector({
-      loader: function(extent) {
-        $http.jsonp('http://213.206.232.105/geoserver/BAG/wfs?format_options=callback:JSON_CALLBACK', {
-          params: {
-            service: 'WFS',
-            version: '1.1.0',
-            request: 'GetFeature',
-            typename: 'BAG:pand',
-            srsname: 'EPSG:28992',
-            maxFeatures: '5',
-            outputFormat: 'text/javascript',
-            bbox: extent.join(',') + ',EPSG:28992'
-          },
-        }).success(loadFeatures);
-      },
-       strategy: ol.loadingstrategy.bbox
-    });
-
-    var loadFeatures = function(response) {
-      console.log("good" + response);
-      var geoJSON = new ol.format.GeoJSON();
-      wfsSourceOne.addFeatures(geoJSON.readFeatures(response));
-    };
-
-    
-
-
-
-
-    var wfsSourceO = new ol.source.ImageVector({
-        source: wfsSourceOne
-      });
-
- 
-
-
-
-    var wfsLayerOne = new ol.layer.Image({
-      name: 'wfsLayerOne',
-      source: wfsSourceO,
-      style: new ol.style.Style({
-        stroke: new ol.style.Stroke({
-          color: 'rgba(0, 0, 255, 1.0)',
-          width: 2
-        })
-      })
-    });
-
-    //var geojsonFormat = new ol.format.GeoJSON();
-    //   var wfsVector =   new ol.layer.Image({
-    //   source: new ol.source.ImageVector({
-    //     source: wfsSourceOne,
-    //     style: new ol.style.Style({
-    //       fill: new ol.style.Fill({
-    //         color: 'rgba(255, 255, 0, 0.6)'
-    //       }),
-    //       stroke: new ol.style.Stroke({
-    //         color: '#319FD3',
-    //         width: 1
-    //       })
-    //     })
-    //   })
-    // });
-
-
-    // map.addLayer(pdok);
-    // map.addLayer(bag);
-    // map.addLayer(wfsVector);
-    // map.addLayer(wfsLayerOne);
-    var map = new ol.Map({
+    $rootScope.map = new ol.Map({
       target: 'map',
       logo: false,
-      layers: [bag, wfsLayerOne],
       controls: [
         new ol.control.Rotate(),
         new ol.control.Attribution(),
@@ -248,40 +41,177 @@ factory('layerService', function($http, $rootScope, $window) {
       })
     });
 
+    //ADD   LAYER
+    //wms data
+    var pdokLayerData = {
+      urlOfLayer: 'http://geodata.nationaalgeoregister.nl/wmsc',
+      nameOfLayer: 'brtachtergrondkaart',
+      naOfLayer: 'PDOK_WMS'
+    };
+
+    var bagLayerData = {
+      urlOfLayer: 'http://213.206.232.105/geoserver/BAG/wms',
+      nameOfLayer: 'BAG:pand',
+      naOfLayer: 'BAG_WMS'
+    };
+    // WMS CREATE LAYER
+    var createTileLayer = function(layerData) {
+
+      return new ol.layer.Tile({
+        na: layerData.naOfLayer,
+        source: new ol.source.TileWMS({
+          url: layerData.urlOfLayer,
+          params: {
+            LAYERS: layerData.nameOfLayer,
+            VERSION: '1.1.1'
+          },
+          tileGrid: new ol.tilegrid.TileGrid({
+            origin: [-285401.92, 22598.08],
+            resolutions: [3440.64, 1720.32, 860.16, 430.08, 215.04, 107.52, 53.76, 26.88, 13.44, 6.72, 3.36, 1.68, 0.84, 0.42, 0.21],
+            tileSize: 256
+          }),
+          projection: projection['EPSG:28992'],
+          extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
+        })
+      });
+    };
+
+    $rootScope.pdok = createTileLayer(pdokLayerData);
+    var bag = createTileLayer(bagLayerData);
+    //CREATE WFS LAYER
+    //
+    var wfs_style = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: 'rgba(51,153,255, 0.3)'
+      }),
+      stroke: new ol.style.Stroke({
+        width: 2,
+        color: 'rgba(255, 100, 50, 0.8)'
+      }),
+      image: new ol.style.Circle({
+        fill: new ol.style.Fill({
+          color: 'rgba(55, 200, 150, 0.5)'
+        }),
+        stroke: new ol.style.Stroke({
+          width: 1.25,
+          color: 'rgba(55, 200, 150, 0.8)'
+        }),
+        radius: 5
+      }),
+    });
+
+    var geoJSON = new ol.format.GeoJSON();
+
+    var bagWfsSource = new ol.source.Vector({
+      na: 'BAG_WFS',
+      loader: function(extent) {
+        $http.jsonp('http://213.206.232.105/geoserver/BAG/wfs?format_options=callback:JSON_CALLBACK', {
+            params: {
+              service: 'WFS',
+              version: '1.1.0',
+              request: 'GetFeature',
+              typename: 'BAG:pand',
+              srsname: 'EPSG:28992',
+              maxFeatures: '5',
+              outputFormat: 'text/javascript',
+              bbox: extent.join(',') + ',EPSG:28992'
+            },
+          })
+          .success(function(response) {
+            console.log(response);
+            bagWfsSource.addFeatures(geoJSON.readFeatures(response));
+          })
+          .catch(function(response) {
+
+          })
+          .finally(function() {
+
+          });
+      },
+      strategy: ol.loadingstrategy.bbox
+    });
+
+    var bagWfsLayer = new ol.layer.Vector({
+      name: 'bagWfsLayer',
+      source: bagWfsSource,
+      style: wfs_style
+    });
+
+    function addNewLayer(map, mapLayer, nameOfLayer) {
+      $rootScope.map.addLayer(mapLayer);
+      $rootScope.LayerByName[nameOfLayer] = map.getLayers().get('length') - 1;
+    }
+
+    addNewLayer($rootScope.map, $rootScope.pdok, "pdok_wms");
+    addNewLayer($rootScope.map, bag, "bag_wms");
+    addNewLayer($rootScope.map, bagWfsLayer, "bag_wfs");
+
+    function olMapFeatures(nameOfLayer) {
+      var index = 2;
+      var featuresArray = $rootScope.map //ol.Map
+        .getLayers() //ol.Collection
+        .getArray()[index] //ol.layer.Vector
+        .getSource() //ol.source.KML
+        .getFeatures(); //ol.Feature
+      return featuresArray;
+
+    }
+
+    //wfs
 
 
-    map.on('pointermove', function(evt) {
-      console.log(map.getLayers().item(1).getSource().getFeatures());
-
-      //console.log(Features);
-      /*var url = map.getLayers().item(1).getSource().getGetFeatureInfoUrl(
-        evt.coordinate, map.getView().getResolution(), map.getView().getProjection(),
-        {'INFO_FORMAT': 'application/json'});
-*/
-      //console.log(map.getLayers().item(0));
-      //hh
-
-      //   map.getLayers().item(0).getSource().forEachFeature(function(feature) {
-      //   console.log(feature);
-      // });
+    // *******************Image Vector******************************************
+    //   var wfsLayerOne = new ol.layer.Image({
+    //     name: 'wfsLayerOne',
+    //     source: new ol.source.ImageVector({
+    //       source: bagWfsVector
+    //     }),
+    //     style: wfs_style
+    //   });
+    // *************************************************************************
 
 
-      //   var test = map.getLayers().item(0);
+    $rootScope.map.on('pointermove', function(e) {
+      //console.log(map.getLayers().item(2).getSource().getFeatures());
+      var feature = $rootScope.map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
+        console.log(feature);
+      });
 
-      //   var pixel = map.getEventPixel(evt.originalEvent);
-      //   var feature = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-      //     console.log("123");
-      //     console.log(feature);
-      //     return feature;
-      //   });
     });
 
 
+
+// //wfs highlight
+// var select = null;
+// var selectSingleClick = new ol.interaction.Select();
+
+// var changeInteraction = function() {
+//   if (select !== null) {
+//     map.removeInteraction(select);
+//   }
+
+//     select = selectSingleClick;
+
+//   if (select !== null) {
+//     $rootScope.map.addInteraction(select);
+
+//   }
+// };
+
+
+// /**
+//  * onchange callback on the select element.
+//  */
+
+// changeInteraction();
+
+
+    //$rootScope.map.removeLayer($rootScope.map.getLayers().item(0));
     service.init = function() {
-      return map;
+      return $rootScope.map;
     };
     service.wfs = function() {
-      return wfsLayerOne;
+      return bagWfsLayer;
     };
     return service;
   }).

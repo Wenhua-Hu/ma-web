@@ -4,26 +4,36 @@ angular.module('ma-app.wfs', [
 	'ui.bootstrap',
 	'ngDialog'
 ]).
-controller('wfsCtrl', function(layerService,$scope) {
-//var map = layerService.init();
+controller('wfsCtrl', function(layerService,$scope,$rootScope) {
+	//alert();
+
+// var select = null;
+// var selectSingleClick = new ol.interaction.Select();
+
+// var selectPointerMove = new ol.interaction.Select({
+//   condition: ol.events.condition.pointerMove
+// });
+
+// // var changeInteraction = function() {
+// //   if (select !== null) {
+// //    /// $rootScope.map.removeInteraction(select);
+// //   }
+
+//     select = selectPointerMove;
+
+//   //if (select !== null) {
+//     $rootScope.map.addInteraction(select);
+
+ // }
+// };
 
 
+/**
+ * onchange callback on the select element.
+ */
 
+// changeInteraction();
 
-//mouse -> highlight position
-// map.on('pointermove',onMouseMove);
-
-//       function onMouseMove(browserEvent) {
-//         var coordinate = browserEvent.coordinate;
-//         var pixel = map.getPixelFromCoordinate(coordinate);
-//         console.log(coordinate);
-//         console.log(pixel);
-//         // var el = document.getElementById('name');
-//         // el.innerHTML = '';
-//          map.forEachFeatureAtPixel(pixel, function(feature) {
-//         //   el.innerHTML += feature.get('') + '<br>';
-//         // });
-//       } 
 
 
   });

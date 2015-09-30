@@ -9,8 +9,9 @@
     <link rel="icon" ng-href="img/crotec.png"/>
     <!-- CSS Styles -->
     <link rel="stylesheet" href="angular-material/angular-material.css"/>
-<!--     <link rel="stylesheet" href="openlayers/dist/ol.css" type="text/css" /> -->
-<link rel="stylesheet" href="http://openlayers.org/en/v3.9.0/css/ol.css" type="text/css">
+    <!--     <link rel="stylesheet" href="openlayers/dist/ol.css" type="text/css" />
+    -->
+    <link rel="stylesheet" href="http://openlayers.org/en/v3.9.0/css/ol.css" type="text/css">
     <link rel="stylesheet" href="hover.css/css/hover.css" type="text/css" media="all"/>
     <link rel="stylesheet" href="ng-dialog/css/ngDialog.css"/>
     <link rel="stylesheet" href="ng-dialog/css/ngDialog-theme-default.css">
@@ -24,13 +25,12 @@
     -->
     <link rel="stylesheet" href="css/app.css"/>
     <!--External JS Libraries -->
-    
 
     <!-- ANGULAR JS Libraries -->
     <script src="jquery/dist/jquery.js"></script>
     <script src="angular/angular.js"></script>
 
-<script src="http://openlayers.org/en/v3.9.0/build/ol.js"></script>
+    <script src="http://openlayers.org/en/v3.9.0/build/ol.js"></script>
     <script src="proj4/dist/proj4.js" type="text/javascript"></script>
     <script src="external/proj4-defs.js" type="text/javascript"></script>
     <script src="angular-animate/angular-animate.js"></script>
@@ -50,14 +50,13 @@
     <script src="js/controllers/controllers.js"></script>
     <script src="js/controllers/wfs.js"></script>
     <script src="js/controllers/settings.js"></script>
+    <script src="js/controllers/navigation.js"></script>
     <script src="js/directives.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/resources.js"></script>
     <script src="js/services.js"></script>
 
-
 </head>
-
 
 <body layout="row" ng-controller="MainCtrl">
     <!--Left Side Panel Bar-->
@@ -99,11 +98,81 @@
 
     </md-toolbar>
     <!-- Main Part -->
-    <md-content layout="row">
+    <md-content layout="row" >
         <!-- Map Viewer -->
         <md-content ng-view flex class="overflow"></md-content>
         <!-- Right Navigation bar -->
-        <md-sidenav style=" " ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')"></md-sidenav>
+        <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" >
+
+            <div   ng-controller="testController">
+                <md-content>
+                    <md-tabs md-stretch-tabs="always" class="md-hue-1 md-primary md-whiteframe-z2" md-dynamic-height="true" >
+                        <md-tab label="1">
+                            <md-content >
+                                <accordion>
+
+                                    <accordion-group is-open="status1.open" >
+                                        <accordion-heading>
+                                            Map Layers <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
+                                        </accordion-heading>
+                                        map
+                                    </accordion-group>
+                                    <accordion-group is-open="status2.open" style="position:relative;top:-3px">
+                                        <accordion-heading>
+                                            Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
+                                        </accordion-heading>
+                                        object
+                                    </accordion-group>
+                                    <accordion-group is-open="status3.open" style="position:relative;top:-6px">
+                                        <accordion-heading>
+                                            Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status3.open, 'glyphicon-chevron-right': !status3.open}"></i>
+                                        </accordion-heading>
+                                        object
+                                    </accordion-group>
+                                    <accordion-group is-open="status4.open" style="position:relative;top:-9px">
+                                        <accordion-heading>
+                                            Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status4.open, 'glyphicon-chevron-right': !status4.open}"></i>
+                                        </accordion-heading>
+                                        object
+                                    </accordion-group>
+                               
+                                </accordion>
+
+                            </md-content>
+                        </md-tab>
+                        <md-tab label="2" >
+                            <md-content class="md-padding">
+
+                            </md-content>
+                        </md-tab>
+                        <md-tab label="3">
+                            <md-content class="md-padding">
+                                <h1 class="md-display-2">Tab One</h1>
+                            </md-content>
+
+                        </md-tab>
+                        <md-tab label="4">
+                            <md-content class="md-padding">
+                                <h1 class="md-display-2">Tab One</h1>
+                            </md-content>
+
+                        </md-tab>
+                        <md-tab label="5">
+                            <md-content class="md-padding">
+                                <h1 class="md-display-2">Tab One</h1>
+                            </md-content>
+
+                        </md-tab>
+                        <md-tab label="6">
+                            <md-content class="md-padding">
+                                <h1 class="md-display-2">Tab One</h1>
+                            </md-content>
+
+                        </md-tab>
+                    </md-tabs>
+                </md-content>
+            </div>
+        </md-sidenav>
     </md-content>
 </div>
 </body>
