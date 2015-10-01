@@ -4,7 +4,7 @@ angular.module('ma-app.wfs', [
 	'ui.bootstrap',
 	'ngDialog'
 ]).
-controller('wfsCtrl', function(layerService,$scope,$rootScope) {
+controller('wfsCtrl', function($scope,$rootScope) {
 	//alert();
 
 // var select = null;

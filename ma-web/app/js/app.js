@@ -15,12 +15,13 @@ var appModule = angular.module('ma-app', [
   'ngDialog',
   'ui.bootstrap',
   'ma-app.api',
+  'ma-app.wfs',
   'ma-app.controllers',
   'ma-app.directives',
   'ma-app.filters',
   'ma-app.services',
   'ma-app.settings',
-  'ma-app.wfs',
+  
   'ma-app.navigation'
 ]);
 appModule.config(function($routeProvider) {

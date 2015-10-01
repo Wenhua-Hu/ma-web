@@ -24,7 +24,9 @@ controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
 			controller: LoginCtrl
 		});
 
-		function LoginCtrl($scope) {}
+		function LoginCtrl($scope) {
+			//alert(layerService.a);
+		}
 	};
 
 
@@ -43,6 +45,7 @@ controller('BackgroundCtrl', function($scope) {
 }).
 controller('MapCtrl', function($window, $http, $scope, layerService, geometryService, vectorService) {
 
+   // layerService.a = "good2";
 	$scope.geomCategories = geometryService.getGeometryCategories();
 
 	var vector = vectorService.addVector();

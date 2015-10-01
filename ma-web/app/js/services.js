@@ -5,21 +5,16 @@
  * @description
  * This `ma-app.services` module contains the services of the app.
  */
-//   self.getClassname = function(string) {
-//   var obj = {
-//     '1' : even,
-//     '2' : odd
-//   };
-//   return obj[string];
-// };
+
 angular.module('ma-app.services', [
   'ma-app.resources'
 ]).
 factory('layerService', function($http, $rootScope, $window) {
-
+ //   $rootScope.SelectedFeatures = [];  // 
     var service = {},
       projection = {};
     $rootScope.LayerByName = [];
+  //  var a ="used for test";
 
     projection['EPSG:28992'] = ol.proj.get('EPSG:28992');
     projection['EPSG:28992'].setExtent([0, 300000, 300000, 650000]);
@@ -139,7 +134,7 @@ factory('layerService', function($http, $rootScope, $window) {
 
     function addNewLayer(map, mapLayer, nameOfLayer) {
       $rootScope.map.addLayer(mapLayer);
-      $rootScope.LayerByName[nameOfLayer] = map.getLayers().get('length') - 1;
+      $rootScope.LayerByName[nameOfLayer] = $rootScope.map.getLayers().get('length') - 1;
     }
 
     addNewLayer($rootScope.map, $rootScope.pdok, "pdok_wms");
@@ -171,39 +166,51 @@ factory('layerService', function($http, $rootScope, $window) {
     // *************************************************************************
 
 
-    $rootScope.map.on('pointermove', function(e) {
-      //console.log(map.getLayers().item(2).getSource().getFeatures());
+
+    $rootScope.map.on('singleclick', function(e) {
+      $rootScope.SelectedFeatures = [];
       var feature = $rootScope.map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
-        console.log(feature);
+        $rootScope.SelectedFeatures.push(feature);
+        $rootScope.test = feature.getId();
+      }, null, function(layer) {
+        return layer === bagWfsLayer;
       });
+      console.log($rootScope.SelectedFeatures[0].get("gid"));
+      console.log($rootScope.SelectedFeatures.length);
+
+    });
+
+    $rootScope.map.on('dblclick', function(e) {
+
+      console.log($rootScope.SelectedFeatures[0].getId());
 
     });
 
 
 
-// //wfs highlight
-// var select = null;
-// var selectSingleClick = new ol.interaction.Select();
+    // //wfs highlight
+    // var select = null;
+    // var selectSingleClick = new ol.interaction.Select();
 
-// var changeInteraction = function() {
-//   if (select !== null) {
-//     map.removeInteraction(select);
-//   }
+    // var changeInteraction = function() {
+    //   if (select !== null) {
+    //     map.removeInteraction(select);
+    //   }
 
-//     select = selectSingleClick;
+    //     select = selectSingleClick;
 
-//   if (select !== null) {
-//     $rootScope.map.addInteraction(select);
+    //   if (select !== null) {
+    //     $rootScope.map.addInteraction(select);
 
-//   }
-// };
+    //   }
+    // };
 
 
-// /**
-//  * onchange callback on the select element.
-//  */
+    // /**
+    //  * onchange callback on the select element.
+    //  */
 
-// changeInteraction();
+    // changeInteraction();
 
 
     //$rootScope.map.removeLayer($rootScope.map.getLayers().item(0));
