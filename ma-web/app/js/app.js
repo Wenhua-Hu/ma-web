@@ -14,21 +14,22 @@ var appModule = angular.module('ma-app', [
   'ngRoute',
   'ngDialog',
   'ui.bootstrap',
+  'ma-app.services',
   'ma-app.api',
-  'ma-app.wfs',
   'ma-app.controllers',
+  'ma-app.wfs',
+  
   'ma-app.directives',
   'ma-app.filters',
-  'ma-app.services',
-  'ma-app.settings',
   
+  'ma-app.settings',
   'ma-app.navigation'
 ]);
 appModule.config(function($routeProvider) {
   $routeProvider.
   when('/map', {
     templateUrl: 'partials/map.html',
-    controller: 'MapCtrl'
+    controller: 'navCtrl'
   }).
   otherwise({
     redirectTo: '/map'

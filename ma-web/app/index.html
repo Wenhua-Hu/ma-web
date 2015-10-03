@@ -46,16 +46,16 @@
 
     <!-- App Dependencies -->
     <script src="js/app.js"></script>
-    <script src="js/api.js"></script>
-        <script src="js/controllers/wfs.js"></script>
+    <script src="js/services.js"></script>
     <script src="js/controllers/controllers.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/controllers/wfs.js"></script>
 
     <script src="js/controllers/settings.js"></script>
     <script src="js/controllers/navigation.js"></script>
     <script src="js/directives.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/resources.js"></script>
-    <script src="js/services.js"></script>
 
 </head>
 
@@ -87,98 +87,34 @@
     <!-- Header and Toolbar -->
     <md-toolbar  class="toolbar-right-top-header" layout="row" layout-align="end center">
         <!-- Test to connect Node.js -->
-        <!-- <div ng-controller="testController" style="color: white;" flex="55">{{showResult}}</div> -->
+        <!-- <div ng-controller="testController" style="color: white;" flex="55">{{showResult}}</div>
+    -->
+    <!-- MAP MENU -->
+    <!-- support chrome -->
+    <!-- mapWidthStyle={'width':'2065px'}; -->
+    <!-- mapWidthStyle={'width':'1850px'}; -->
+    <md-button ng-click="toggleMapSidenav('right');"hide-sm hide-md hide-lg class="md-icon-button hvr-grow" menucolor>
+        <md-icon aria-label="Menu" md-svg-icon="img/ic_menu_48px.svg" class="s38"  ng-class="{'menu-color': boolChangeColor}" ></md-icon>
+    </md-button>
 
-        <!-- MAP MENU -->
-        <!-- support chrome -->
-        <!-- mapWidthStyle={'width':'2065px'}; -->
-        <!-- mapWidthStyle={'width':'1850px'}; -->
-        <md-button ng-click="toggleMapSidenav('right');"hide-sm hide-md hide-lg class="md-icon-button hvr-grow" menucolor>
-            <md-icon aria-label="Menu" md-svg-icon="img/ic_menu_48px.svg" class="s38"  ng-class="{'menu-color': boolChangeColor}" ></md-icon>
-        </md-button>
+</md-toolbar>
+<!-- Main Part -->
+<md-content layout="row" >
+    <!-- Map Viewer -->
+    <div ng-controller="MapCtrl" lex class="overflow">
+    <div id="map" class="map" ng-style="mapWidthStyle"><div class="pop" id="pop"></div></div>
+        <md-toolbar class="tool-map-common-panel tool-map-common-size" layout="column">
+            <md-button class="tool-map-common-button-size tool-map-common-button-gap tool-map-common-button-height-1" ng-repeat="geomCat in geomCategories" ng-click="addInteraction(geomCat.name)">
+                <img aria-label="{{geomCat.name}}" ng-src="{{'img/'+ geomCat.img }}" class="tool-map-common-button-image" />
+            </md-button>
+        </md-toolbar>
+    </div>
 
-    </md-toolbar>
-    <!-- Main Part -->
-    <md-content layout="row" >
-        <!-- Map Viewer -->
-        <md-content ng-view flex class="overflow"></md-content>
-        <!-- Right Navigation bar -->
-        <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" >
+    <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" ng-view ></md-sidenav>
 
-            <div  ng-controller="navCtrl">
-                <md-content>
-                    <md-tabs md-stretch-tabs="always" class="md-hue-1 md-primary md-whiteframe-z2" md-dynamic-height="true" >
-                        <md-tab label="1">
-                            <md-content >
-                                <accordion>
+    <!-- Right Navigation bar -->
 
-                                    <accordion-group is-open="status1.open" >
-                                        <accordion-heading>
-                                            Map Layers <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
-                                        </accordion-heading>
-                                        map
-                                    </accordion-group>
-                                    <accordion-group is-open="status2.open" style="position:relative;top:-3px">
-                                        <accordion-heading>
-                                            Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
-                                        </accordion-heading>
-                                        <div>
-                         
-                        
-                                        </div>
-
-                                    </accordion-group>
-                                    <accordion-group is-open="status3.open" style="position:relative;top:-6px">
-                                        <accordion-heading>
-                                            Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status3.open, 'glyphicon-chevron-right': !status3.open}"></i>
-                                        </accordion-heading>
-                                        object
-                                    </accordion-group>
-                                    <accordion-group is-open="status4.open" style="position:relative;top:-9px">
-                                        <accordion-heading>
-                                            Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status4.open, 'glyphicon-chevron-right': !status4.open}"></i>
-                                        </accordion-heading>
-                                        object
-                                    </accordion-group>
-                               
-                                </accordion>
-
-                            </md-content>
-                        </md-tab>
-                        <md-tab label="2" >
-                            <md-content class="md-padding">
-
-                            </md-content>
-                        </md-tab>
-                        <md-tab label="3">
-                            <md-content class="md-padding">
-                                <h1 class="md-display-2">Tab One</h1>
-                            </md-content>
-
-                        </md-tab>
-                        <md-tab label="4">
-                            <md-content class="md-padding">
-                                <h1 class="md-display-2">Tab One</h1>
-                            </md-content>
-
-                        </md-tab>
-                        <md-tab label="5">
-                            <md-content class="md-padding">
-                                <h1 class="md-display-2">Tab One</h1>
-                            </md-content>
-
-                        </md-tab>
-                        <md-tab label="6">
-                            <md-content class="md-padding">
-                                <h1 class="md-display-2">Tab One</h1>
-                            </md-content>
-
-                        </md-tab>
-                    </md-tabs>
-                </md-content>
-            </div>
-        </md-sidenav>
-    </md-content>
+</md-content>
 </div>
 </body>
 </html>

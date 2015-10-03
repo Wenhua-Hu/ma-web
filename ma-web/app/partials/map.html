@@ -1,25 +1,76 @@
-<md-content id="map" class="map" ng-style="mapWidthStyle"  ></md-content>
+<!-- <md-content id="map" class="map" ng-style="mapWidthStyle"  ></md-content>
+-->
+<md-content>
 
-<md-toolbar class="tool-map-common-panel tool-map-common-size" layout="column">
-	<md-button class="tool-map-common-button-size tool-map-common-button-gap tool-map-common-button-height-1" ng-repeat="geomCat in geomCategories" ng-click="addInteraction(geomCat.name)">
-		<img aria-label="{{geomCat.name}}" ng-src="{{'img/'+ geomCat.img }}" class="tool-map-common-button-image" />
-	</md-button>
-</md-toolbar>
-	<div id="popup"></div>
-<!-- new -->
-<div ng-controller="BackgroundCtrl" class="background-attr">
-	<md-fab-speed-dial md-open="isOpen" md-direction="{{selectedDirection}}" >
-		<md-fab-trigger>
-			<md-button aria-label="menu" class="md-fab md-warn">
-				<!-- <md-icon md-svg-src="img/Blank_US_Map.svg"></md-icon> -->
-			</md-button>
-		</md-fab-trigger>
+<md-tabs md-stretch-tabs="always" class="md-hue-1 md-primary md-whiteframe-z2" md-dynamic-height="true" >
+	<md-tab label="1">
+		<md-content >
+			<accordion>
 
-		<md-fab-actions>
-			<md-button  class="md-fab md-raised md-mini">
-				<!-- <md-icon md-svg-src="img/settings.svg"></md-icon> -->
-			</md-button>
-		</md-fab-actions>
-	</md-fab-speed-dial>
-</div>
-<!-- end -->
+				<accordion-group is-open="status1.open" >
+					<accordion-heading>
+						Map Layers <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
+					</accordion-heading>
+					<div ng-repeat="lyr in layersInfo">{{lyr.NameOf}} : {{lyr.Visivility}}</div>
+
+				</accordion-group>
+				<accordion-group is-open="status2.open" style="position:relative;top:-3px">
+					<accordion-heading>
+						Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
+					</accordion-heading>
+					<div ng-repeat="feature in service.SelectedFeatures">
+						<div>{{feature.id}}</div>
+						<div>{{feature.gid}}</div>
+						<div>{{feature.geometry_name}}</div>
+						<div>{{feature.begindatumtijdvakgeldigheid}}</div>
+					</div>
+
+				</accordion-group>
+				<accordion-group is-open="status3.open" style="position:relative;top:-6px">
+					<accordion-heading>
+						Property Data
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status3.open, 'glyphicon-chevron-right': !status3.open}"></i>
+					</accordion-heading>
+					object
+				</accordion-group>
+				<accordion-group is-open="status4.open" style="position:relative;top:-9px">
+					<accordion-heading>
+						Property Data
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status4.open, 'glyphicon-chevron-right': !status4.open}"></i>
+					</accordion-heading>
+					object
+				</accordion-group>
+
+			</accordion>
+
+		</md-content>
+	</md-tab>
+	<md-tab label="2" >
+		<md-content class="md-padding"></md-content>
+	</md-tab>
+	<md-tab label="3">
+		<md-content class="md-padding">
+			<h1 class="md-display-2">Tab One</h1>
+		</md-content>
+
+	</md-tab>
+	<md-tab label="4">
+		<md-content class="md-padding">
+			<h1 class="md-display-2">Tab One</h1>
+		</md-content>
+
+	</md-tab>
+	<md-tab label="5">
+		<md-content class="md-padding">
+			<h1 class="md-display-2">Tab One</h1>
+		</md-content>
+
+	</md-tab>
+	<md-tab label="6">
+		<md-content class="md-padding">
+			<h1 class="md-display-2">Tab One</h1>
+		</md-content>
+
+	</md-tab>
+</md-tabs>
+</md-content>

@@ -17,6 +17,8 @@ controller('settingCtrl-1', function($scope, $rootScope, ngDialog, $mdDialog) {
 });
 
 function switchLayerCtrl($scope, $rootScope, layerService) {
+	$scope.datas =layerService;
+
 	$scope.arrayLayers = [{
 		nameOfLayer: 'pdok_wms',
 		layerOfState: true,
@@ -33,9 +35,9 @@ function switchLayerCtrl($scope, $rootScope, layerService) {
 
 	$scope.onChange = function(layername, layerState) {
 		if (layerState) {
-			$rootScope.map.getLayers().item($rootScope.LayerByName[layername]).setVisible(true);
+			layerService.map().getLayers().item(layerService.LayerByName()[layername]).setVisible(true);
 		} else {
-			$rootScope.map.getLayers().item($rootScope.LayerByName[layername]).setVisible(false);
+			layerService.map().getLayers().item(layerService.LayerByName()[layername]).setVisible(false);
 		}
 	};
 

@@ -1,25 +1,39 @@
 'use strict';
 /*global ol, source, window */
-/**
- * @name ma-app.services
- * @description
- * This `ma-app.services` module contains the services of the app.
- */
 
 angular.module('ma-app.services', [
   'ma-app.resources'
 ]).
-factory('layerService', function($http, $rootScope, $window) {
- //   $rootScope.SelectedFeatures = [];  // 
+factory('layerService', function($http) {
+
     var service = {},
       projection = {};
-    $rootScope.LayerByName = [];
-  //  var a ="used for test";
-
+    var LayerByName = [];
+    var LayerInfo =[];
+    service.SelectedFeatures = [];
     projection['EPSG:28992'] = ol.proj.get('EPSG:28992');
     projection['EPSG:28992'].setExtent([0, 300000, 300000, 650000]);
+    var wfs_style = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: 'rgba(51,153,255, 0.3)'
+      }),
+      stroke: new ol.style.Stroke({
+        width: 2,
+        color: 'rgba(255, 100, 50, 0.8)'
+      }),
+      image: new ol.style.Circle({
+        fill: new ol.style.Fill({
+          color: 'rgba(55, 200, 150, 0.5)'
+        }),
+        stroke: new ol.style.Stroke({
+          width: 1.25,
+          color: 'rgba(55, 200, 150, 0.8)'
+        }),
+        radius: 5
+      }),
+    });
 
-    $rootScope.map = new ol.Map({
+    var map = new ol.Map({
       target: 'map',
       logo: false,
       controls: [
@@ -50,50 +64,13 @@ factory('layerService', function($http, $rootScope, $window) {
       naOfLayer: 'BAG_WMS'
     };
     // WMS CREATE LAYER
-    var createTileLayer = function(layerData) {
 
-      return new ol.layer.Tile({
-        na: layerData.naOfLayer,
-        source: new ol.source.TileWMS({
-          url: layerData.urlOfLayer,
-          params: {
-            LAYERS: layerData.nameOfLayer,
-            VERSION: '1.1.1'
-          },
-          tileGrid: new ol.tilegrid.TileGrid({
-            origin: [-285401.92, 22598.08],
-            resolutions: [3440.64, 1720.32, 860.16, 430.08, 215.04, 107.52, 53.76, 26.88, 13.44, 6.72, 3.36, 1.68, 0.84, 0.42, 0.21],
-            tileSize: 256
-          }),
-          projection: projection['EPSG:28992'],
-          extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
-        })
-      });
-    };
 
-    $rootScope.pdok = createTileLayer(pdokLayerData);
+    var pdok = createTileLayer(pdokLayerData);
     var bag = createTileLayer(bagLayerData);
     //CREATE WFS LAYER
     //
-    var wfs_style = new ol.style.Style({
-      fill: new ol.style.Fill({
-        color: 'rgba(51,153,255, 0.3)'
-      }),
-      stroke: new ol.style.Stroke({
-        width: 2,
-        color: 'rgba(255, 100, 50, 0.8)'
-      }),
-      image: new ol.style.Circle({
-        fill: new ol.style.Fill({
-          color: 'rgba(55, 200, 150, 0.5)'
-        }),
-        stroke: new ol.style.Stroke({
-          width: 1.25,
-          color: 'rgba(55, 200, 150, 0.8)'
-        }),
-        radius: 5
-      }),
-    });
+
 
     var geoJSON = new ol.format.GeoJSON();
 
@@ -132,18 +109,13 @@ factory('layerService', function($http, $rootScope, $window) {
       style: wfs_style
     });
 
-    function addNewLayer(map, mapLayer, nameOfLayer) {
-      $rootScope.map.addLayer(mapLayer);
-      $rootScope.LayerByName[nameOfLayer] = $rootScope.map.getLayers().get('length') - 1;
-    }
-
-    addNewLayer($rootScope.map, $rootScope.pdok, "pdok_wms");
-    addNewLayer($rootScope.map, bag, "bag_wms");
-    addNewLayer($rootScope.map, bagWfsLayer, "bag_wfs");
+    addNewLayer(map, pdok, "pdok_wms");
+    addNewLayer(map, bag, "bag_wms");
+    addNewLayer(map, bagWfsLayer, "bag_wfs");
 
     function olMapFeatures(nameOfLayer) {
       var index = 2;
-      var featuresArray = $rootScope.map //ol.Map
+      var featuresArray = map //ol.Map
         .getLayers() //ol.Collection
         .getArray()[index] //ol.layer.Vector
         .getSource() //ol.source.KML
@@ -166,23 +138,12 @@ factory('layerService', function($http, $rootScope, $window) {
     // *************************************************************************
 
 
-
-    $rootScope.map.on('singleclick', function(e) {
-      $rootScope.SelectedFeatures = [];
-      var feature = $rootScope.map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
-        $rootScope.SelectedFeatures.push(feature);
-        $rootScope.test = feature.getId();
-      }, null, function(layer) {
-        return layer === bagWfsLayer;
-      });
-      console.log($rootScope.SelectedFeatures[0].get("gid"));
-      console.log($rootScope.SelectedFeatures.length);
-
-    });
-
-    $rootScope.map.on('dblclick', function(e) {
-
-      console.log($rootScope.SelectedFeatures[0].getId());
+    map.on('pointermove', function(e) {
+      //console.log(map.getLayers().item(2).getSource().getFeatures());
+      // var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
+      //   console.log(feature);
+      // });
+       // console.log(SelectedFeatures[0].gid);
 
     });
 
@@ -200,7 +161,7 @@ factory('layerService', function($http, $rootScope, $window) {
     //     select = selectSingleClick;
 
     //   if (select !== null) {
-    //     $rootScope.map.addInteraction(select);
+    //     map.addInteraction(select);
 
     //   }
     // };
@@ -213,12 +174,52 @@ factory('layerService', function($http, $rootScope, $window) {
     // changeInteraction();
 
 
-    //$rootScope.map.removeLayer($rootScope.map.getLayers().item(0));
-    service.init = function() {
-      return $rootScope.map;
+    //map.removeLayer(map.getLayers().item(0));
+    function createTileLayer(layerData) {
+
+      return new ol.layer.Tile({
+        na: layerData.naOfLayer,
+        source: new ol.source.TileWMS({
+          url: layerData.urlOfLayer,
+          params: {
+            LAYERS: layerData.nameOfLayer,
+            VERSION: '1.1.1'
+          },
+          tileGrid: new ol.tilegrid.TileGrid({
+            origin: [-285401.92, 22598.08],
+            resolutions: [3440.64, 1720.32, 860.16, 430.08, 215.04, 107.52, 53.76, 26.88, 13.44, 6.72, 3.36, 1.68, 0.84, 0.42, 0.21],
+            tileSize: 256
+          }),
+          projection: projection['EPSG:28992'],
+          extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
+        })
+      });
+    }
+
+    function addNewLayer(map, mapLayer, nameOfLayer) {
+      map.addLayer(mapLayer);
+      var temp ={NameOf:nameOfLayer,Visivility: mapLayer.getVisible()};
+      LayerInfo.push(temp);
+      LayerByName[nameOfLayer] = map.getLayers().get('length') - 1;
+    }
+    service.map = function() {
+      return map;
     };
-    service.wfs = function() {
-      return bagWfsLayer;
+    service.LayerByName = function() {
+      return LayerByName;
+    };
+    // service.SelectedFeatures = function() {
+    //   return SelectedFeatures;
+    // };
+     service.LayerInfo = function() {
+      return LayerInfo;
+    };
+    service.updateSelectedFeatures = function(feature) {
+      if (feature === null) {
+        service.SelectedFeatures = [];
+      } else {
+        service.SelectedFeatures.push(feature);
+      }
     };
     return service;
   }).

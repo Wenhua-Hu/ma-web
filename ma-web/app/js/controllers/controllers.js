@@ -24,14 +24,12 @@ controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
 			controller: LoginCtrl
 		});
 
-		function LoginCtrl($scope) {
-			//alert(layerService.a);
-		}
+		function LoginCtrl($scope) {}
 	};
 
 
 }).
-controller('ImgCtrl', function($scope,layerService) {
+controller('ImgCtrl', function($scope) {
 	$scope.ComName = 'img/crotec.svg';
 	$scope.nameimg = '../img/banner.jpg';
 }).
@@ -43,19 +41,17 @@ controller('BackgroundCtrl', function($scope) {
 	$scope.selectedDirection = 'up';
 
 }).
-controller('MapCtrl', function($window, $http, $scope, layerService, geometryService, vectorService) {
+controller('MapCtrl', function($http, $scope, layerService, geometryService, vectorService) {
 
-   // layerService.a = "good2";
+
 	$scope.geomCategories = geometryService.getGeometryCategories();
 
 	var vector = vectorService.addVector();
 	var features = vector.getSource().getFeaturesCollection();
 	var mapSource = vectorService.addSource();
-	var map = layerService.init();
-   // var wfs = layerService.wfs();
-	map.addLayer(vector);
-	
-
+	var map = layerService.map();
+	//var wfs = layerService.wfs();
+	//map.addLayer(vector);
 
 
 
@@ -138,15 +134,114 @@ controller('MapCtrl', function($window, $http, $scope, layerService, geometrySer
 				draw.setActive(true);
 
 			}
-		} else {
-		}
+		} else {}
 		//snap.init();
 	};
 
 
+	// mouse single click to triger the event to show property based on specific layer
+	map.on('singleclick', function(e) {
+		layerService.updateSelectedFeatures(null);
+		var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
 
-}).
-controller('testController', function($scope, $rootScope, TestService) {
+			var temp = {
+				id: feature.getId(),
+				gid: feature.get('gid'),
+				geometry_name: feature.get('geometry_name'),
+				begindatumtijdvakgeldigheid: feature.get('begindatumtijdvakgeldigheid')
+			};
+			layerService.updateSelectedFeatures(temp);
+			console.log(temp);
+		}, null, function(layer) {
+			return layer === map.getLayers().item(layerService.LayerByName()['bag_wfs']);
+		});
+		//console.log(layerService.SelectedFeatures()[0].get("gid"));
+		//console.log(layerService.SelectedFeatures().length);
+
+	});
+
+	// map.on('dblclick', function(e) {
+
+	// 	//console.log(layerService.SelectedFeatures()[0].getId());
+
+	// });
+
+
+	//get layers
+	var service = layerService;
+	$scope.layersOfMap = [];
+
+	$scope.addLayers = function() {
+		angular.forEach(service.map().getLayers(), function(layer, key) {
+			var temp = {
+				"LayerName": layer.getSource(),
+				"Visibility": layer.getVisible()
+			};
+			$scope.layersOfMap.push(temp);
+		});
+		return $scope.layersOfMap;
+	};
+	//add marker
+
+
+	var vectorLayerMarker;
+	var iconStyle = new ol.style.Style({
+		image: new ol.style.Icon(({
+			anchor: [0.5, 0.5],
+			anchorXUnits: 'fraction',
+			anchorYUnits: 'pixels',
+			scale: 0.5,
+			opacity: 1,
+			src: '../img/select.svg'
+		}))
+	});
+	//select to put 
+	// var geolocation = new ol.Geolocation({
+	// 	tracking: true,
+	// 	projection: map.getView()
+	// });
+
+
+	// geolocation.on('change', function(evt) {
+
+	// 	//save position and set map center
+
+	// });
+
+var vectorSourceMarker;
+
+	map.on('singleclick', function(e) {
+	// vectorSourceMarker.clear();
+//vectorSourceMarker.addFeature(iconFeature);
+
+		var pos = e.coordinate;
+
+		//map.getView().setCenter(pos);
+
+		var iconFeature = new ol.Feature({
+			geometry: new ol.geom.Point(pos)
+		});
+		iconFeature.setStyle(iconStyle);
+		vectorSourceMarker = new ol.source.Vector({
+			features: [iconFeature]
+		});
+		vectorLayerMarker = new ol.layer.Vector({
+			source: vectorSourceMarker
+		});
+
+		//map.getView().setCenter(geolocation.getPosition());
+		map.addLayer(vectorLayerMarker);
+		//console.log(layerService.SelectedFeatures()[0].getId());
+
+	});
+
+
+	//map.addLayer(vectorLayerMarker);
+	// $("#pop").click(function() {
+
+	// });
+
+}).controller('testController', function($scope, $rootScope, layerService) {
 	// TestService.getResult().then(function(success) {
 	// 	//$scope.showResult = success.data;
 	// });
