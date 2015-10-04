@@ -150,28 +150,31 @@ factory('layerService', function($http) {
 
 
     // //wfs highlight
-    // var select = null;
-    // var selectSingleClick = new ol.interaction.Select();
+    var select = null;
+    var selectSingleClick = new ol.interaction.Select({
+      condition: ol.events.condition.pointerMove
+      });
+    
 
-    // var changeInteraction = function() {
-    //   if (select !== null) {
-    //     map.removeInteraction(select);
-    //   }
+    var changeInteraction = function() {
+      if (select !== null) {
+        map.removeInteraction(select);
+      }
 
-    //     select = selectSingleClick;
+        select = selectSingleClick;
 
-    //   if (select !== null) {
-    //     map.addInteraction(select);
+      if (select !== null) {
+        map.addInteraction(select);
 
-    //   }
-    // };
+      }
+    };
 
 
-    // /**
-    //  * onchange callback on the select element.
-    //  */
+    /**
+     * onchange callback on the select element.
+     */
 
-    // changeInteraction();
+    changeInteraction();
 
 
     //map.removeLayer(map.getLayers().item(0));

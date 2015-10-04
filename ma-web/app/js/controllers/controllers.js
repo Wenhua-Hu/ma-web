@@ -191,32 +191,22 @@ controller('MapCtrl', function($http, $scope, layerService, geometryService, vec
 			anchorXUnits: 'fraction',
 			anchorYUnits: 'pixels',
 			scale: 0.5,
-			opacity: 1,
+			opacity: 0.5,
 			src: '../img/select.svg'
 		}))
 	});
-	//select to put 
-	// var geolocation = new ol.Geolocation({
-	// 	tracking: true,
-	// 	projection: map.getView()
-	// });
 
 
-	// geolocation.on('change', function(evt) {
 
-	// 	//save position and set map center
-
-	// });
-
-var vectorSourceMarker;
+	var vectorSourceMarker;
 
 	map.on('singleclick', function(e) {
-	// vectorSourceMarker.clear();
-//vectorSourceMarker.addFeature(iconFeature);
+		// vectorSourceMarker.clear();
+		//vectorSourceMarker.addFeature(iconFeature);
 
 		var pos = e.coordinate;
 
-		//map.getView().setCenter(pos);
+
 
 		var iconFeature = new ol.Feature({
 			geometry: new ol.geom.Point(pos)
@@ -235,11 +225,6 @@ var vectorSourceMarker;
 
 	});
 
-
-	//map.addLayer(vectorLayerMarker);
-	// $("#pop").click(function() {
-
-	// });
 
 }).controller('testController', function($scope, $rootScope, layerService) {
 	// TestService.getResult().then(function(success) {
