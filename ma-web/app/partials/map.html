@@ -2,7 +2,9 @@
 -->
 <md-content>
 
+
 <md-tabs md-stretch-tabs="always" class="md-hue-1 md-primary md-whiteframe-z2" md-dynamic-height="true" >
+
 	<md-tab label="1">
 		<md-content >
 			<accordion>
@@ -11,7 +13,7 @@
 					<accordion-heading>
 						Map Layers <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
 					</accordion-heading>
-					<div ng-repeat="lyr in layersInfo">{{lyr.NameOf}} : {{lyr.Visivility}}</div>
+					<div ng-repeat="lyr in service.LayerInfo()">{{lyr.NameOf}} : {{lyr.Visivility}}</div>
 
 				</accordion-group>
 				<accordion-group is-open="status2.open" style="position:relative;top:-3px">

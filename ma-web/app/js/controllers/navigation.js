@@ -4,18 +4,41 @@ angular.module('ma-app.navigation', [
 	'ui.bootstrap',
 	'ngDialog'
 ]).
-controller('navCtrl', function($scope, $rootScope, layerService) {
+controller('navCtrl', function($scope, $rootScope, $timeout, layerService) {
 	//alert();
 	$scope.service = layerService;
-	// $scope.len = -1;
-	// $scope.layersInfo=layerService.LayerInfo();
-	// //$scope.features = layerService.SelectedFeatures;
+	//$scope.SelectedFeatures = layerService.SelectedFeatures;
+	// $scope.$on('cartAddItem', function() {
+	//    $scope.cart = CartService.query();
+	//    $scope.cartCount = Object.keys($scope.cart).length;
+	//  });
+
+   $scope.Features = layerService.SelectedFeatures;
+
+	// $timeout(callAtTimeout, 10000);
+	// $scope.Featurs = layerService.SelectedFeatures;
+	// console.log("testA:" + $scope.Featurs);
+
+	// 	$scope.$watch(layerService.SelectedFeatures, function() {
+	// 	$scope.Features = layerService.SelectedFeatures;
+	// 	console.log("check:"+$scope.Features);
+	// });
+
+	// function callAtTimeout() {
+	// 	$scope.Featur = layerService.SelectedFeatures;
+	// 	console.log("testB:" + $scope.Featur);
+
+
+	// }
+
+
 	
-	// $scope.getA = function() {
-	// 	$scope.a = service.length;
-	// 	$scope.len = $scope.a;
-			
-	// };
+	// $scope.$watch('lastName',
+	// 	function(newValue, oldValue) {
+	// 		console.log('lastName Changed');
+	// 		console.log(newValue);
+	// 		console.log(oldValue);
+	// 	}
 
 
 

@@ -60,6 +60,7 @@
 </head>
 
 <body layout="row" ng-controller="MainCtrl">
+
     <!--Left Side Panel Bar-->
     <md-toolbar layout="column" class="toolbar-left-nav-bar" ng-controller="settingCtrl-1">
         <!-- APP MENU SEETING -->
@@ -102,7 +103,10 @@
 <md-content layout="row" >
     <!-- Map Viewer -->
     <div ng-controller="MapCtrl" lex class="overflow">
-    <div id="map" class="map" ng-style="mapWidthStyle"><div class="pop" id="pop"></div></div>
+
+        <div id="map" class="map" ng-style="mapWidthStyle">
+            <div class="ol-pop" id="pop"></div>
+        </div>
         <md-toolbar class="tool-map-common-panel tool-map-common-size" layout="column">
             <md-button class="tool-map-common-button-size tool-map-common-button-gap tool-map-common-button-height-1" ng-repeat="geomCat in geomCategories" ng-click="addInteraction(geomCat.name)">
                 <img aria-label="{{geomCat.name}}" ng-src="{{'img/'+ geomCat.img }}" class="tool-map-common-button-image" />

@@ -9,6 +9,7 @@ var controllerModule = angular.module('ma-app.controllers', [
 controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
 	$scope.isShow = false;
 
+
 	$scope.toggleMapSidenav = function(menuId) {
 		$scope.isShow = !$scope.isShow;
 
@@ -43,7 +44,7 @@ controller('BackgroundCtrl', function($scope) {
 }).
 controller('MapCtrl', function($http, $scope, layerService, geometryService, vectorService) {
 
-
+	// 	$scope.a= layerService.a;
 	$scope.geomCategories = geometryService.getGeometryCategories();
 
 	var vector = vectorService.addVector();
@@ -52,6 +53,7 @@ controller('MapCtrl', function($http, $scope, layerService, geometryService, vec
 	var map = layerService.map();
 	//var wfs = layerService.wfs();
 	//map.addLayer(vector);
+
 
 
 
@@ -191,7 +193,7 @@ controller('MapCtrl', function($http, $scope, layerService, geometryService, vec
 			anchorXUnits: 'fraction',
 			anchorYUnits: 'pixels',
 			scale: 0.5,
-			opacity: 0.5,
+			opacity: 1,
 			src: '../img/select.svg'
 		}))
 	});
@@ -224,6 +226,9 @@ controller('MapCtrl', function($http, $scope, layerService, geometryService, vec
 		//console.log(layerService.SelectedFeatures()[0].getId());
 
 	});
+
+
+
 
 
 }).controller('testController', function($scope, $rootScope, layerService) {

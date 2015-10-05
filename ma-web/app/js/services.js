@@ -9,7 +9,9 @@ factory('layerService', function($http) {
     var service = {},
       projection = {};
     var LayerByName = [];
-    var LayerInfo =[];
+    var LayerInfo = [];
+
+
     service.SelectedFeatures = [];
     projection['EPSG:28992'] = ol.proj.get('EPSG:28992');
     projection['EPSG:28992'].setExtent([0, 300000, 300000, 650000]);
@@ -124,44 +126,19 @@ factory('layerService', function($http) {
 
     }
 
-    //wfs
-
-
-    // *******************Image Vector******************************************
-    //   var wfsLayerOne = new ol.layer.Image({
-    //     name: 'wfsLayerOne',
-    //     source: new ol.source.ImageVector({
-    //       source: bagWfsVector
-    //     }),
-    //     style: wfs_style
-    //   });
-    // *************************************************************************
-
-
-    map.on('pointermove', function(e) {
-      //console.log(map.getLayers().item(2).getSource().getFeatures());
-      // var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
-      //   console.log(feature);
-      // });
-       // console.log(SelectedFeatures[0].gid);
-
-    });
-
-
-
     // //wfs highlight
     var select = null;
     var selectSingleClick = new ol.interaction.Select({
       condition: ol.events.condition.pointerMove
-      });
-    
+    });
+
 
     var changeInteraction = function() {
       if (select !== null) {
         map.removeInteraction(select);
       }
 
-        select = selectSingleClick;
+      select = selectSingleClick;
 
       if (select !== null) {
         map.addInteraction(select);
@@ -201,7 +178,10 @@ factory('layerService', function($http) {
 
     function addNewLayer(map, mapLayer, nameOfLayer) {
       map.addLayer(mapLayer);
-      var temp ={NameOf:nameOfLayer,Visivility: mapLayer.getVisible()};
+      var temp = {
+        NameOf: nameOfLayer,
+        Visivility: mapLayer.getVisible()
+      };
       LayerInfo.push(temp);
       LayerByName[nameOfLayer] = map.getLayers().get('length') - 1;
     }
@@ -211,12 +191,24 @@ factory('layerService', function($http) {
     service.LayerByName = function() {
       return LayerByName;
     };
+    //  service.a = function() {
+    //   return test;
+    // };
     // service.SelectedFeatures = function() {
     //   return SelectedFeatures;
     // };
-     service.LayerInfo = function() {
+    service.LayerInfo = function() {
       return LayerInfo;
     };
+    // service.test = function() {
+    //   return test;
+    // };
+    // service.SelectedFeature = function() {
+    //   console.log("service:" + service.SelectedFeatures);
+    // return service.SelectedFeatures;
+
+    // };
+
     service.updateSelectedFeatures = function(feature) {
       if (feature === null) {
         service.SelectedFeatures = [];
@@ -224,6 +216,9 @@ factory('layerService', function($http) {
         service.SelectedFeatures.push(feature);
       }
     };
+
+
+
     return service;
   }).
   /**
