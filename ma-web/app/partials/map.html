@@ -20,10 +20,9 @@
 					<accordion-heading>
 						Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
 					</accordion-heading>
-					<div ng-repeat="feature in service.SelectedFeatures">
+					<div ng-repeat="feature in service.SelectedFeatures()">
 						<div>{{feature.id}}</div>
 						<div>{{feature.gid}}</div>
-						<div>{{feature.geometry_name}}</div>
 						<div>{{feature.begindatumtijdvakgeldigheid}}</div>
 					</div>
 

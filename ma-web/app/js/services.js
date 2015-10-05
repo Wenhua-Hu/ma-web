@@ -5,16 +5,43 @@ angular.module('ma-app.services', [
   'ma-app.resources'
 ]).
 factory('layerService', function($http) {
+    var pos,
+      service = {},
+      LayerInfo = [],
+      projection = {},
+      LayerByName = [],
+      vectorSourceMarker,
+      vectorLayerMarker,
+      SelectedFeatures = [],
+      geoJSON = new ol.format.GeoJSON();
 
-    var service = {},
-      projection = {};
-    var LayerByName = [];
-    var LayerInfo = [];
+    var overlay = new ol.Overlay({
+      element: document.getElementById('pop')
+    });
 
-
-    service.SelectedFeatures = [];
+    var iconStyle = new ol.style.Style({
+      image: new ol.style.Icon(({
+        anchor: [0.5, 0.5],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        scale: 0.5,
+        opacity: 1,
+        src: '../img/select.svg'
+      }))
+    });
+    var pdokLayerData = {
+      urlOfLayer: 'http://geodata.nationaalgeoregister.nl/wmsc',
+      nameOfLayer: 'brtachtergrondkaart',
+      naOfLayer: 'PDOK_WMS'
+    };
+    var bagLayerData = {
+      urlOfLayer: 'http://213.206.232.105/geoserver/BAG/wms',
+      nameOfLayer: 'BAG:pand',
+      naOfLayer: 'BAG_WMS'
+    };
     projection['EPSG:28992'] = ol.proj.get('EPSG:28992');
     projection['EPSG:28992'].setExtent([0, 300000, 300000, 650000]);
+
     var wfs_style = new ol.style.Style({
       fill: new ol.style.Fill({
         color: 'rgba(51,153,255, 0.3)'
@@ -43,6 +70,7 @@ factory('layerService', function($http) {
         new ol.control.Attribution(),
         new ol.control.ScaleLine()
       ],
+      overlays: [overlay],
       view: new ol.View({
         projection: projection['EPSG:28992'],
         center: [155000, 463000],
@@ -52,30 +80,7 @@ factory('layerService', function($http) {
       })
     });
 
-    //ADD   LAYER
-    //wms data
-    var pdokLayerData = {
-      urlOfLayer: 'http://geodata.nationaalgeoregister.nl/wmsc',
-      nameOfLayer: 'brtachtergrondkaart',
-      naOfLayer: 'PDOK_WMS'
-    };
-
-    var bagLayerData = {
-      urlOfLayer: 'http://213.206.232.105/geoserver/BAG/wms',
-      nameOfLayer: 'BAG:pand',
-      naOfLayer: 'BAG_WMS'
-    };
     // WMS CREATE LAYER
-
-
-    var pdok = createTileLayer(pdokLayerData);
-    var bag = createTileLayer(bagLayerData);
-    //CREATE WFS LAYER
-    //
-
-
-    var geoJSON = new ol.format.GeoJSON();
-
     var bagWfsSource = new ol.source.Vector({
       na: 'BAG_WFS',
       loader: function(extent) {
@@ -111,9 +116,41 @@ factory('layerService', function($http) {
       style: wfs_style
     });
 
+    var pdok = createTileLayer(pdokLayerData);
+    var bag = createTileLayer(bagLayerData);
     addNewLayer(map, pdok, "pdok_wms");
     addNewLayer(map, bag, "bag_wms");
     addNewLayer(map, bagWfsLayer, "bag_wfs");
+
+
+
+    map.on('singleclick', function(e) {
+      pos = e.coordinate;
+      overlay.setPosition(pos);
+
+      // var iconFeature = new ol.Feature({
+      //   geometry: new ol.geom.Point(pos)
+      // });
+      // iconFeature.setStyle(iconStyle);
+      // vectorSourceMarker = new ol.source.Vector({
+      //   features: [iconFeature]
+      // });
+      // vectorLayerMarker = new ol.layer.Vector({
+      //   source: vectorSourceMarker
+      // });
+     // map.addLayer(vectorLayerMarker);
+      SelectedFeatures = [];
+      var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
+        var temp = {
+          id: feature.getId(),
+          gid: feature.get('gid'),
+          begindatumtijdvakgeldigheid: feature.get('begindatumtijdvakgeldigheid')
+        };
+        SelectedFeatures.push(temp);
+      }, null, function(layer) {
+        return layer === map.getLayers().item(LayerByName['bag_wfs']);
+      });
+    });
 
     function olMapFeatures(nameOfLayer) {
       var index = 2;
@@ -126,7 +163,6 @@ factory('layerService', function($http) {
 
     }
 
-    // //wfs highlight
     var select = null;
     var selectSingleClick = new ol.interaction.Select({
       condition: ol.events.condition.pointerMove
@@ -176,6 +212,8 @@ factory('layerService', function($http) {
       });
     }
 
+
+
     function addNewLayer(map, mapLayer, nameOfLayer) {
       map.addLayer(mapLayer);
       var temp = {
@@ -191,32 +229,14 @@ factory('layerService', function($http) {
     service.LayerByName = function() {
       return LayerByName;
     };
-    //  service.a = function() {
-    //   return test;
-    // };
-    // service.SelectedFeatures = function() {
-    //   return SelectedFeatures;
-    // };
+
     service.LayerInfo = function() {
       return LayerInfo;
     };
-    // service.test = function() {
-    //   return test;
-    // };
-    // service.SelectedFeature = function() {
-    //   console.log("service:" + service.SelectedFeatures);
-    // return service.SelectedFeatures;
 
-    // };
-
-    service.updateSelectedFeatures = function(feature) {
-      if (feature === null) {
-        service.SelectedFeatures = [];
-      } else {
-        service.SelectedFeatures.push(feature);
-      }
+    service.SelectedFeatures = function() {
+      return SelectedFeatures;
     };
-
 
 
     return service;

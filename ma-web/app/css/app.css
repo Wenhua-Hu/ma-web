@@ -183,6 +183,16 @@ fieldset {
   line-height: 35px;
   padding-top: 0px;
 }
+.ol-pop {
+  height: 23px;
+  width: 23px;
+  position: absolute;
+  background: transparent url("../img/pointerLocation.svg") no-repeat;
+  background-size: 23px;
+  background-color: transparent;
+
+
+}
 
 /*.tabsdemoDynamicHeight md-content {
   background-color: transparent !important; }

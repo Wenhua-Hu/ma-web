@@ -13,7 +13,7 @@ controller('navCtrl', function($scope, $rootScope, $timeout, layerService) {
 	//    $scope.cartCount = Object.keys($scope.cart).length;
 	//  });
 
-   $scope.Features = layerService.SelectedFeatures;
+   $scope.Features = layerService.SelectedFeatures();
 
 	// $timeout(callAtTimeout, 10000);
 	// $scope.Featurs = layerService.SelectedFeatures;
