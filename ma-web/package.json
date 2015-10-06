@@ -34,7 +34,9 @@
     "jquery": "^2.1.4",
     "ng-dialog": "^0.5.1",
     "openlayers": "^3.9.0",
-    "proj4": "^2.3.10"
+    "proj4": "^2.3.10",
+    "bootstrap": "",
+    "bootstrap-gh-pages":""
   },
   "scripts": {
     "install": "bower install",
