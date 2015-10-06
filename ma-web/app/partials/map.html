@@ -7,23 +7,28 @@
 
 	<md-tab label="1">
 		<md-content >
-			<accordion>
-
-				<accordion-group is-open="status1.open" >
+			<accordion style="text-decoration:none">
+				<accordion-group is-open="status2.open" style="position:relative;top:-3px;">
 					<accordion-heading>
-						Map Layers <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
-					</accordion-heading>
-					<div ng-repeat="lyr in service.LayerInfo()">{{lyr.NameOf}} : {{lyr.Visivility}}</div>
-
-				</accordion-group>
-				<accordion-group is-open="status2.open" style="position:relative;top:-3px">
-					<accordion-heading>
-						Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
+					<span style="font-weight:bold; font-size: 115%">Map Property Information</span> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
 					</accordion-heading>
 					<div ng-repeat="feature in service.SelectedFeatures()">
-						<div>{{feature.id}}</div>
-						<div>{{feature.gid}}</div>
-						<div>{{feature.begindatumtijdvakgeldigheid}}</div>
+					<div layout="row" class="featureStyle">
+					<div  flex>Coordinate</div>
+					<div  flex>Coordinate</div>
+					</div>
+					<div layout="row" class="featureStyle">
+					<div  flex>Feature ID</div>
+					<div  flex>{{feature.id}}</div>
+					</div>
+					<div layout="row" class="featureStyle">
+					<div  flex>Geometry ID</div>
+					<div  flex>{{feature.gid}}</div>
+					</div>
+					<div layout="row" class="featureStyle">
+					<div  flex=33>Date</div>
+					<div  flex>{{feature.begindatumtijdvakgeldigheid}}</div>
+					</div>
 					</div>
 
 				</accordion-group>
@@ -34,13 +39,7 @@
 					</accordion-heading>
 					object
 				</accordion-group>
-				<accordion-group is-open="status4.open" style="position:relative;top:-9px">
-					<accordion-heading>
-						Property Data
-						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status4.open, 'glyphicon-chevron-right': !status4.open}"></i>
-					</accordion-heading>
-					object
-				</accordion-group>
+
 
 			</accordion>
 

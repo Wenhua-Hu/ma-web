@@ -4,10 +4,10 @@
 angular.module('ma-app.services', [
   'ma-app.resources'
 ]).
-factory('layerService', function($http) {
+factory('layerService', function($http,$document) {
     var pos,
       service = {},
-      LayerInfo = [],
+      Layers = [],
       projection = {},
       LayerByName = [],
       vectorSourceMarker,
@@ -15,8 +15,8 @@ factory('layerService', function($http) {
       SelectedFeatures = [],
       geoJSON = new ol.format.GeoJSON();
 
-    var overlay = new ol.Overlay({
-      element: document.getElementById('pop')
+    var mouseOverlay = new ol.Overlay({
+      element: document.getElementById('mouseOverlay')
     });
 
     var iconStyle = new ol.style.Style({
@@ -29,6 +29,7 @@ factory('layerService', function($http) {
         src: '../img/select.svg'
       }))
     });
+
     var pdokLayerData = {
       urlOfLayer: 'http://geodata.nationaalgeoregister.nl/wmsc',
       nameOfLayer: 'brtachtergrondkaart',
@@ -70,7 +71,7 @@ factory('layerService', function($http) {
         new ol.control.Attribution(),
         new ol.control.ScaleLine()
       ],
-      overlays: [overlay],
+      overlays: [mouseOverlay],
       view: new ol.View({
         projection: projection['EPSG:28992'],
         center: [155000, 463000],
@@ -126,20 +127,21 @@ factory('layerService', function($http) {
 
     map.on('singleclick', function(e) {
       pos = e.coordinate;
-      overlay.setPosition(pos);
+      mouseOverlay.setPosition(pos);
 
-      // var iconFeature = new ol.Feature({
-      //   geometry: new ol.geom.Point(pos)
-      // });
-      // iconFeature.setStyle(iconStyle);
-      // vectorSourceMarker = new ol.source.Vector({
-      //   features: [iconFeature]
-      // });
-      // vectorLayerMarker = new ol.layer.Vector({
-      //   source: vectorSourceMarker
-      // });
-     // map.addLayer(vectorLayerMarker);
-      SelectedFeatures = [];
+      var iconFeature = new ol.Feature({
+        geometry: new ol.geom.Point(pos)
+      });
+      iconFeature.setStyle(iconStyle);
+      vectorSourceMarker = new ol.source.Vector({
+        features: [iconFeature]
+      });
+      vectorLayerMarker = new ol.layer.Vector({
+        source: vectorSourceMarker
+      });
+     map.addLayer(vectorLayerMarker);
+     
+      SelectedFeatures=[];
       var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
         var temp = {
           id: feature.getId(),
@@ -220,7 +222,7 @@ factory('layerService', function($http) {
         NameOf: nameOfLayer,
         Visivility: mapLayer.getVisible()
       };
-      LayerInfo.push(temp);
+      Layers.push(temp);
       LayerByName[nameOfLayer] = map.getLayers().get('length') - 1;
     }
     service.map = function() {
@@ -230,8 +232,8 @@ factory('layerService', function($http) {
       return LayerByName;
     };
 
-    service.LayerInfo = function() {
-      return LayerInfo;
+    service.Layers = function() {
+      return Layers;
     };
 
     service.SelectedFeatures = function() {

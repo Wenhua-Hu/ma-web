@@ -53,7 +53,32 @@ controller('MapCtrl', function($http, $scope, layerService, geometryService, vec
 	var map = layerService.map();
 	//var wfs = layerService.wfs();
 	//map.addLayer(vector);
+	//
+	//FOR SEAR PLACE
+//search the location
+	$scope.currentLon = map.getView().getCenter()[0];
+	$scope.currentLat = map.getView().getCenter()[1];
+	map.on('moveend', function(e) {
+		var currentCoordinate = map.getView().getCenter();
+		$scope.currentLon = currentCoordinate[0];
+		$scope.currentLat = currentCoordinate[1];
 
+	});
+	$scope.submit = function() {
+		if ($scope.lon && $scope.lat) {
+			var lon = $scope.lon,
+				lat = $scope.lat;
+			map.getView().setCenter(ol.proj.transform([lon, lat], 'EPSG:28992', 'EPSG:28992'));
+			$scope.currentLon = lon;
+			$scope.currentLat = lat;
+			$scope.lon='';
+			$scope.lat='';
+		}
+	};
+
+
+
+	//END OF SEARCH PLAC3E
 
 
 
