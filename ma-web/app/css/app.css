@@ -1,8 +1,8 @@
 /*CSS STYLE*/
 /*for firefox*/
-.map {width:1860px; height:900px;}
+/*.map {width:1250px; height:800px;}*/
 /*for chrome*/
-/*.map {width:1850px; height:900px;}*/
+.map {width:1850px; height:900px;}
 
 .overflow {overflow: hidden;}
 
@@ -136,6 +136,18 @@ md-toolbar.tool-map-common-panel {
   margin-left: 60px;
   margin-top:25px;
 }
+
+.tool-map-common-panel3 {
+  height: 10px;
+  position: absolute; 
+  top: 0px; 
+  left: 0px;
+  z-index:10;
+  margin-left: 600px;
+  margin-top:300px;
+
+}
+
 
 md-toolbar.tool-map-common-size, .md-button.tool-map-common-button-size {
   min-height:0px;

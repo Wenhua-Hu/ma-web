@@ -51,30 +51,77 @@ controller('MapCtrl', function($http, $scope, layerService, geometryService, vec
 	var features = vector.getSource().getFeaturesCollection();
 	var mapSource = vectorService.addSource();
 	var map = layerService.map();
+	//	var bagUrl = "https://geodata.nationaalgeoregister.nl/geocoder/Geocoder?zoekterm=";
 	//var wfs = layerService.wfs();
 	//map.addLayer(vector);
 	//
 	//FOR SEAR PLACE
-//search the location
+	//search the location
 	$scope.currentLon = map.getView().getCenter()[0];
 	$scope.currentLat = map.getView().getCenter()[1];
+	$scope.currentAddress = "Adres Naam";
 	map.on('moveend', function(e) {
 		var currentCoordinate = map.getView().getCenter();
 		$scope.currentLon = currentCoordinate[0];
 		$scope.currentLat = currentCoordinate[1];
 
 	});
-	$scope.submit = function() {
+	$scope.submitByCoordinate = function() {
 		if ($scope.lon && $scope.lat) {
 			var lon = $scope.lon,
 				lat = $scope.lat;
 			map.getView().setCenter(ol.proj.transform([lon, lat], 'EPSG:28992', 'EPSG:28992'));
 			$scope.currentLon = lon;
 			$scope.currentLat = lat;
-			$scope.lon='';
-			$scope.lat='';
+			$scope.lon = '';
+			$scope.lat = '';
 		}
 	};
+	var geoGML = ol.format.GML();
+	$scope.submitByName = function() {
+		if ($scope.address) {
+			var address = $scope.address;
+			$http.get('https://geodata.nationaalgeoregister.nl/geocoder/Geocoder', {
+				dataType: 'json',
+				params: {
+					zoekterm: address
+				},
+			}).
+			then(function(success) {
+					var data = success.data;
+					console.log(data);
+					var xmlSnipetA = '<gml:pos dimension="2">';
+					var xmlSnipetB = '</gml:pos>';
+
+					var coordinateDate = data.split('<gml:pos dimension="2">')
+						.pop()
+						.split('</gml:pos>')
+						.shift();
+					console.log(coordinateDate);
+
+					var temp = coordinateDate.split(" ");
+					var n1 = parseFloat(temp[0]);
+
+					var n2 = parseFloat(temp[1]);
+					console.log(n1);
+					console.log(n2);
+					map.getView().setCenter(ol.proj.transform([n1, n2], 'EPSG:28992', 'EPSG:28992'));
+
+
+
+				},
+				function() {
+
+				});
+			// map.getView().setCenter(ol.proj.transform([lon, lat], 'EPSG:28992', 'EPSG:28992'));
+			// $scope.currentAddress = address;
+			// $scope.address = '';
+		}
+	};
+
+
+
+	// search by address name
 
 
 

@@ -102,9 +102,9 @@
 <!-- Main Part -->
 <md-content layout="row" >
     <!-- Map Viewer -->
-    <div ng-controller="MapCtrl" lex class="overflow">
+    <div ng-controller="MapCtrl" flex class="overflow">
 
-        <div id="map" class="map" ng-style="mapWidthStyle">
+        <div id="map" class="map">
             <div class="ol-mouseOverlay" id="mouseOverlay"></div>
         </div>
         <md-toolbar class="tool-map-common-panel tool-map-common-size" layout="column">
@@ -113,30 +113,27 @@
             </md-button>
         </md-toolbar>
         <div class="tool-map-common-panel2">
-            <form ng-submit="submit()">
-                <input type="text" ng-model="lon" name="lon" placeholder="{{currentLon}}" class="form-control" style="height:25px; width:160px"/>
+            <form ng-submit="submitByCoordinate()">
+                <input type="text" ng-model="lon" name="lon" placeholder="{{currentLon}}" class="form-control" style="height:25px; width:165px"/>
                 <div layout="row">
-                    <input type="text" ng-model="lat" name="lat" placeholder="{{currentLat}}" class="form-control" style="height:25px; width:160px" />
+                    <input type="text" ng-model="lat" name="lat" placeholder="{{currentLat}}" class="form-control" style="height:25px; width:165px" />
 
-                    <md-button type="submit" id="submit" value="Submit" class="md-primary md-icon-button hvr-grow" style="top:-10px; left:-15px">
+                    <md-button type="submit"  value="Submit" class="md-primary md-icon-button hvr-grow" style="top:-10px; left:-15px">
+                        <md-icon aria-label="search" md-svg-icon="img/search.svg" style="height:20px;width:20px"></md-icon>
+                    </md-button>
+                </div>
+            </form>
+            <form ng-submit="submitByName()" >
+                <div layout="row">
+                    <input type="text" ng-model="address" name="address" placeholder="{{currentAddress}}" class="form-control" style="height:25px; width:165px" />
+                    <md-button type="submit"  value="Submit" class="md-primary md-icon-button hvr-grow" style="top:-10px; left:-15px">
                         <md-icon aria-label="search" md-svg-icon="img/search.svg" style="height:20px;width:20px"></md-icon>
                     </md-button>
                 </div>
             </form>
         </div>
-        <!-- the part is for location search -->
-        <div ng-controller="DemoCtrl as ctrl" layout="column">
-            <md-content>
-                <form ng-submit="$event.preventDefault()">
-                    <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="ctrl.selectedItemChange(item)" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.display" md-min-length="0" placeholder="What is your favorite US state?">
-                        <md-item-template>
-                            <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
-                        </md-item-template>
-                    </md-autocomplete>
-                </form>
-            </md-content>
-        </div>
-    </div>
+        <div class="tool-map-common-panel3"><md-icon aria-label="add" md-svg-icon="img/add.svg" style="height:20px;width:20px; color:green"></md-icon></div>
+        <!-- the part is for location search --> </div>
 
     <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" ng-view ></md-sidenav>
 
@@ -146,3 +143,10 @@
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
