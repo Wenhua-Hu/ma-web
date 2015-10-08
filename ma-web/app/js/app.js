@@ -13,6 +13,7 @@ var appModule = angular.module('ma-app', [
   'ngResource',
   'ngRoute',
   'ngDialog',
+  'xml',
   'ui.bootstrap',
   'ma-app.services',
   'ma-app.api',

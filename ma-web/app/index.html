@@ -29,6 +29,8 @@
     <!-- ANGULAR JS Libraries -->
     <script src="jquery/dist/jquery.js"></script>
     <script src="angular/angular.js"></script>
+    <script src="x2js/xml2json.js"></script>
+    <script src="angular-xml/angular-xml.js"></script>
 
     <script src="http://openlayers.org/en/v3.9.0/build/ol.js"></script>
     <script src="proj4/dist/proj4.js" type="text/javascript"></script>
@@ -126,14 +128,21 @@
             <form ng-submit="submitByName()" >
                 <div layout="row">
                     <input type="text" ng-model="address" name="address" placeholder="{{currentAddress}}" class="form-control" style="height:25px; width:165px" />
+                    <div ng-repeat="address in AddressList">
+            
+
+                    </div>
                     <md-button type="submit"  value="Submit" class="md-primary md-icon-button hvr-grow" style="top:-10px; left:-15px">
                         <md-icon aria-label="search" md-svg-icon="img/search.svg" style="height:20px;width:20px"></md-icon>
                     </md-button>
                 </div>
             </form>
         </div>
-        <div class="tool-map-common-panel3"><md-icon aria-label="add" md-svg-icon="img/add.svg" style="height:20px;width:20px; color:green"></md-icon></div>
-        <!-- the part is for location search --> </div>
+        <div class="tool-map-common-panel3">
+            <md-icon aria-label="add" md-svg-icon="img/add.svg" style="height:20px;width:20px; color:green"></md-icon>
+        </div>
+
+    </div>
 
     <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" ng-view ></md-sidenav>
 

@@ -4,7 +4,8 @@
 var controllerModule = angular.module('ma-app.controllers', [
 	'ngMaterial',
 	'ui.bootstrap',
-	'ngDialog'
+	'ngDialog',
+	'xml',
 ]).
 controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
 	$scope.isShow = false;
@@ -42,7 +43,7 @@ controller('BackgroundCtrl', function($scope) {
 	$scope.selectedDirection = 'up';
 
 }).
-controller('MapCtrl', function($http, $scope, layerService, geometryService, vectorService) {
+controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geometryService, vectorService) {
 
 	// 	$scope.a= layerService.a;
 	$scope.geomCategories = geometryService.getGeometryCategories();
@@ -66,6 +67,7 @@ controller('MapCtrl', function($http, $scope, layerService, geometryService, vec
 		$scope.currentLat = currentCoordinate[1];
 
 	});
+	$scope.AddressList = [];
 	$scope.submitByCoordinate = function() {
 		if ($scope.lon && $scope.lat) {
 			var lon = $scope.lon,
@@ -87,147 +89,194 @@ controller('MapCtrl', function($http, $scope, layerService, geometryService, vec
 					zoekterm: address
 				},
 			}).
-			then(function(success) {
-					var data = success.data;
-					console.log(data);
-					var xmlSnipetA = '<gml:pos dimension="2">';
-					var xmlSnipetB = '</gml:pos>';
+			then(function(data) {
 
-					var coordinateDate = data.split('<gml:pos dimension="2">')
-						.pop()
-						.split('</gml:pos>')
-						.shift();
-					console.log(coordinateDate);
+					var AddressList = AddressParse(data);
 
-					var temp = coordinateDate.split(" ");
-					var n1 = parseFloat(temp[0]);
+					if (AddressList.length <= 0) {
 
-					var n2 = parseFloat(temp[1]);
-					console.log(n1);
-					console.log(n2);
-					map.getView().setCenter(ol.proj.transform([n1, n2], 'EPSG:28992', 'EPSG:28992'));
+					} else {
+						angular.forEach(AddressList, function(value, key) {
 
+								var coordinate = value.Point.pos["__text"];
+								if (value.Address) {
+									var addressInfo = "";
+									var places;
+									// if (value.Address.Place.length=="undefined") {
 
+									// 	addressInfo=value.Address.Place["__text"];
+									// 	console.log(addressInfo);
+									// 	return;
+
+									// }
+
+									// angular.forEach(value.Address.Place, function(value, key) {
+									// 	var subPlace = value;
+									// 	addressInfo = " " + subPlace + addressInfo;
+									// });
+
+									// if (value.Address.PostalCode) {
+									// 	var postcode = value.Address.PostalCode["__text"];
+									// 	addressInfo = addressInfo + " " + postcode;
+									// }
+
+									// if (value.Address.StreetAddress) {
+									// 	if (value.Address.StreetAddress.Street) {
+									// 		var street = value.Address.StreetAddress.Street["__text"];
+									// 		addressInfo = addressInfo + " " + street;
+									// 		if (value.Address.StreetAddress.Building) {
+									// 			var number = value.Address.StreetAddress.Building["_number"];
+									// 			addressInfo = addressInfo + " " + number;
+									// 			if (value.Address.StreetAddress.Building["_subdivision"]) {
+									// 				var subdivision = value.Address.StreetAddress.Building["_subdivision"];
+									// 				addressInfo = addressInfo + " " + subdivision;
+									// 			}
+									// 		}
+									// 	}
+									// }
+								});
+
+							console.log(addressInfo);
+						}
+
+					}
+					// map.getView().setCenter(ol.proj.transform([n1, n2], 'EPSG:28992', 'EPSG:28992'));
 
 				},
 				function() {
 
 				});
-			// map.getView().setCenter(ol.proj.transform([lon, lat], 'EPSG:28992', 'EPSG:28992'));
-			// $scope.currentAddress = address;
-			// $scope.address = '';
 		}
-	};
+	}
+};
 
+function AddressParse(data) {
+	var response = x2js
+		.xml_str2json(data.data)
+		.GeocodeResponse
+		.GeocodeResponseList;
+	if (response) {
+		var arrayList;
+		var numberOfAddress = response['_numberOfGeocodedAddresses'];
+		if (numberOfAddress == 1) {
 
-
-	// search by address name
-
-
-
-	//END OF SEARCH PLAC3E
-
-
-
-	var geometryFunction, maxPoints;
-	var drawInit, modifyInit;
-
-	var draw = {
-		init: function(geomId) {
-			this.geometry = new ol.interaction.Draw({
-				features: features,
-				source: mapSource,
-				type: geomId,
-				geometryFunction: geometryFunction
-			});
-			removeInteraction();
-			map.addInteraction(this.geometry);
-			return this.geometry;
-		},
-		setActive: function(active) {
-			//modifyInit.setActive(!active);
-			drawInit.setActive(active);
-			snap.init();
+			arrayList = [];
+			arrayList.push(response.GeocodedAddress);
+			console.log("good" + arrayList);
+		} else {
+			arrayList = response.GeocodedAddress;
 		}
-	};
-
-	var select = {
-		init: function() {
-			this.selection = new ol.interaction.Select();
-			map.addInteraction(this.selection);
-
-			return this.selection;
-		}
-	};
-
-	var modify = {
-		init: function(features) {
-			this.modification = new ol.interaction.Modify({
-				features: features
-			});
-			map.addInteraction(this.modification);
-			return this.modification;
-		},
-		setActive: function(active) {
-			drawInit.setActive(!active);
-			modifyInit.setActive(active);
-			snap.init();
-		}
-	};
-
-	var snap = {
-		init: function() {
-			this.snaping = new ol.interaction.Snap({
-				source: vector.getSource()
-			});
-			map.addInteraction(this.snaping);
-			return this.snaping;
-		}
-	};
-
-	var removeInteraction = function() {
-		if (draw !== null) {
-			map.removeInteraction(drawInit);
-		}
-	};
-
-	$scope.addInteraction = function(geomId) {
+		return arrayList;
+	} else {
+		arrayList = [];
+		return arrayList;
+	}
+}
 
 
-		if (geomId !== null) {
-			if (geomId === "modify") {
-				var selectOption = select.init();
-				var features = selectOption.getFeatures();
-				modifyInit = modify.init(features);
-				modify.setActive(true);
 
-			} else if (geomId === "move") {
-
-			} else {
-				drawInit = draw.init(geomId);
-				draw.setActive(true);
-
-			}
-		} else {}
-		//snap.init();
-	};
+//END OF SEARCH PLAC3E
 
 
-	//get layers
-	var service = layerService;
-	$scope.layersOfMap = [];
 
-	$scope.addLayers = function() {
-		angular.forEach(service.map().getLayers(), function(layer, key) {
-			var temp = {
-				"LayerName": layer.getSource(),
-				"Visibility": layer.getVisible()
-			};
-			$scope.layersOfMap.push(temp);
+var geometryFunction, maxPoints;
+var drawInit, modifyInit;
+
+var draw = {
+	init: function(geomId) {
+		this.geometry = new ol.interaction.Draw({
+			features: features,
+			source: mapSource,
+			type: geomId,
+			geometryFunction: geometryFunction
 		});
-		return $scope.layersOfMap;
-	};
-	//add marker
+		removeInteraction();
+		map.addInteraction(this.geometry);
+		return this.geometry;
+	},
+	setActive: function(active) {
+		//modifyInit.setActive(!active);
+		drawInit.setActive(active);
+		snap.init();
+	}
+};
+
+var select = {
+	init: function() {
+		this.selection = new ol.interaction.Select();
+		map.addInteraction(this.selection);
+
+		return this.selection;
+	}
+};
+
+var modify = {
+	init: function(features) {
+		this.modification = new ol.interaction.Modify({
+			features: features
+		});
+		map.addInteraction(this.modification);
+		return this.modification;
+	},
+	setActive: function(active) {
+		drawInit.setActive(!active);
+		modifyInit.setActive(active);
+		snap.init();
+	}
+};
+
+var snap = {
+	init: function() {
+		this.snaping = new ol.interaction.Snap({
+			source: vector.getSource()
+		});
+		map.addInteraction(this.snaping);
+		return this.snaping;
+	}
+};
+
+var removeInteraction = function() {
+	if (draw !== null) {
+		map.removeInteraction(drawInit);
+	}
+};
+
+$scope.addInteraction = function(geomId) {
+
+
+	if (geomId !== null) {
+		if (geomId === "modify") {
+			var selectOption = select.init();
+			var features = selectOption.getFeatures();
+			modifyInit = modify.init(features);
+			modify.setActive(true);
+
+		} else if (geomId === "move") {
+
+		} else {
+			drawInit = draw.init(geomId);
+			draw.setActive(true);
+
+		}
+	} else {}
+	//snap.init();
+};
+
+
+//get layers
+var service = layerService; $scope.layersOfMap = [];
+
+$scope.addLayers = function() {
+	angular.forEach(service.map().getLayers(), function(layer, key) {
+		var temp = {
+			"LayerName": layer.getSource(),
+			"Visibility": layer.getVisible()
+		};
+		$scope.layersOfMap.push(temp);
+	});
+	return $scope.layersOfMap;
+};
+//add marker
 }).controller('testController', function($scope, $rootScope, layerService) {
 	// TestService.getResult().then(function(success) {
 	// 	//$scope.showResult = success.data;
