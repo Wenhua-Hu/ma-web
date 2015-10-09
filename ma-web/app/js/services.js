@@ -4,7 +4,7 @@
 angular.module('ma-app.services', [
   'ma-app.resources'
 ]).
-factory('layerService', function($http,$document) {
+factory('layerService', function($http, $rootScope, $document) {
     var pos,
       service = {},
       Layers = [],
@@ -139,9 +139,8 @@ factory('layerService', function($http,$document) {
       vectorLayerMarker = new ol.layer.Vector({
         source: vectorSourceMarker
       });
-     map.addLayer(vectorLayerMarker);
-     
-      SelectedFeatures=[];
+      map.addLayer(vectorLayerMarker);  
+      SelectedFeatures = [];
       var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
         var temp = {
           id: feature.getId(),
@@ -149,10 +148,21 @@ factory('layerService', function($http,$document) {
           begindatumtijdvakgeldigheid: feature.get('begindatumtijdvakgeldigheid')
         };
         SelectedFeatures.push(temp);
+
+        $rootScope.$broadcast('updateFeatures', SelectedFeatures);
+
       }, null, function(layer) {
         return layer === map.getLayers().item(LayerByName['bag_wfs']);
       });
     });
+
+    $rootScope.$watchCollection(
+      SelectedFeatures[0],
+      function(newValue, oldValue) {
+        console.log("update1");
+        //$scope.Features = layerService.SelectedFeatures();
+      });
+
 
     function olMapFeatures(nameOfLayer) {
       var index = 2;

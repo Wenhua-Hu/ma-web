@@ -66,7 +66,7 @@
     <!--Left Side Panel Bar-->
     <md-toolbar layout="column" class="toolbar-left-nav-bar" ng-controller="settingCtrl-1">
         <!-- APP MENU SEETING -->
-        <md-button class="md-icon-button md-raised toolbar-left-nav-bar-button hvr-grow" title="Menu" ng-click= "clickToOpen()">menu</md-button>
+        <md-button class="md-icon-button md-raised toolbar-left-nav-bar-button hvr-grow" title="Menu" ng-click= "clickToOpen()">Layers</md-button>
 
         <md-button class="md-icon-button md-raised toolbar-left-nav-bar-button hvr-grow" title="Menu">menu</md-button>
         <md-button class="md-icon-button md-raised toolbar-left-nav-bar-button hvr-grow" title="Menu">menu</md-button>
@@ -97,7 +97,7 @@
     <!-- mapWidthStyle={'width':'2065px'}; -->
     <!-- mapWidthStyle={'width':'1850px'}; -->
     <md-button ng-click="toggleMapSidenav('right');"hide-sm hide-md hide-lg class="md-icon-button hvr-grow" menucolor>
-        <md-icon aria-label="Menu" md-svg-icon="img/ic_menu_48px.svg" class="s38"  ng-class="{'menu-color': boolChangeColor}" ></md-icon>
+        <md-icon aria-label="Menu" md-svg-icon="img/ic_menu_48px.svg" class="s38" ></md-icon>
     </md-button>
 
 </md-toolbar>
@@ -115,6 +115,14 @@
                 <img aria-label="{{geomCat.name}}" ng-src="{{'img/'+ geomCat.img }}" class="tool-map-common-button-image" />
             </md-button>
         </md-toolbar>
+<!--          <md-toolbar class="tool-map-common-panel tool-map-common-size" layout="column">
+            <md-button class="tool-map-common-button-size tool-map-common-button-gap tool-map-common-button-height-1"  ng-click="addImage(1)">
+                <img aria-label="{{arrow1}}" ng-src="{{ 'img/arrow1.svg'}}" class="tool-map-common-button-image" />
+            </md-button>
+            <md-button class="tool-map-common-button-size tool-map-common-button-gap tool-map-common-button-height-1"  ng-click="addImage(2)">
+                <img aria-label="{{arrow2}}" ng-src="{{ 'img/arrow2.svg'}}" class="tool-map-common-button-image" />
+            </md-button>
+        </md-toolbar> -->
         <div class="tool-map-common-panel2">
             <form ng-submit="submitByCoordinate()">
                 <input type="text" ng-model="lon" name="lon" placeholder="{{currentLon}}" class="form-control" style="height:25px; width:165px"/>
@@ -150,79 +158,8 @@
 
     </div>
 
-    <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" >
-        <md-content ng-controller="navCtrl">
-
-            <md-tabs md-stretch-tabs="always" class="md-hue-1 md-primary md-whiteframe-z2" md-dynamic-height="true" >
-
-                <md-tab label="1">
-                    <md-content >
-                        <accordion style="text-decoration:none">
-                            <accordion-group is-open="status2.open" style="position:relative;top:-3px;">
-                                <accordion-heading>
-                                    <span style="font-weight:bold; font-size: 115%">Map Property Information</span> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
-                                </accordion-heading>
-                                <div ng-repeat="feature in service.SelectedFeatures()">
-                                    <div layout="row" class="featureStyle">
-                                        <div  flex>Coordinate</div>
-                                        <div  flex>Coordinate</div>
-                                    </div>
-                                    <div layout="row" class="featureStyle">
-                                        <div  flex>Feature ID</div>
-                                        <div  flex>{{feature.id}}</div>
-                                    </div>
-                                    <div layout="row" class="featureStyle">
-                                        <div  flex>Geometry ID</div>
-                                        <div  flex>{{feature.gid}}</div>
-                                    </div>
-                                    <div layout="row" class="featureStyle">
-                                        <div  flex=33>Date</div>
-                                        <div  flex>{{feature.begindatumtijdvakgeldigheid}}</div>
-                                    </div>
-                                </div>
-
-                            </accordion-group>
-                            <accordion-group is-open="status3.open" style="position:relative;top:-6px">
-                                <accordion-heading>
-                                    Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status3.open, 'glyphicon-chevron-right': !status3.open}"></i>
-                                </accordion-heading>
-                                object
-                            </accordion-group>
-
-                        </accordion>
-
-                    </md-content>
-                </md-tab>
-                <md-tab label="2" >
-                    <md-content class="md-padding"></md-content>
-                </md-tab>
-                <md-tab label="3">
-                    <md-content class="md-padding">
-                        <h1 class="md-display-2">Tab One</h1>
-                    </md-content>
-
-                </md-tab>
-                <md-tab label="4">
-                    <md-content class="md-padding">
-                        <h1 class="md-display-2">Tab One</h1>
-                    </md-content>
-
-                </md-tab>
-                <md-tab label="5">
-                    <md-content class="md-padding">
-                        <h1 class="md-display-2">Tab One</h1>
-                    </md-content>
-
-                </md-tab>
-                <md-tab label="6">
-                    <md-content class="md-padding">
-                        <h1 class="md-display-2">Tab One</h1>
-                    </md-content>
-
-                </md-tab>
-            </md-tabs>
-        </md-content>
-
+    <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" ng-view>
+       
     </md-sidenav>
 
     <!-- Right Navigation bar -->
