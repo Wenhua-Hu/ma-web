@@ -128,15 +128,20 @@
             <form ng-submit="submitByName()" >
                 <div layout="row">
                     <input type="text" ng-model="address" name="address" placeholder="{{currentAddress}}" class="form-control" style="height:25px; width:165px" />
-                    <div ng-repeat="address in AddressList">
-            
 
-                    </div>
                     <md-button type="submit"  value="Submit" class="md-primary md-icon-button hvr-grow" style="top:-10px; left:-15px">
                         <md-icon aria-label="search" md-svg-icon="img/search.svg" style="height:20px;width:20px"></md-icon>
                     </md-button>
                 </div>
             </form>
+
+            <div layout="column"  layout-fill style="padding-bottom: 1px; position: relative; top:-15px" ng-repeat="address in showAddresslistInfo" >
+                <md-whiteframe class="md-whiteframe-18dp" style="background-color: white; border-radius: 4px;" ng-click="locateTo(address.Coordinate)">
+                    <div>{{address.Address}}</div>
+                </md-whiteframe>
+
+            </div>
+
         </div>
         <div class="tool-map-common-panel3">
             <md-icon aria-label="add" md-svg-icon="img/add.svg" style="height:20px;width:20px; color:green"></md-icon>
@@ -144,7 +149,80 @@
 
     </div>
 
-    <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" ng-view ></md-sidenav>
+    <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" ng-view >
+<!--         <md-content>
+
+            <md-tabs md-stretch-tabs="always" class="md-hue-1 md-primary md-whiteframe-z2" md-dynamic-height="true" >
+
+                <md-tab label="1">
+                    <md-content >
+                        <accordion style="text-decoration:none">
+                            <accordion-group is-open="status2.open" style="position:relative;top:-3px;">
+                                <accordion-heading>
+                                    <span style="font-weight:bold; font-size: 115%">Map Property Information</span> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
+                                </accordion-heading>
+                                <div ng-repeat="feature in service.SelectedFeatures()">
+                                    <div layout="row" class="featureStyle">
+                                        <div  flex>Coordinate</div>
+                                        <div  flex>Coordinate</div>
+                                    </div>
+                                    <div layout="row" class="featureStyle">
+                                        <div  flex>Feature ID</div>
+                                        <div  flex>{{feature.id}}</div>
+                                    </div>
+                                    <div layout="row" class="featureStyle">
+                                        <div  flex>Geometry ID</div>
+                                        <div  flex>{{feature.gid}}</div>
+                                    </div>
+                                    <div layout="row" class="featureStyle">
+                                        <div  flex=33>Date</div>
+                                        <div  flex>{{feature.begindatumtijdvakgeldigheid}}</div>
+                                    </div>
+                                </div>
+
+                            </accordion-group>
+                            <accordion-group is-open="status3.open" style="position:relative;top:-6px">
+                                <accordion-heading>
+                                    Property Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status3.open, 'glyphicon-chevron-right': !status3.open}"></i>
+                                </accordion-heading>
+                                object
+                            </accordion-group>
+
+                        </accordion>
+
+                    </md-content>
+                </md-tab>
+                <md-tab label="2" >
+                    <md-content class="md-padding"></md-content>
+                </md-tab>
+                <md-tab label="3">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Tab One</h1>
+                    </md-content>
+
+                </md-tab>
+                <md-tab label="4">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Tab One</h1>
+                    </md-content>
+
+                </md-tab>
+                <md-tab label="5">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Tab One</h1>
+                    </md-content>
+
+                </md-tab>
+                <md-tab label="6">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Tab One</h1>
+                    </md-content>
+
+                </md-tab>
+            </md-tabs>
+        </md-content> -->
+
+    </md-sidenav>
 
     <!-- Right Navigation bar -->
 
@@ -152,10 +230,3 @@
 </div>
 </body>
 </html>
-
-
-
-
-
-
-

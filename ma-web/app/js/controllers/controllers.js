@@ -80,7 +80,9 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 		}
 	};
 	var geoGML = ol.format.GML();
+	$scope.showAddresslistInfo = [];
 	$scope.submitByName = function() {
+		$scope.showAddresslistInfo = [];
 		if ($scope.address) {
 			var address = $scope.address;
 			$http.get('https://geodata.nationaalgeoregister.nl/geocoder/Geocoder', {
@@ -98,6 +100,7 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 					} else {
 						angular.forEach(AddressList, function(value, key) {
 
+
 							var coordinate = value.Point.pos["__text"];
 
 							if (value.Address) {
@@ -107,7 +110,6 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 								if (value.Address.Place.length == undefined) {
 
 									addressInfo = value.Address.Place["__text"];
-
 
 								} else {
 
@@ -137,17 +139,18 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 									}
 
 								}
+								var AddressAndCoordinate = {
+									"Address": addressInfo,
+									"Coordinate": coordinate
+								};
 
-								console.log(addressInfo);
+								$scope.showAddresslistInfo.push(AddressAndCoordinate);
+								console.log($scope.showAddresslistInfo);
 							}
-
-
 						});
 
 					}
-					// map.getView().setCenter(ol.proj.transform([n1, n2], 'EPSG:28992', 'EPSG:28992'));
 				},
-
 
 				function() {
 
@@ -156,6 +159,14 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 		}
 
 	};
+
+	$scope.locateTo = function(coordinate) {
+		console.log(coordinate);
+		var coord = coordinate.split(" ");
+		map.getView().setCenter(ol.proj.transform([coord[0], coord[1]], 'EPSG:28992', 'EPSG:28992'));
+
+	};
+
 
 	function AddressParse(data) {
 		var response = x2js
