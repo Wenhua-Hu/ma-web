@@ -194,6 +194,11 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 
 
 	//END OF SEARCH PLAC3E
+	// for nav
+
+
+   // $scope.Features = layerService.SelectedFeatures();
+   ////////
 
 
 

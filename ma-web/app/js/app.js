@@ -30,7 +30,6 @@ appModule.config(function($routeProvider) {
   $routeProvider.
   when('/map', {
     templateUrl: 'partials/map.html',
-    controller: 'navCtrl'
   }).
   otherwise({
     redirectTo: '/map'

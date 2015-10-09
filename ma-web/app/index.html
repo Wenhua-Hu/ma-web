@@ -104,6 +104,7 @@
 <!-- Main Part -->
 <md-content layout="row" >
     <!-- Map Viewer -->
+
     <div ng-controller="MapCtrl" flex class="overflow">
 
         <div id="map" class="map">
@@ -149,8 +150,8 @@
 
     </div>
 
-    <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" ng-view >
-<!--         <md-content>
+    <md-sidenav ng-show="isShow" class=" md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-lg')" >
+        <md-content ng-controller="navCtrl">
 
             <md-tabs md-stretch-tabs="always" class="md-hue-1 md-primary md-whiteframe-z2" md-dynamic-height="true" >
 
@@ -220,7 +221,7 @@
 
                 </md-tab>
             </md-tabs>
-        </md-content> -->
+        </md-content>
 
     </md-sidenav>
 
