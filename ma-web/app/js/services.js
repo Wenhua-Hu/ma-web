@@ -8,16 +8,17 @@ factory('layerService', function($http, $rootScope, $document) {
     var pos,
       service = {},
       Layers = [],
+      singleSelection,
       projection = {},
       LayerByName = [],
       vectorSourceMarker,
       vectorLayerMarker,
       SelectedFeatures = [],
-      geoJSON = new ol.format.GeoJSON();
-
-    var mouseOverlay = new ol.Overlay({
-      element: document.getElementById('mouseOverlay')
-    });
+      geoJSON = new ol.format.GeoJSON(),
+      addresses=[],
+      mouseOverlay = new ol.Overlay({
+        element: document.getElementById('mouseOverlay')
+      });
 
     var iconStyle = new ol.style.Style({
       image: new ol.style.Icon(({
@@ -26,7 +27,7 @@ factory('layerService', function($http, $rootScope, $document) {
         anchorYUnits: 'pixels',
         scale: 0.5,
         opacity: 1,
-        src: '../img/select.svg'
+        src: '../img/radar.svg'
       }))
     });
 
@@ -127,8 +128,22 @@ factory('layerService', function($http, $rootScope, $document) {
 
     map.on('singleclick', function(e) {
       pos = e.coordinate;
-      mouseOverlay.setPosition(pos);
 
+      SelectedFeatures = [];
+      var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
+        var temp = {
+          id: feature.getId(),
+          gid: feature.get('gid'),
+          begindatumtijdvakgeldigheid: feature.get('begindatumtijdvakgeldigheid')
+        };
+        SelectedFeatures.push(temp);
+        $rootScope.$broadcast('updateFeatures', SelectedFeatures);
+      }, null, function(layer) {
+        return layer === map.getLayers().item(LayerByName['bag_wfs']);
+      });
+
+      mouseOverlay.setPosition(pos);
+/////////////later to continue
       var iconFeature = new ol.Feature({
         geometry: new ol.geom.Point(pos)
       });
@@ -139,41 +154,10 @@ factory('layerService', function($http, $rootScope, $document) {
       vectorLayerMarker = new ol.layer.Vector({
         source: vectorSourceMarker
       });
-      map.addLayer(vectorLayerMarker);  
-      SelectedFeatures = [];
-      var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
-        var temp = {
-          id: feature.getId(),
-          gid: feature.get('gid'),
-          begindatumtijdvakgeldigheid: feature.get('begindatumtijdvakgeldigheid')
-        };
-        SelectedFeatures.push(temp);
+      map.addLayer(vectorLayerMarker);
 
-        $rootScope.$broadcast('updateFeatures', SelectedFeatures);
-
-      }, null, function(layer) {
-        return layer === map.getLayers().item(LayerByName['bag_wfs']);
-      });
     });
 
-    $rootScope.$watchCollection(
-      SelectedFeatures[0],
-      function(newValue, oldValue) {
-        console.log("update1");
-        //$scope.Features = layerService.SelectedFeatures();
-      });
-
-
-    function olMapFeatures(nameOfLayer) {
-      var index = 2;
-      var featuresArray = map //ol.Map
-        .getLayers() //ol.Collection
-        .getArray()[index] //ol.layer.Vector
-        .getSource() //ol.source.KML
-        .getFeatures(); //ol.Feature
-      return featuresArray;
-
-    }
 
     var select = null;
     var selectSingleClick = new ol.interaction.Select({
@@ -249,6 +233,18 @@ factory('layerService', function($http, $rootScope, $document) {
     service.SelectedFeatures = function() {
       return SelectedFeatures;
     };
+
+    service.addresses = function() {
+      return addresses;
+    };
+
+    service.addAddresses = function(data) {
+      addresses.push(data);
+      $rootScope.$broadcast('updateAddresses', addresses);
+     // alert(addresses[0].Coordinate);
+     // alert(addresses);
+    } 
+
 
 
     return service;

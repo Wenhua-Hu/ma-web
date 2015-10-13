@@ -1,76 +1,86 @@
-<!-- <md-content id="map" class="map" ng-style="mapWidthStyle"  ></md-content>
--->
- <md-content>
 
+    <md-toolbar style="background-color: white" >
 
-<md-tabs md-stretch-tabs="always" class="md-hue-1 md-primary md-whiteframe-z2" md-dynamic-height="true" >
+        <div class="md-toolbar-tools" >
+            <md-button class="md-icon-button" style="height:50px; width:50px">
+                <md-icon aria-label="Pin" md-svg-icon="img/pin_drop.svg" style="height: 40px; width:40px;color: gray"></md-icon>
+            </md-button>
+            <div flex style="color: black; font-weight: bold">Map Data</div>
 
-	<md-tab label="1">
-		<md-content >
-			<accordion style="text-decoration:none">
-				<accordion-group is-open="status2.open" style="position:relative;top:-3px;">
-					<accordion-heading>
-					<span style="font-weight:bold; font-size: 115%">Map Property Information</span> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
-					</accordion-heading>
-					<div ng-repeat="feature in service.SelectedFeatures()">
-					<div layout="row" class="featureStyle">
-					<div  flex>Coordinate</div>
-					<div  flex>Coordinate</div>
-					</div>
-					<div layout="row" class="featureStyle">
-					<div  flex>Feature ID</div>
-					<div  flex>{{feature.id}}</div>
-					</div>
-					<div layout="row" class="featureStyle">
-					<div  flex>Geometry ID</div>
-					<div  flex>{{feature.gid}}</div>
-					</div>
-					<div layout="row" class="featureStyle">
-					<div  flex=33>Date</div>
-					<div  flex>{{feature.begindatumtijdvakgeldigheid}}</div>
-					</div>
-					</div>
+        </div>
+    </md-toolbar>
+    <md-tabs md-stretch-tabs="always" class="md-hue-1 md-primary md-whiteframe-z2" md-dynamic-height="true" >
+        <md-tab label="Object">
+            <div layout="column">
+                <md-toolbar class="md-toolbar-tools" style="background-color: gray;height:30px; color: white;min-height:20px;  " ng-click="toggleClass()" >
+                    <md-button style="left:-40px;" flex="5">
+                        <md-icon aria-label="left" md-svg-icon="img/ic_keyboard_arrow_right.svg" style="height:25px;width:25px"></md-icon>
+                    </md-button>
+                    <md-button style="font-size: 60%; position:relative;left:-60px;">
+                        <span>Objects in the map</span>
+                    </md-button>
 
-				</accordion-group>
-				<accordion-group is-open="status3.open" style="position:relative;top:-6px">
-					<accordion-heading>
-						Property Data
-						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status3.open, 'glyphicon-chevron-right': !status3.open}"></i>
-					</accordion-heading>
-					object
-				</accordion-group>
+                </md-toolbar>
+                <div ng-repeat="feature in Features" ng-hide="isOpen">
+                    <div layout="row" class="featureStyle">
+                        <div  flex>Coordinate</div>
+                        <div  flex>Coordinate</div>
+                    </div>
+                    <div layout="row" class="featureStyle">
+                        <div  flex>Feature ID</div>
+                        <div  flex>{{feature.id}}</div>
+                    </div>
+                    <div layout="row" class="featureStyle">
+                        <div  flex>Geometry ID</div>
+                        <div  flex>{{feature.gid}}</div>
+                    </div>
+                    <div layout="row" class="featureStyle">
+                        <div  flex=33>Date</div>
+                        <div  flex>{{feature.begindatumtijdvakgeldigheid}}</div>
+                    </div>
+                </div>
 
+            </div>
 
-			</accordion>
+        </md-tab>
+        <md-tab label="Address">
+            <div layout="column">
 
-		</md-content>
-	</md-tab>
-	<md-tab label="2" >
-		<md-content class="md-padding"></md-content>
-	</md-tab>
-	<md-tab label="3">
-		<md-content class="md-padding">
-			<h1 class="md-display-2">Tab One</h1>
-		</md-content>
+                <div ng-repeat="address in Addresses" >
 
-	</md-tab>
-	<md-tab label="4">
-		<md-content class="md-padding">
-			<h1 class="md-display-2">Tab One</h1>
-		</md-content>
+                
+                    <md-toolbar class="md-toolbar-tools" style="height:25px; min-height:20px; background-color:white"  >
+                    <md-button  class="md-icon-button"  ng-click="locateTo(address.Coordinate)">
+                        <md-icon aria-label="radar" md-svg-icon="img/radar.svg" style="color:gray" ></md-icon>
+                    </md-button>
+                    <div style="font-size: 55%; color:gray;" >{{address.Coordinate}}</div>
 
-	</md-tab>
-	<md-tab label="5">
-		<md-content class="md-padding">
-			<h1 class="md-display-2">Tab One</h1>
-		</md-content>
+                </md-toolbar>
+                    <div layout="row" class="featureStyle">
+                        <div  flex>CountrySubdivision</div>
+                        <div  flex>{{address.CountrySubdivision}}</div>
+                    </div>
+                    <div layout="row" class="featureStyle">
+                        <div  flex>Municipality</div>
+                        <div  flex>{{address.Municipality}}</div>
+                    </div>
 
-	</md-tab>
-	<md-tab label="6">
-		<md-content class="md-padding">
-			<h1 class="md-display-2">Tab One</h1>
-		</md-content>
+                    <div layout="row" class="featureStyle">
+                        <div  flex>PostalCode</div>
+                        <div  flex>{{address.PostalCode}}</div>
+                    </div>
+                    <div layout="row" class="featureStyle">
+                        <div  flex>Street</div>
+                        <div  flex>{{address.Street}}</div>
+                    </div>
+                    <div layout="row" class="featureStyle">
+                        <div  flex>Number</div>
+                        <div  flex>{{address.Number}}</div>
+                    </div>
+                </div>
 
-	</md-tab>
-</md-tabs>
-</md-content>
+            </div>
+
+        </md-tab>
+
+    </md-tabs>

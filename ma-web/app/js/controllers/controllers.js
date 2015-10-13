@@ -6,17 +6,15 @@ var controllerModule = angular.module('ma-app.controllers', [
 	'ui.bootstrap',
 	'ngDialog',
 	'xml',
+	'angularResizable',
+
 ]).
 controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
 	$scope.isShow = false;
 
-
 	$scope.toggleMapSidenav = function(menuId) {
 		$scope.isShow = !$scope.isShow;
-
 	};
-
-
 
 	$scope.LoginDialog = function($event) {
 
@@ -28,24 +26,13 @@ controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
 
 		function LoginCtrl($scope) {}
 	};
-
-
 }).
 controller('ImgCtrl', function($scope) {
 	$scope.ComName = 'img/crotec.svg';
 	$scope.nameimg = '../img/banner.jpg';
 }).
-controller('BackgroundCtrl', function($scope) {
-	$scope.topDirections = ['left'];
-	$scope.bottomDirections = ['down'];
-	$scope.isOpen = false;
-	$scope.selectedMode = 'md-fling';
-	$scope.selectedDirection = 'up';
-
-}).
 controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geometryService, vectorService) {
 
-	// 	$scope.a= layerService.a;
 	$scope.geomCategories = geometryService.getGeometryCategories();
 
 	var vector = vectorService.addVector();
@@ -101,37 +88,52 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 						angular.forEach(AddressList, function(value, key) {
 
 
-							var coordinate = value.Point.pos["__text"];
+							var Coordinate = value.Point.pos["__text"];
 
 							if (value.Address) {
 								var addressInfo = "";
+								var CountrySubdivision="",
+									 Municipality ="",
+						
+									PostalCode="",
+									Street = "",
+									 NumberOfHouse="";
+								
 								var places;
 
 								if (value.Address.Place.length == undefined) {
-
+									
 									addressInfo = value.Address.Place["__text"];
+									CountrySubdivision=addressInfo;
+
 
 								} else {
+									
 
 									angular.forEach(value.Address.Place, function(value, key) {
-										var subPlace = value;
-										addressInfo = " " + subPlace + addressInfo;
+
+										Municipality = value["__text"];
+							
+										addressInfo = " " + Municipality + addressInfo;
+
+
 									});
 
 									if (value.Address.PostalCode) {
-										var postcode = value.Address.PostalCode["__text"];
-										addressInfo = addressInfo + " " + postcode;
+										PostalCode = value.Address.PostalCode["__text"];
+										addressInfo = addressInfo + " " + PostalCode;
 									}
 
 									if (value.Address.StreetAddress) {
 										if (value.Address.StreetAddress.Street) {
-											var street = value.Address.StreetAddress.Street["__text"];
-											addressInfo = addressInfo + " " + street;
+											Street = value.Address.StreetAddress.Street["__text"];
+											addressInfo = addressInfo + " " + Street;
 											if (value.Address.StreetAddress.Building) {
-												var number = value.Address.StreetAddress.Building["_number"];
-												addressInfo = addressInfo + " " + number;
+												NumberOfHouse = value.Address.StreetAddress.Building["_number"];
+												addressInfo = addressInfo + " " + NumberOfHouse;
 												if (value.Address.StreetAddress.Building["_subdivision"]) {
 													var subdivision = value.Address.StreetAddress.Building["_subdivision"];
+													NumberOfHouse= NumberOfHouse +" "+subdivision;
 													addressInfo = addressInfo + " " + subdivision;
 												}
 											}
@@ -139,13 +141,25 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 									}
 
 								}
+								var AddressAndCoordinates = {
+									"CountrySubdivision": CountrySubdivision,
+									"Municipality": Municipality,
+									"PostalCode": PostalCode,
+									"Street": Street,
+									"Number": NumberOfHouse,
+									"Coordinate": Coordinate
+								};
+								//alert(AddressAndCoordinates.Municipality);
+								
 								var AddressAndCoordinate = {
 									"Address": addressInfo,
-									"Coordinate": coordinate
+				
+									"Coordinate": Coordinate
 								};
 
-								$scope.showAddresslistInfo.push(AddressAndCoordinate);
-								console.log($scope.showAddresslistInfo);
+								layerService.addAddresses(AddressAndCoordinates);
+
+
 							}
 						});
 
@@ -160,15 +174,10 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 
 	};
 
-	$scope.locateTo = function(coordinate) {
-		console.log(coordinate);
-		var coord = coordinate.split(" ");
-		map.getView().setCenter(ol.proj.transform([coord[0], coord[1]], 'EPSG:28992', 'EPSG:28992'));
-
-	};
 
 
 	function AddressParse(data) {
+
 		var response = x2js
 			.xml_str2json(data.data)
 			.GeocodeResponse
@@ -177,6 +186,7 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 			var arrayList;
 			var numberOfAddress = response['_numberOfGeocodedAddresses'];
 			if (numberOfAddress == 1) {
+				console.log(response);
 
 				arrayList = [];
 				arrayList.push(response.GeocodedAddress);
@@ -197,8 +207,8 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 	// for nav
 
 
-   // $scope.Features = layerService.SelectedFeatures();
-   ////////
+	// $scope.Features = layerService.SelectedFeatures();
+	////////
 
 
 
