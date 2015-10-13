@@ -216,7 +216,14 @@ fieldset {
   background: transparent url("../img/pointerLocation.svg") no-repeat;
   background-size: 23px;
   background-color: transparent;
-
+}
+.ol-placeOverlay {
+  height: 20px;
+  width: 20px;
+  position: relative;
+  background: url("../img/place1.svg") no-repeat;
+  background-size: 23px;
+  background-color: transparent;
 
 }
 .featureStyle {
@@ -226,14 +233,4 @@ fieldset {
     background: linear-gradient(to right, #85C2FF , #EBF5FF); /* Standard syntax (must be last) */
 
 }
-
-
-/*.tabsdemoDynamicHeight md-content {
-  background-color: transparent !important; }
-  .tabsdemoDynamicHeight md-content md-tabs {
-    background: #f6f6f6;
-    border: 1px solid #e1e1e1; }
-    .tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
-      background: white; }
-  .tabsdemoDynamicHeight md-content h1:first-child {
-    margin-top: 0; }*/
+.icon {fill: green;}

@@ -6,6 +6,12 @@ angular.module('ma-app.navigation', [
 	'angularResizable'
 ]).
 controller('navCtrl', function($scope, $rootScope, layerService) {
+	     var placeOverlay = new ol.Overlay({
+        element: document.getElementById('placeOverlay'),
+         offset:[0,2],
+         positioning:'bottom-center'
+      });
+	     layerService.map().addOverlay(placeOverlay);
 
 	$scope.Features = layerService.SelectedFeatures();
 	 $scope.Addresses = layerService.addresses();
@@ -18,8 +24,7 @@ controller('navCtrl', function($scope, $rootScope, layerService) {
 	});
 		$scope.$on('updateAddresses', function(event, data) {
 		$scope.Addresses = data;
-		//console.log("data" + $scope.Addresses[0].Municipality);
-		//$scope.$apply();
+
 
 	});
 
@@ -38,6 +43,7 @@ controller('navCtrl', function($scope, $rootScope, layerService) {
 
 		var coord = coordinate.split(" ");
 		layerService.map().getView().setCenter(ol.proj.transform([coord[0], coord[1]], 'EPSG:28992', 'EPSG:28992'));
+		placeOverlay.setPosition([coord[0], coord[1]]);
 
 	};
 });

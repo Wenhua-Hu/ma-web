@@ -76,7 +76,7 @@ factory('layerService', function($http, $rootScope, $document) {
       view: new ol.View({
         projection: projection['EPSG:28992'],
         center: [155000, 463000],
-        zoom: 13,
+        zoom: 10,
         minZoom: 0,
         maxZoom: 15,
       })
