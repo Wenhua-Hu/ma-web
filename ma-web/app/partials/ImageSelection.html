@@ -1,0 +1,22 @@
+  <md-content  style="max-width:800px;max-height:810px; width:460px; height:350px">
+      <md-toolbar style="min-height: 0px; height:25px; background-color: black;" layout-align="center end " >
+
+          <md-button class="md-icon-button" ng-click="cancel()" style="position:relative; top:-6px;">
+              <md-icon md-svg-src="img/close.svg" aria-label="Close dialog"></md-icon>
+          </md-button>
+
+      </md-toolbar>
+      <md-tabs >
+          <md-tab ng-repeat="tab in tabs"  label="{{tab.title}}">
+              <md-button style="min-height:0px;min-width:0px; height:54px; width:54px" ng-click="getImage(image.ImageUrl)" ng-repeat="image in tab.content">
+                  <md-icon md-svg-src="{{image.ImageUrl}}" aria-label="{{image.ImageName}}" style="height:45px;width:45px"></md-icon>
+              </md-button>
+
+          </md-tab>
+          <md-tab ng-repeat="pic in pictures"  label="{{pic.title}}">
+              <md-button style="min-height:0px;min-width:0px; height:50px; width:60px; margin: 0 auto;" ng-click="getImage(image.ImageUrl)" ng-repeat="image in pic.content">
+                  <img ng-src="{{image.ImageUrl}}" style="height:40px;width:40px" />  
+              </md-button>
+          </md-tab>
+      </md-tabs>
+  </md-content>

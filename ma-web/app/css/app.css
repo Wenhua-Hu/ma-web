@@ -2,7 +2,7 @@
 /*for firefox*/
 /*.map {width:1250px; height:800px;}*/
 /*for chrome*/
-.map {width:1850px; height:900px;}
+.map {width:1200px; height:900px;}
 
 .overflow {overflow: hidden;}
 
@@ -144,7 +144,7 @@ md-toolbar.tool-map-common-panel {
   left: 0px;
   z-index:10;
   margin-left: 600px;
-  margin-top:300px;
+  margin-top:400px;
 
 }
 
@@ -208,20 +208,19 @@ fieldset {
   padding-top: 0px;
 }
 .ol-mouseOverlay {
-  height: 23px;
-  width: 23px;
+  height: 20px;
+  width: 20px;
   position: relative;
-  top:-11px;
-  left:-11px;
-  background: transparent url("../img/pointerLocation.svg") no-repeat;
-  background-size: 23px;
+
+  background: transparent url("../img/radar.svg") no-repeat;
+  background-size: 20px;
   background-color: transparent;
 }
 .ol-placeOverlay {
   height: 20px;
   width: 20px;
   position: relative;
-  background: url("../img/place1.svg") no-repeat;
+  background: url("../img/place.svg") no-repeat;
   background-size: 23px;
   background-color: transparent;
 

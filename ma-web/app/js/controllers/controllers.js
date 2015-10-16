@@ -10,11 +10,11 @@ var controllerModule = angular.module('ma-app.controllers', [
 
 ]).
 controller('MainCtrl', function($scope, $mdSidenav, $mdDialog, $log) {
-	$scope.isShow = false;
+	// $scope.isShow = false;
 
-	$scope.toggleMapSidenav = function(menuId) {
-		$scope.isShow = !$scope.isShow;
-	};
+	// $scope.toggleMapSidenav = function(menuId) {
+	// 	$scope.isShow = !$scope.isShow;
+	// };
 
 	$scope.LoginDialog = function($event) {
 
@@ -60,6 +60,7 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 			var lon = $scope.lon,
 				lat = $scope.lat;
 			map.getView().setCenter(ol.proj.transform([lon, lat], 'EPSG:28992', 'EPSG:28992'));
+			layerService.map().getOverlays().item(1).setPosition([lon, lat]);
 			$scope.currentLon = lon;
 			$scope.currentLat = lat;
 			$scope.lon = '';
@@ -69,7 +70,8 @@ controller('MapCtrl', function($http, $scope, $window, x2js, layerService, geome
 	var geoGML = ol.format.GML();
 	$scope.showAddresslistInfo = [];
 	$scope.submitByName = function() {
-		$scope.showAddresslistInfo = [];
+	//	$scope.showAddresslistInfo = [];
+		layerService.addAddresses(null);
 		if ($scope.address) {
 			var address = $scope.address;
 			$http.get('https://geodata.nationaalgeoregister.nl/geocoder/Geocoder', {

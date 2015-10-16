@@ -15,10 +15,20 @@ factory('layerService', function($http, $rootScope, $document) {
       vectorLayerMarker,
       SelectedFeatures = [],
       geoJSON = new ol.format.GeoJSON(),
-      addresses=[],
+      addresses = [],
+      ImageUrl = '',
       mouseOverlay = new ol.Overlay({
-        element: document.getElementById('mouseOverlay')
+        element: document.getElementById('mouseOverlay'),
+        offset: [0, 0],
+        positioning: 'center-center'
       });
+    var a = 2;
+    var placeOverlay = new ol.Overlay({
+      element: document.getElementById('placeOverlay'),
+      offset: [0, 2],
+      positioning: 'bottom-center'
+    });
+
 
     var iconStyle = new ol.style.Style({
       image: new ol.style.Icon(({
@@ -72,7 +82,7 @@ factory('layerService', function($http, $rootScope, $document) {
         new ol.control.Attribution(),
         new ol.control.ScaleLine()
       ],
-      overlays: [mouseOverlay],
+      overlays: [mouseOverlay, placeOverlay],
       view: new ol.View({
         projection: projection['EPSG:28992'],
         center: [155000, 463000],
@@ -99,7 +109,7 @@ factory('layerService', function($http, $rootScope, $document) {
             },
           })
           .success(function(response) {
-            console.log(response);
+
             bagWfsSource.addFeatures(geoJSON.readFeatures(response));
           })
           .catch(function(response) {
@@ -142,8 +152,8 @@ factory('layerService', function($http, $rootScope, $document) {
         return layer === map.getLayers().item(LayerByName['bag_wfs']);
       });
 
-      mouseOverlay.setPosition(pos);
-/////////////later to continue
+
+
       var iconFeature = new ol.Feature({
         geometry: new ol.geom.Point(pos)
       });
@@ -154,7 +164,20 @@ factory('layerService', function($http, $rootScope, $document) {
       vectorLayerMarker = new ol.layer.Vector({
         source: vectorSourceMarker
       });
-      map.addLayer(vectorLayerMarker);
+      if (a === 1) {
+        mouseOverlay.setPosition(pos);
+      }
+      if (a === 2) {
+        //map.addLayer(vectorLayerMarker);
+        var iconFeature = createIconFeature(pos);
+        iconFeature.setStyle(createIconStyle(ImageUrl)); // get image
+        bagWfsSource.addFeature(iconFeature);
+
+
+
+      }
+
+
 
     });
 
@@ -184,6 +207,32 @@ factory('layerService', function($http, $rootScope, $document) {
      */
 
     changeInteraction();
+
+
+
+
+
+    function createIconStyle(url) {
+      return new ol.style.Style({
+        image: new ol.style.Icon(({
+          anchor: [0, 0],
+          anchorOrigin: 'top-left',
+          offset: [0, 0],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          scale: 1,
+          opacity: 1,
+          src: '../' + url
+        }))
+      });
+    }
+
+    function createIconFeature(pos) {
+      return new ol.Feature({
+        geometry: new ol.geom.Point(pos)
+      });
+    }
+
 
 
     //map.removeLayer(map.getLayers().item(0));
@@ -239,11 +288,21 @@ factory('layerService', function($http, $rootScope, $document) {
     };
 
     service.addAddresses = function(data) {
-      addresses.push(data);
-      $rootScope.$broadcast('updateAddresses', addresses);
-     // alert(addresses[0].Coordinate);
-     // alert(addresses);
-    } 
+      if (data === null) {
+        addresses = [];
+      } else {
+        addresses.push(data);
+        $rootScope.$broadcast('updateAddresses', addresses);
+      }
+      // alert(addresses[0].Coordinate);
+      // alert(addresses);
+    };
+
+    service.updateImage = function(url) {
+      if (url !== null) {
+        ImageUrl = url;
+      }
+    };
 
 
 
